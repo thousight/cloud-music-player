@@ -1,0 +1,20 @@
+{
+  "name": "cloud-music-player",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-scripts": "1.0.13"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "description": "Music player based on cloud drive music files for CS 30700",
+  "main": "index.js",
+  "repository": "https://github.com/thousight/cloud-music-player.git",
+  "license": "MIT"
+}
