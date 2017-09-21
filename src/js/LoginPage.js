@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
 import GoogleLogin from 'react-google-login';
 
+import { userLogin } from './redux/actions';
 import logo from '../img/logo.svg';
 import '../css/LoginPage.css';
 
 class LoginPage extends Component {
 
-  constructor(props) {
-    super(props)
-
-    this.googleLoginOnSuccess = this.googleLoginOnSuccess.bind(this);
-    this.googleLoginOnFailure = this.googleLoginOnFailure.bind(this);
-  }
-
-  googleLoginOnSuccess(res) {
+  handleGoogleSigninSuccess(res) {
+    userLogin(res);
     localStorage.setItem('cmp-accessToken', res.accessToken);
   }
 
-  googleLoginOnFailure(res) {
+  handleGoogleSigninFailure(res) {
     console.log(res);
     alert(res.error + ': ' + res.details)
   }
@@ -34,13 +31,18 @@ class LoginPage extends Component {
           className="google-signin-button"
           clientId="864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com"
           buttonText=""
-          onSuccess={this.googleLoginOnSuccess}
-          onFailure={this.googleLoginOnFailure}
-        />
+          onSuccess={this.handleGoogleSigninSuccess}
+          onFailure={this.handleGoogleSigninFailure} />
 
       </div>
     );
   }
 }
 
-export default LoginPage;
+const mapDispatchToProps = dispatch => {
+	return bindActionCreators({
+		userLogin
+	}, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(LoginPage);
