@@ -6,3 +6,8 @@ body {
   color: #333333;
   min-width: 320px;
 }
+
+h1 {
+  color: #36A9F7;
+  font-size: 35px;
+}

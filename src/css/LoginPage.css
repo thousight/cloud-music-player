@@ -1,0 +1,23 @@
+.login-page {
+
+}
+
+.login-page-title-wrapper {
+  padding-top: 225px;
+}
+
+.login-page-logo {
+  width: 325px;
+}
+
+.google-signin-button, .google-signin-button:focus {
+  background-image: url('../img/google_signin.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  width: 225px;
+  height: 50px;
+  margin-top: 20px;
+  border: 0;
+  outline: none;
+}

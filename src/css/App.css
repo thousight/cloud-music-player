@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+  background: #FCFCFC url(../img/background.png) no-repeat;
+  background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  min-height: 90vh;
 }
 
 .App-logo {
@@ -11,14 +17,4 @@
   height: 150px;
   padding: 20px;
   color: white;
-}
-
-.google-signin-button, .google-signin-button:focus {
-  background-image: url('../img/google_signin.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 225px;
-  height: 50px;
-  border: 0;
-  outline: none;
 }
