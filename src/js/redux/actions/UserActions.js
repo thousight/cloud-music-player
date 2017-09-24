@@ -10,9 +10,8 @@ import {
 export const userLogin = payload => {
   return {
 		type: USER_LOGIN,
-    email: payload.profileObj.email,
-    name: payload.profileObj.name,
-    profilePicURL: payload.profileObj.imageUrl
+    name: payload.getName(),
+    profilePicURL: payload.getImageUrl()
 	}
 };
 
@@ -20,10 +19,11 @@ export const userLogin = payload => {
 * Remove user data to redux
 */
 export const userLogout = () => {
-  return {
-		type: USER_LOGOUT,
-    email: null,
-    name: null,
-    profilePicURL: null
-	}
+  window.gapi.auth2.getAuthInstance().signOut().then(() => {
+    return {
+  		type: USER_LOGOUT,
+      name: null,
+      profilePicURL: null
+  	}
+  })
 };

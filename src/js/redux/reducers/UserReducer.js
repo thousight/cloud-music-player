@@ -4,7 +4,6 @@ import {
 } from '../actions';
 
 const initialState = {
-  email: null,
   name: null,
   profilePicURL: null
 }
@@ -15,12 +14,12 @@ const UserReducer = (state = initialState, action) => {
     case USER_LOGIN:
       return {
         ...state,
-        payload
+        name: payload.name,
+        profilePicURL: payload.profilePicURL
       }
     case USER_LOGOUT:
       return {
         ...state,
-        email: null,
         name: null,
         profilePicURL: null
       }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import GoogleLogin from 'react-google-login';
+import { Button } from 'react-bootstrap'
 
 import { userLogin } from './redux/actions';
 import logo from '../img/logo.svg';
@@ -9,14 +9,19 @@ import '../css/LoginPage.css';
 
 class LoginPage extends Component {
 
-  handleGoogleSigninSuccess(res) {
-    userLogin(res);
-    localStorage.setItem('cmp-accessToken', res.accessToken);
-  }
-
-  handleGoogleSigninFailure(res) {
-    console.log(res);
-    alert(res.error + ': ' + res.details)
+  handleGoogleSigninClick() {
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2.init({
+        client_id: '864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin'
+      }).then(auth => {
+        userLogin(auth.currentUser.get().getBasicProfile());
+        console.log(this.props.user);
+      }, error => {
+        console.log(error);
+        alert(error.details)
+      })
+    });
   }
 
   render() {
@@ -27,12 +32,7 @@ class LoginPage extends Component {
           <h1>Cloud Music Player</h1>
         </div>
 
-        <GoogleLogin
-          className="google-signin-button"
-          clientId="864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com"
-          buttonText=""
-          onSuccess={this.handleGoogleSigninSuccess}
-          onFailure={this.handleGoogleSigninFailure} />
+        <Button className="google-signin-button" onClick={this.handleGoogleSigninClick.bind(this)} />
 
       </div>
     );
@@ -45,4 +45,10 @@ const mapDispatchToProps = dispatch => {
 	}, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+const mapStateToProps = state => {
+	return {
+    user: state.user
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
