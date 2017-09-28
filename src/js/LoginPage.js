@@ -5,7 +5,6 @@ import { Button } from 'react-bootstrap'
 
 import { userLogin } from './redux/actions';
 import logo from '../img/logo.svg';
-import '../css/LoginPage.css';
 
 class LoginPage extends Component {
 
