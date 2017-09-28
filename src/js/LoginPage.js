@@ -15,8 +15,14 @@ class LoginPage extends Component {
         client_id: '864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com',
         cookiepolicy: 'single_host_origin'
       }).then(auth => {
-        userLogin(auth.currentUser.get().getBasicProfile());
-        console.log(this.props.user);
+        if (auth.isSignedIn.get()) {
+          userLogin(auth.currentUser.get().getBasicProfile());
+          console.log(this.props.user);
+        } else {
+          auth.signIn().then(user => {
+            userLogin(user.getBasicProfile());
+          });
+        }
       }, error => {
         console.log(error);
         alert(error.details)
