@@ -20,6 +20,9 @@ class LoginPage extends Component {
         } else {
           auth.signIn().then(user => {
             userLogin(user.getBasicProfile());
+            // Check if user is new user or not and navigate
+            // user to the corresponding page
+            this.props.history.push('/import');
           });
         }
       }, error => {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Switch, Route } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 import LoginPage from './LoginPage';
 import ImportPage from './ImportPage';
@@ -39,15 +41,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {
-          this.state.isLoggedIn ? // is user logged in
-          <div>
-            <Navbar />
-            <ImportPage />
-          </div>
-          :
-          <LoginPage />
-        }
+            {this.state.isLoggedIn ? <Navbar /> : <div />}
+            <Switch key={this.props.location.pathname} location={this.props.location}>
+									<Route exact path="/" component={this.state.isLoggedIn ? MusicPlayerPage : LoginPage} />
+									<Route path="/import" component={ImportPage} />
+						</Switch>
       </div>
     );
   }
@@ -65,4 +63,4 @@ const mapStateToProps = state => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
