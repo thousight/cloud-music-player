@@ -10,7 +10,8 @@
   width: 325px;
 }
 
-.google-signin-button, .google-signin-button:focus {
+.google-signin-button, .google-signin-button:focus,
+.google-signin-button:hover {
   background-image: url('../img/google_signin.svg');
   background-repeat: no-repeat;
   background-position: center;

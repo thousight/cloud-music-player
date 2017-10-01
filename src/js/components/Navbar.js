@@ -9,10 +9,15 @@ import '../../css/Navbar.css';
 
 class Navbar extends Component {
 
+  signOut() {
+    userLogout();
+  }
+
   render() {
     return (
       <div className="Navbar">
-        navbar
+        Navbar <br />
+        <a onClick={this.signOut.bind(this)} >Sign out</a>
       </div>
     );
   }

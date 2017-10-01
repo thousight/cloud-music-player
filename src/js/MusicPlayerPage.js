@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import '../css/MusicPlayerPage.css';
 
 class MusicPlayerPage extends Component {
 
