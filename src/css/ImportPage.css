@@ -1,5 +1,5 @@
 .import-page {
-
+  text-align: center;
 }
 
 .select-all-button {
@@ -12,4 +12,50 @@
 }
 .select-all-button:hover {
   background: lightsalmon;
+}
+
+.navigating {
+  background: rgb(249, 249, 249);
+  border-width: thin;
+  border-color: black;
+}
+.header {
+  font-size: 12
+}
+.back-to-parent-button {
+  background-image: url(../img/go_back.svg);
+  width: 50px;
+  height: 50px;
+  background-color: lightblue;
+  background-position: center;
+  border-radius: 50%;
+
+}
+.back-to-parent-button:hover{
+  background-image: url(../img/go_back.svg);
+  background-color: blue;
+}
+.clear-button {
+  color: white;
+  background-color: rgb(222, 0, 24);
+
+}
+.clear-button:hover{
+  color: white;
+  background-color: orange;
+}
+.submit-button {
+  color: white;
+  background-color: rgb(0, 217, 76);
+
+}
+.submit-button:hover{
+  color: white;
+  background-color: greenyellow;
+}
+.selecting {
+  background: rgb(249, 249, 249);
+  border-width: thin;
+  border-color: black;
+
 }
