@@ -7,7 +7,6 @@ import ImportPage from './ImportPage';
 import MusicPlayerPage from './MusicPlayerPage';
 import Navbar from './components/Navbar';
 import { userLogin } from './redux/actions';
-import '../css/App.css';
 
 class App extends Component {
 
@@ -25,13 +24,13 @@ class App extends Component {
           if (auth.isSignedIn.get()) {
             userLogin(auth.currentUser.get().getBasicProfile());
             console.log(this.props.user);
-            this.setState({isLoggedIn: true})
+            this.setState({isLoggedIn: true});
           } else {
 
           }
         }, error => {
           console.log(error);
-          alert(error.details)
+          alert(error.details);
         })
       })
     });
@@ -78,5 +77,4 @@ const mapStateToProps = state => {
 		user: state.user
 	}
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(App);
