@@ -52,6 +52,7 @@ class App extends Component {
     );
   }
 }
+/*
 // 1. Create the button
 var button = document.createElement("button");
 button.innerHTML = "select all";
@@ -64,6 +65,7 @@ body.appendChild(button);
 button.addEventListener ("click", function() {
   alert("did something");
 });
+*/
 
 
 const mapDispatchToProps = dispatch => {
