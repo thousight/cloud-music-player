@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { Row, Col } from 'react-bootstrap';
 import '../css/MusicPlayerPage.css';
+=======
+
+>>>>>>> develop
 
 class MusicPlayerPage extends Component {
 
