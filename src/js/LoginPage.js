@@ -9,7 +9,7 @@ import logo from '../img/logo.svg';
 class LoginPage extends Component {
 
   handleGoogleSigninClick() {
-    window.gapi.load('auth2', () => {
+    window.gapi.load('auth2:client', () => {
       window.gapi.auth2.init({
         client_id: '864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com',
         cookiepolicy: 'single_host_origin'
