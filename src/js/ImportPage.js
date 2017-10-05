@@ -12,7 +12,7 @@ class ImportPage extends Component {
 
 
   selectAllButtonOnClick() {
-    
+
 
 
   }
@@ -29,11 +29,13 @@ class ImportPage extends Component {
   }
 
   renderFiles() {
-    window.gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
-    .then(success => {
-      window.gapi.client.drive.files.list(
-      ).then(res => {
-        this.setState({files: res.result.files})
+    require('google-client-api')().then(gapi => {
+      gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
+      .then(success => {
+        gapi.client.drive.files.list(
+        ).then(res => {
+          this.setState({files: res.result.files})
+        });
       });
     });
   }

@@ -8,11 +8,12 @@ import {
 * @param: payload(Google login success response)
 */
 export const userLogin = payload => {
-  return {
-		type: USER_LOGIN,
+  console.log(payload);
+  return dispatch => dispatch({
+    type: USER_LOGIN,
     name: payload.getName(),
     profilePicURL: payload.getImageUrl()
-	}
+  });
 };
 
 /**

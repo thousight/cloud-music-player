@@ -28,7 +28,6 @@ class App extends Component {
         }).then(auth => {
           if (auth.isSignedIn.get()) {
             userLogin(auth.currentUser.get().getBasicProfile());
-            console.log(this.props.user);
             this.setState({isLoggedIn: true});
           } else {
 
@@ -44,41 +43,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-            {this.state.isLoggedIn ? <Navbar /> : <div />}
-            <Switch key={this.props.location.pathname} location={this.props.location}>
-									<Route exact path="/" component={this.state.isLoggedIn ? MusicPlayerPage : LoginPage} />
-									<Route path="/import" component={ImportPage} />
-						</Switch>
+        {this.state.isLoggedIn ? <Navbar /> : <div />}
+        <Switch key={this.props.location.pathname} location={this.props.location}>
+          <Route exact path="/" component={this.state.isLoggedIn ? ImportPage : LoginPage} />
+          <Route path="/import" component={ImportPage} />
+        </Switch>
       </div>
     );
   }
 }
-/*
-// 1. Create the button
-var button = document.createElement("button");
-button.innerHTML = "select all";
-
-// 2. Append somewhere
-var body = document.getElementsByTagName("body")[0];
-body.appendChild(button);
-
-// 3. Add event handler
-button.addEventListener ("click", function() {
-  alert("did something");
-});
-*/
-
-
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators({
-		userLogin
-	}, dispatch);
-}
 
 const mapStateToProps = state => {
-	return {
-		user: state.user
-	}
+  return {
+    user: state.user
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
+export default connect(mapStateToProps)(withRouter(App));
