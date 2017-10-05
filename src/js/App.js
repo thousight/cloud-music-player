@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Switch, Route } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 import LoginPage from './LoginPage';
 import ImportPage from './ImportPage';
@@ -26,7 +28,6 @@ class App extends Component {
         }).then(auth => {
           if (auth.isSignedIn.get()) {
             userLogin(auth.currentUser.get().getBasicProfile());
-            console.log(this.props.user);
             this.setState({isLoggedIn: true});
           } else {
 
@@ -42,44 +43,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {
-          this.state.isLoggedIn ? // is user logged in
-          <div>
-            <Navbar />
-            <ImportPage />
-          </div>
-          :
-          <LoginPage />
-        }
+        {this.state.isLoggedIn ? <Navbar /> : <div />}
+        <Switch key={this.props.location.pathname} location={this.props.location}>
+          <Route exact path="/" component={this.state.isLoggedIn ? ImportPage : LoginPage} />
+          <Route path="/import" component={ImportPage} />
+        </Switch>
       </div>
     );
   }
 }
-/*
-// 1. Create the button
-var button = document.createElement("button");
-button.innerHTML = "select all";
-
-// 2. Append somewhere
-var body = document.getElementsByTagName("body")[0];
-body.appendChild(button);
-
-// 3. Add event handler
-button.addEventListener ("click", function() {
-  alert("did something");
-});
-*/
-
-
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators({
-		userLogin
-	}, dispatch);
-}
 
 const mapStateToProps = state => {
-	return {
-		user: state.user
-	}
+  return {
+    user: state.user
+  }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default connect(mapStateToProps)(withRouter(App));
