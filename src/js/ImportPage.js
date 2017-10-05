@@ -10,9 +10,32 @@ class ImportPage extends Component {
     filesId: []
   }
 
+  componentWillMount() {
 
+    this.renderFiles();
+  }
   selectAllButtonOnClick() {
-    
+    this.setState(previousState => {
+      previousState.filesSelected = [];
+      previousState.filesId = [];
+      previousState.numFilesSelected = [];
+      previousState.files.map(item => {
+        if (item.mimeType === 'audio/mp3') {
+          previousState.filesSelected.push(item.name);
+          previousState.filesId.push(item.id);
+          previousState.numFilesSelected++;
+        }
+        return 0;
+      })
+      return (
+        {
+          filesSelected: previousState.filesSelected,
+          filesId: previousState.filesId,
+          numFilesSelected: previousState.numFilesSelected
+        }
+      )
+    });
+
 
 
   }
@@ -32,14 +55,14 @@ class ImportPage extends Component {
     window.gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
     .then(success => {
       window.gapi.client.drive.files.list(
+        'pageSize': 10,
+        'fields': "nextPageToken, files(id, name)"
       ).then(res => {
         this.setState({files: res.result.files})
       });
     });
   }
-  componentWillMount() {
-    this.renderFiles();
-  }
+
   render() {
     return (
       <div className="import-page">
