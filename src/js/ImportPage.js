@@ -28,8 +28,10 @@ class ImportPage extends Component {
     window.gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
     .then(success => {
       window.gapi.client.drive.files.list(
-        'pageSize': 10,
-        'fields': "nextPageToken, files(id, name)"
+        'q': "mimeType='application/vnd.google-apps.audio'",
+    'fields': 'nextPageToken, files(id, name)',
+    'spaces': 'drive',
+    'pageToken': pageToken
       ).then(res => {
         this.setState({files: res.result.files})
       })})
@@ -59,8 +61,11 @@ class ImportPage extends Component {
               <Col>
                 {this.state.files.map(item => {
                   return (
-                    <Col md={4}>
-                      <Button className="files">{item.name}</Button>
+                    <Col key={item.id} md={4}>
+                      <Button className="files">{
+                        item.name
+
+                      }{console.log(item.name)}</Button>
                     </Col>
                   )
                 })}
