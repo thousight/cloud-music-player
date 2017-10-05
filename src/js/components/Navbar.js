@@ -10,7 +10,8 @@ import '../../css/Navbar.css';
 class Navbar extends Component {
 
   signOut() {
-    userLogout();
+    this.props.dispatch(userLogout());
+    this.props.history.push('/');
   }
 
   render() {
@@ -23,16 +24,10 @@ class Navbar extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators({
-		userLogout
-	}, dispatch);
-}
-
 const mapStateToProps = state => {
 	return {
 		user: state.user
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Navbar));
+export default connect(mapStateToProps)(withRouter(Navbar));

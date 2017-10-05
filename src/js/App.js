@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
@@ -24,8 +23,6 @@ class App extends Component {
         }).then(auth => {
           if (auth.isSignedIn.get()) {
             this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
-          } else {
-
           }
         }, error => {
           console.log(error);
@@ -40,7 +37,7 @@ class App extends Component {
       <div className="App">
         {this.props.user.name ? <Navbar /> : <div />}
         <Switch key={this.props.location.pathname} location={this.props.location}>
-          <Route exact path="/" component={this.props.user.name ? ImportPage : LoginPage} />
+          <Route exact path="/" component={this.props.user.name ? MusicPlayerPage : LoginPage} />
           <Route path="/import" component={ImportPage} />
         </Switch>
       </div>
