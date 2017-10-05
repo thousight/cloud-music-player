@@ -14,10 +14,12 @@ class App extends Component {
   componentWillMount() {
     require('google-client-api')().then(gapi => {
       gapi.load('auth2:client', () => {
-        window.gapi.auth2.init({
+        gapi.auth2.init({
           client_id: '864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com',
           cookiepolicy: 'single_host_origin',
-          api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28'
+          api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28',
+          discovery_docs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+          scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
         }).then(auth => {
           if (auth.isSignedIn.get()) {
             this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));

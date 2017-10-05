@@ -8,27 +8,29 @@ import logo from '../img/logo.svg';
 class LoginPage extends Component {
 
   handleGoogleSigninClick() {
-    window.gapi.load('auth2:client', () => {
-      window.gapi.auth2.init({
-        client_id: '864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-        api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28',
-        discovery_docs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-        scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
-      }).then(auth => {
-        if (auth.isSignedIn.get()) {
-          this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
-        } else {
-          auth.signIn().then(user => {
-            this.props.dispatch(userLogin(user.getBasicProfile()));
-            // Check if user is new user or not and navigate
-            // user to the corresponding page
-            this.props.history.push('/import');
-          });
-        }
-      }, error => {
-        console.log(error);
-        alert(error.details)
+    require('google-client-api')().then(gapi => {
+      gapi.load('auth2:client', () => {
+        gapi.auth2.init({
+          client_id: '864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com',
+          cookiepolicy: 'single_host_origin',
+          api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28',
+          discovery_docs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+          scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
+        }).then(auth => {
+          if (auth.isSignedIn.get()) {
+            this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
+          } else {
+            auth.signIn().then(user => {
+              this.props.dispatch(userLogin(user.getBasicProfile()));
+              // Check if user is new user or not and navigate
+              // user to the corresponding page
+              this.props.history.push('/import');
+            });
+          }
+        }, error => {
+          console.log(error);
+          alert(error.details)
+        })
       })
     });
   }

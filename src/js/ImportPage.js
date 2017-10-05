@@ -21,7 +21,7 @@ class ImportPage extends Component {
       previousState.filesId = [];
       previousState.numFilesSelected = [];
       previousState.files.map(item => {
-        if (item.mimeType === 'audio/mp3') {
+        if (item.mimeType === 'audio/mp3' || item.name.endsWith('.mp3')) {
           previousState.filesSelected.push(item.name);
           previousState.filesId.push(item.id);
           previousState.numFilesSelected++;
@@ -54,15 +54,17 @@ class ImportPage extends Component {
 
   renderFiles() {
     require('google-client-api')().then(gapi => {
-      gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
-      .then(success => {
-        gapi.client.drive.files.list(
-          'pageSize': 10,
-          'fields': "nextPageToken, files(id, name)"
-        ).then(res => {
-          this.setState({files: res.result.files})
-        });
-      });
+      gapi.load('client', () => {
+        gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
+        .then(success => {
+          gapi.client.drive.files.list(
+            'pageSize': 10,
+            'fields': "nextPageToken, files(id, name)"
+          ).then(res => {
+            this.setState({files: res.result.files})
+          });
+        })
+      })
     });
   }
 
