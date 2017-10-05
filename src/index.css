@@ -1,0 +1,9 @@
+/**
+* This css is to import all the css files
+* align alphabetically
+*/
+@import "css/App.css";
+@import "css/ImportPage.css";
+@import "css/LoginPage.css";
+@import "css/MusicPlayerPage.css";
+@import "css/Navbar.css";
