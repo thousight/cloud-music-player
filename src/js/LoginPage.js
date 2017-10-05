@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Button } from 'react-bootstrap';
 
 import { userLogin } from './redux/actions';
@@ -18,11 +17,10 @@ class LoginPage extends Component {
         scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
       }).then(auth => {
         if (auth.isSignedIn.get()) {
-          userLogin(auth.currentUser.get().getBasicProfile());
-          console.log(this.props.user);
+          this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
         } else {
           auth.signIn().then(user => {
-            userLogin(user.getBasicProfile());
+            this.props.dispatch(userLogin(user.getBasicProfile()));
             // Check if user is new user or not and navigate
             // user to the corresponding page
             this.props.history.push('/import');
@@ -50,16 +48,10 @@ class LoginPage extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators({
-		userLogin
-	}, dispatch);
-}
-
 const mapStateToProps = state => {
 	return {
     user: state.user
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps)(LoginPage);

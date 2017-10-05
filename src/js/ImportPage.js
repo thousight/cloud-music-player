@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
+
 class ImportPage extends Component {
 
   state = {
@@ -52,13 +53,15 @@ class ImportPage extends Component {
   }
 
   renderFiles() {
-    window.gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
-    .then(success => {
-      window.gapi.client.drive.files.list(
-        'pageSize': 10,
-        'fields': "nextPageToken, files(id, name)"
-      ).then(res => {
-        this.setState({files: res.result.files})
+    require('google-client-api')().then(gapi => {
+      gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
+      .then(success => {
+        gapi.client.drive.files.list(
+          'pageSize': 10,
+          'fields': "nextPageToken, files(id, name)"
+        ).then(res => {
+          this.setState({files: res.result.files})
+        });
       });
     });
   }
@@ -73,9 +76,8 @@ class ImportPage extends Component {
             </h1>
           </Row>
           <Row className="navigating-content">
-
             {this.state.files.map(item => {
-              if (item.mimeType === 'audio/mp3') {
+              if (item.mimeType === 'audio/mp3' || item.name.endsWith('.mp3')) {
                 return (
                   <FileButton key={item.id} name={item.name} instance={this} active={true} file_id={item.id} />
 

@@ -15,12 +15,8 @@ import './index.css';
 
 import registerServiceWorker from './registerServiceWorker';
 
-let middleware = applyMiddleware( promiseMiddleware(), thunk, createLogger() );
-
-let store = createStore(rootReducer, middleware);
-
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={createStore(rootReducer, applyMiddleware(promiseMiddleware(), thunk, createLogger()))}>
 		<Router>
 			<App />
 	  </Router>

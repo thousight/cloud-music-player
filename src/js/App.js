@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
@@ -12,10 +11,6 @@ import { userLogin } from './redux/actions';
 
 class App extends Component {
 
-  state = {
-    isLoggedIn: false
-  }
-
   componentWillMount() {
     require('google-client-api')().then(gapi => {
       gapi.load('auth2:client', () => {
@@ -25,10 +20,7 @@ class App extends Component {
           api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28'
         }).then(auth => {
           if (auth.isSignedIn.get()) {
-            userLogin(auth.currentUser.get().getBasicProfile());
-            this.setState({isLoggedIn: true});
-          } else {
-
+            this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
           }
         }, error => {
           console.log(error);
@@ -42,9 +34,9 @@ class App extends Component {
 
     return (
       <div className="App">
-        {this.state.isLoggedIn ? <Navbar /> : <div />}
+        {this.props.user.name ? <Navbar /> : <div />}
         <Switch key={this.props.location.pathname} location={this.props.location}>
-          <Route exact path="/" component={this.state.isLoggedIn ? ImportPage : LoginPage} />
+          <Route exact path="/" component={this.props.user.name ? MusicPlayerPage : LoginPage} />
           <Route path="/import" component={ImportPage} />
         </Switch>
       </div>
