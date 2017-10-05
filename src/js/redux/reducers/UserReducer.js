@@ -9,14 +9,12 @@ const initialState = {
 }
 
 const UserReducer = (state = initialState, action) => {
-  const { type, payload } = action;
-  switch (type) {
+  switch (action.type) {
     case USER_LOGIN:
-    console.log('user reducer: ', payload);
       return {
         ...state,
-        name: payload.name,
-        profilePicURL: payload.profilePicURL
+        name: action.name,
+        profilePicURL: action.profilePicURL
       }
     case USER_LOGOUT:
       return {

@@ -50,16 +50,10 @@ class LoginPage extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators({
-		userLogin
-	}, dispatch);
-}
-
 const mapStateToProps = state => {
 	return {
     user: state.user
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps)(LoginPage);

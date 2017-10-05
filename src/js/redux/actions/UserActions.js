@@ -5,10 +5,9 @@ import {
 
 /**
 * Save user data to redux
-* @param: payload(Google login success response)
+* @param: payload(Google login user basic profile)
 */
 export const userLogin = payload => {
-  console.log(payload);
   return dispatch => dispatch({
     type: USER_LOGIN,
     name: payload.getName(),
