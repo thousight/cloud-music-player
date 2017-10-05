@@ -5,25 +5,27 @@ import {
 
 /**
 * Save user data to redux
-* @param: payload(Google login success response)
+* @param: payload(Google login user basic profile)
 */
 export const userLogin = payload => {
-  return {
-		type: USER_LOGIN,
+  return dispatch => dispatch({
+    type: USER_LOGIN,
     name: payload.getName(),
     profilePicURL: payload.getImageUrl()
-	}
+  });
 };
 
 /**
 * Remove user data to redux
 */
 export const userLogout = () => {
-  window.gapi.auth2.getAuthInstance().signOut().then(() => {
-    return {
-  		type: USER_LOGOUT,
-      name: null,
-      profilePicURL: null
-  	}
-  })
+  return dispatch => {
+    window.gapi.auth2.getAuthInstance().signOut().then(() => {
+      return dispatch({
+    		type: USER_LOGOUT,
+        name: null,
+        profilePicURL: null
+    	});
+    })
+  }
 };

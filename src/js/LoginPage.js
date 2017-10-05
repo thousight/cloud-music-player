@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap';
 
 import { userLogin } from './redux/actions';
 import logo from '../img/logo.svg';
@@ -9,22 +8,29 @@ import logo from '../img/logo.svg';
 class LoginPage extends Component {
 
   handleGoogleSigninClick() {
-    window.gapi.load('auth2', () => {
-      window.gapi.auth2.init({
-        client_id: '864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin'
-      }).then(auth => {
-        if (auth.isSignedIn.get()) {
-          userLogin(auth.currentUser.get().getBasicProfile());
-          console.log(this.props.user);
-        } else {
-          auth.signIn().then(user => {
-            userLogin(user.getBasicProfile());
-          });
-        }
-      }, error => {
-        console.log(error);
-        alert(error.details)
+    require('google-client-api')().then(gapi => {
+      gapi.load('auth2:client', () => {
+        gapi.auth2.init({
+          client_id: '864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com',
+          cookiepolicy: 'single_host_origin',
+          api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28',
+          discovery_docs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+          scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
+        }).then(auth => {
+          if (auth.isSignedIn.get()) {
+            this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
+          } else {
+            auth.signIn().then(user => {
+              this.props.dispatch(userLogin(user.getBasicProfile()));
+              // Check if user is new user or not and navigate
+              // user to the corresponding page
+              this.props.history.push('/import');
+            });
+          }
+        }, error => {
+          console.log(error);
+          alert(error.details)
+        })
       })
     });
   }
@@ -44,16 +50,10 @@ class LoginPage extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators({
-		userLogin
-	}, dispatch);
-}
-
 const mapStateToProps = state => {
 	return {
     user: state.user
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps)(LoginPage);
