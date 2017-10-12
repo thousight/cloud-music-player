@@ -45,8 +45,7 @@ class App extends Component {
         {
           this.state.isLoggedIn ? // is user logged in
           <div>
-            <Navbar />
-            <ImportPage />
+            <MusicPlayerPage />
           </div>
           :
           <LoginPage />

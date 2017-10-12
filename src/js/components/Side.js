@@ -59,7 +59,7 @@ class Side extends React.Component {
   }
 
   render() {
-    const content = <p>123456789888888888888888888888</p>;
+    const content = <b>asdddhjasjhdahjshjdashjdjasjdjjhasjhdasjhd</b>;
     const contentHeader = (
       <span>
         {!this.state.docked &&
