@@ -57,10 +57,10 @@ class ImportPage extends Component {
       gapi.load('client', () => {
         gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
         .then(success => {
-          gapi.client.drive.files.list(
-            'pageSize': 10,
+          gapi.client.drive.files.list({
+            'pageSize': 1000,
             'fields': "nextPageToken, files(id, name)"
-          ).then(res => {
+          }).then(res => {
             this.setState({files: res.result.files})
           });
         })
@@ -96,9 +96,9 @@ class ImportPage extends Component {
               Selected Music File
             </h1>
           </Row>
-          {this.state.filesSelected.map(item => {
+          {this.state.filesSelected.map((item, index) => {
             return (
-              <Row key={item}>
+              <Row key={index}>
                 {item}
               </Row>
             );

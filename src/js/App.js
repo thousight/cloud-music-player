@@ -25,11 +25,9 @@ class App extends Component {
           scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
         }).then(auth => {
           if (auth.isSignedIn.get()) {
-            userLogin(auth.currentUser.get().getBasicProfile());
-            console.log(this.props.user);
-            this.setState({isLoggedIn: true});
+            this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
           } else {
-
+            // this.props.history.push('/signin');
           }
         }, error => {
           console.log(error);
@@ -42,14 +40,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {
-          this.state.isLoggedIn ? // is user logged in
-          <div>
-            <MusicPlayerPage />
-          </div>
-          :
-          <LoginPage />
-        }
+        {this.props.user.name ? <Navbar /> : <div />}
+        <Switch key={this.props.location.pathname} location={this.props.location}>
+          <Route exact path="/" component={this.props.user.name ? ImportPage : LoginPage} />
+          <Route path="/player" component={MusicPlayerPage} />
+          <Route path="/import" component={ImportPage} />
+        </Switch>
       </div>
     );
   }
