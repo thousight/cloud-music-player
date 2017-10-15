@@ -72,6 +72,7 @@ class ImportPage extends Component {
     return (
       <div className="import-page">
         <Col className="navigating" md={5} mdOffset={2}>
+          <Button className="roundbutton" onClick={this.selectAllButtonOnClick.bind(this)}>←</Button>
           <Row className="navigating-header">
             <h1 className="header">
               User's Music Folder
@@ -88,7 +89,6 @@ class ImportPage extends Component {
             })}
           </Row>
           <Button className="select-all-button" onClick={this.selectAllButtonOnClick.bind(this)}>Select All</Button>
-
         </Col>
         <Col className="selecting" md={2} mdOffset={1}>
           <Row className="selecting-header">
