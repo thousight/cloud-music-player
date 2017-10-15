@@ -52,6 +52,9 @@ class ImportPage extends Component {
     alert("Need to be specified by MusicPlayerPage data structure");
   }
 
+  backButtonOnClick() {
+    alert("Need to be specified by MusicPlayerPage data structure");
+  }
   renderFiles() {
     require('google-client-api')().then(gapi => {
       gapi.load('client', () => {
@@ -72,7 +75,7 @@ class ImportPage extends Component {
     return (
       <div className="import-page">
         <Col className="navigating" md={5} mdOffset={2}>
-          <Button className="roundbutton" onClick={this.selectAllButtonOnClick.bind(this)}>←</Button>
+          <Button className="roundbutton" onClick={this.backButtonOnClick.bind(this)}>←</Button>
           <Row className="navigating-header">
             <h1 className="header">
               User's Music Folder
