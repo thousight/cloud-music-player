@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import { withRouter } from 'react-router';
 
 import { userLogin } from './redux/actions';
 import logo from '../img/logo.svg';
@@ -22,8 +23,6 @@ class LoginPage extends Component {
           } else {
             auth.signIn().then(user => {
               this.props.dispatch(userLogin(user.getBasicProfile()));
-              // Check if user is new user or not and navigate
-              // user to the corresponding page
               this.props.history.push('/import');
             });
           }
@@ -56,4 +55,4 @@ const mapStateToProps = state => {
 	}
 }
 
-export default connect(mapStateToProps)(LoginPage);
+export default connect(mapStateToProps)(withRouter(LoginPage));

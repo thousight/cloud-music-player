@@ -20,12 +20,14 @@ export const userLogin = payload => {
 */
 export const userLogout = () => {
   return dispatch => {
-    window.gapi.auth2.getAuthInstance().signOut().then(() => {
-      return dispatch({
-    		type: USER_LOGOUT,
-        name: null,
-        profilePicURL: null
-    	});
+    require('google-client-api')().then(gapi => {
+      gapi.auth2.getAuthInstance().signOut().then(() => {
+        return dispatch({
+      		type: USER_LOGOUT,
+          name: null,
+          profilePicURL: null
+      	});
+      })
     })
   }
 };

@@ -58,10 +58,10 @@ class ImportPage extends Component {
       gapi.load('client', () => {
         gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
         .then(success => {
-          gapi.client.drive.files.list(
-            'pageSize': 10,
+          gapi.client.drive.files.list({
+            'pageSize': 1000,
             'fields': "nextPageToken, files(id, name)"
-          ).then(res => {
+          }).then(res => {
             this.setState({files: res.result.files})
           });
         })
@@ -84,8 +84,25 @@ class ImportPage extends Component {
                 return (
                   <FileButton key={item.id} name={item.name} instance={this} active={true} file_id={item.id} />
 
-              );
-            }
+                );
+              }
+            })}
+          </Row>
+          <Button className="select-all-button" onClick={this.selectAllButtonOnClick.bind(this)}>Select All</Button>
+
+        </Col>
+        <Col className="selecting" md={2} mdOffset={1}>
+          <Row className="selecting-header">
+            <h1 className="header">
+              Selected Music File
+            </h1>
+          </Row>
+          {this.state.filesSelected.map((item, index) => {
+            return (
+              <Row key={index}>
+                {item}
+              </Row>
+            );
           })}
         </Row>
         <Button className="select-all-button" onClick={this.selectAllButtonOnClick.bind(this)}>Select All</Button>

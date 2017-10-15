@@ -1,3 +1,10 @@
-.music-player-page {
-  
+.cover-page {
+  border: 1px ridge grey
+
+}
+.previous-song {
+  transform: rotate(180deg);
+}
+.playlist {
+  border: 3px ridge grey
 }
