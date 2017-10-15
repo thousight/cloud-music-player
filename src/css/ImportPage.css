@@ -3,10 +3,10 @@
 }
 
 .select-all-button {
-  margin-top: 20px;
-  line-height: 60px;
+  margin-top: 30px;
+  line-height: 40px;
   font-weight: bold;
-  padding: 0 40px;
+  padding: 0 15px;
   background: salmon;
   border: none;
 }
@@ -44,5 +44,17 @@
   background: rgb(249, 249, 249);
   border-width: thin;
   border-color: black;
+
+}
+.roundbutton{
+  display:block;
+  color: white;
+  display:block;
+  height: 40px;
+  width: 40px;
+  background-color: rgb(54, 169, 247);
+  border-radius: 50%;
+  border: 1px solid white;
+
 
 }
