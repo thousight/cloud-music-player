@@ -32,13 +32,21 @@ class App extends Component {
     require('google-client-api')().then(gapi => {
       gapi.load('auth2:client', () => {
         gapi.auth2.init(gapiConfig).then(auth => {
+          firebase.initializeApp(firebaseConfig);
+          this.props.dispatch(setFirebase(firebase));
+
           if (auth.isSignedIn.get()) {
+            firebase.auth().signInWithCredential(
+              firebase.auth.GoogleAuthProvider.credential(auth.currentUser.get().getAuthResponse().id_token)
+            ).then(firebaseUser => {
+              console.log(firebaseUser);
+            }).catch(error => {
+              console.log(error);
+            });
+
             this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
             this.props.history.push('/import');
           }
-
-          firebase.initializeApp(firebaseConfig);
-          this.props.dispatch(setFirebase(firebase));
         }, error => {
           console.log(error);
           alert(error.details);
@@ -66,8 +74,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
-    settings: state.settings
+    user: state.user
   }
 }
 

@@ -10,13 +10,20 @@ class LoginPage extends Component {
 
   handleGoogleSigninClick() {
     const { gapi, firebase } = this.props.packages;
-    const auth = gapi.auth2.getAuthInstance();
+    const gapiAuth = gapi.auth2.getAuthInstance();
 
-    if (auth.isSignedIn.get()) {
-      this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
+    if (gapiAuth.isSignedIn.get()) {
+      this.props.dispatch(userLogin(gapiAuth.currentUser.get().getBasicProfile()));
     } else {
-      auth.signIn().then(user => {
+      gapiAuth.signIn().then(user => {
         this.props.dispatch(userLogin(user.getBasicProfile()));
+        firebase.auth().signInWithCredential(
+          firebase.auth.GoogleAuthProvider.credential(user.getAuthResponse().id_token)
+        ).then(firebaseUser => {
+          console.log(firebaseUser);
+        }).catch(error => {
+          console.log(error);
+        });
       });
     }
     this.props.history.push('/import');
