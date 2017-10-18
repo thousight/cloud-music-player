@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 
-import { userLogin } from './redux/actions';
+import { userLogin, updateCurrentRoute } from './redux/actions';
 import logo from '../img/logo.svg';
 
 class LoginPage extends Component {
@@ -23,9 +23,10 @@ class LoginPage extends Component {
           } else {
             auth.signIn().then(user => {
               this.props.dispatch(userLogin(user.getBasicProfile()));
-              this.props.history.push('/import');
+              this.props.dispatch(updateCurrentRoute('import'));
             });
           }
+          this.props.history.push('/import');
         }, error => {
           console.log(error);
           alert(error.details)
@@ -55,4 +56,4 @@ const mapStateToProps = state => {
 	}
 }
 
-export default connect(mapStateToProps)(withRouter(LoginPage));
+export default withRouter(connect(mapStateToProps)(LoginPage));

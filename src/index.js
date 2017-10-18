@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import { browserHistory } from 'react-router'
 import { Provider } from 'react-redux';
+import { syncHistoryWithStore } from 'react-router-redux'
+import createHistory from 'history/createBrowserHistory'
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
@@ -15,9 +18,12 @@ import './index.css';
 
 import registerServiceWorker from './registerServiceWorker';
 
+const store = createStore(rootReducer, applyMiddleware(promiseMiddleware(), thunk, createLogger()));
+const history = createHistory();
+
 ReactDOM.render(
-  <Provider store={createStore(rootReducer, applyMiddleware(promiseMiddleware(), thunk, createLogger()))}>
-		<Router>
+  <Provider store={store}>
+		<Router history={history}>
 			<App />
 	  </Router>
 	</Provider>,

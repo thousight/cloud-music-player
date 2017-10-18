@@ -3,7 +3,7 @@ import {
 } from '../actions';
 
 const initialState = {
-  route: ''
+  currentRoute: ''
 }
 
 const SettingsReducer = (state = initialState, action) => {
@@ -11,7 +11,7 @@ const SettingsReducer = (state = initialState, action) => {
     case UPDATE_ROUTE:
       return {
         ...state,
-        route: action.route
+        currentRoute: action.route
       }
     default:
       return state
