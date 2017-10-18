@@ -15,7 +15,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <div className="Navbar">
+      <div className="Navbar" style={{display: this.props.user.name ? 'block' : 'none'}}>
         Navbar <br />
         <a onClick={this.signOut.bind(this)} >Sign out</a>
       </div>
@@ -29,4 +29,4 @@ const mapStateToProps = state => {
 	}
 }
 
-export default connect(mapStateToProps)(withRouter(Navbar));
+export default withRouter(connect(mapStateToProps)(Navbar));

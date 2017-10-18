@@ -61,7 +61,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        {this.props.user.name ? <Navbar /> : <div />}
+        <Navbar />
         <Switch key={this.props.location.pathname} location={this.props.location}>
           <Route exact path="/" component={LoginPage} />
           <Route path="/player" component={MusicPlayerPage} />
@@ -72,10 +72,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.user
-  }
-}
-
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect()(App));
