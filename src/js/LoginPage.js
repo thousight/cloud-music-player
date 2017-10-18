@@ -3,36 +3,23 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 
-import { userLogin, updateCurrentRoute } from './redux/actions';
+import { userLogin } from './redux/actions';
 import logo from '../img/logo.svg';
 
 class LoginPage extends Component {
 
   handleGoogleSigninClick() {
-    require('google-client-api')().then(gapi => {
-      gapi.load('auth2:client', () => {
-        gapi.auth2.init({
-          client_id: '864033579706-cig1gmgglj5q8ko8uocv8kkbpb4g46tv.apps.googleusercontent.com',
-          cookiepolicy: 'single_host_origin',
-          api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28',
-          discovery_docs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-          scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
-        }).then(auth => {
-          if (auth.isSignedIn.get()) {
-            this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
-          } else {
-            auth.signIn().then(user => {
-              this.props.dispatch(userLogin(user.getBasicProfile()));
-              this.props.dispatch(updateCurrentRoute('import'));
-            });
-          }
-          this.props.history.push('/import');
-        }, error => {
-          console.log(error);
-          alert(error.details)
-        })
-      })
-    });
+    const { gapi, firebase } = this.props.packages;
+    const auth = gapi.auth2.getAuthInstance();
+
+    if (auth.isSignedIn.get()) {
+      this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
+    } else {
+      auth.signIn().then(user => {
+        this.props.dispatch(userLogin(user.getBasicProfile()));
+      });
+    }
+    this.props.history.push('/import');
   }
 
   render() {
@@ -52,7 +39,8 @@ class LoginPage extends Component {
 
 const mapStateToProps = state => {
 	return {
-    user: state.user
+    user: state.user,
+    packages: state.packages
 	}
 }
 
