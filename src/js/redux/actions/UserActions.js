@@ -19,15 +19,17 @@ export const userLogin = payload => {
 * Remove user data to redux
 */
 export const userLogout = () => {
-  return dispatch => {
-    require('google-client-api')().then(gapi => {
-      gapi.auth2.getAuthInstance().signOut().then(() => {
+  return (dispatch, getState) => {
+    const { gapi, firebase } = getState().packages;
+
+    gapi.auth2.getAuthInstance().signOut().then(() => {
+      firebase.auth().signOut().then(() => {
         return dispatch({
-      		type: USER_LOGOUT,
+          type: USER_LOGOUT,
           name: null,
           profilePicURL: null
-      	});
-      })
+        });
+      });
     })
   }
 };

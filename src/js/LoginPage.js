@@ -21,12 +21,12 @@ class LoginPage extends Component {
           firebase.auth.GoogleAuthProvider.credential(user.getAuthResponse().id_token)
         ).then(firebaseUser => {
           console.log(firebaseUser);
+          this.props.history.push('/import');
         }).catch(error => {
           console.log(error);
         });
       });
     }
-    this.props.history.push('/import');
   }
 
   render() {

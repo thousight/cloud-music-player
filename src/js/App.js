@@ -40,19 +40,18 @@ class App extends Component {
               firebase.auth.GoogleAuthProvider.credential(auth.currentUser.get().getAuthResponse().id_token)
             ).then(firebaseUser => {
               console.log(firebaseUser);
+              this.props.history.push('/import');
             }).catch(error => {
               console.log(error);
             });
-
+            
+            this.props.dispatch(setGAPI(gapi));
             this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
-            this.props.history.push('/import');
           }
         }, error => {
           console.log(error);
-          alert(error.details);
         })
 
-        this.props.dispatch(setGAPI(gapi));
       })
     });
   }
@@ -78,4 +77,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(withRouter(App));
+export default withRouter(connect(mapStateToProps)(App));
