@@ -33,7 +33,9 @@ class App extends Component {
       gapi.load('auth2:client', () => {
         gapi.auth2.init(gapiConfig).then(auth => {
           firebase.initializeApp(firebaseConfig);
+
           this.props.dispatch(setFirebase(firebase));
+          this.props.dispatch(setGAPI(gapi));
 
           if (auth.isSignedIn.get()) {
             firebase.auth().signInWithCredential(
@@ -44,8 +46,7 @@ class App extends Component {
             }).catch(error => {
               console.log(error);
             });
-            
-            this.props.dispatch(setGAPI(gapi));
+
             this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
           }
         }, error => {
