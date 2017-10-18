@@ -50,8 +50,12 @@ class ImportPage extends Component {
   }
   submitButtonOnClick() {
     alert("Need to be specified by MusicPlayerPage data structure");
+    //FilesId and prefix of URL
   }
 
+  backButtonOnClick() {
+    alert("Need to be specified by MusicPlayerPage data structure");
+  }
   renderFiles() {
     require('google-client-api')().then(gapi => {
       gapi.load('client', () => {
@@ -72,7 +76,7 @@ class ImportPage extends Component {
     return (
       <div className="import-page">
         <Col className="navigating" md={5} mdOffset={2}>
-          <Button className="roundbutton" onClick={this.selectAllButtonOnClick.bind(this)}>←</Button>
+          <Button className="roundbutton" onClick={this.backButtonOnClick.bind(this)}>←</Button>
           <Row className="navigating-header">
             <h1 className="header">
               User's Music Folder
@@ -103,22 +107,39 @@ class ImportPage extends Component {
               </Row>
             );
           })}
-          <Row>
-            <Col md={6}>
-              <Button className="clear-button" onClick={this.clearButtonOnClick.bind(this)}>X    Clear</Button>
-            </Col>
-            <Col md={6}>
-              <Button className="submit-button" onClick={this.submitButtonOnClick.bind(this)}>√   Submit</Button>
-            </Col>
-          </Row>
+        </Row>
+        <Button className="select-all-button" onClick={this.selectAllButtonOnClick.bind(this)}>Select All</Button>
+
+      </Col>
+      <Col className="selecting" md={2} mdOffset={1}>
+        <Row className="selecting-header">
+          <h1 className="header">
+            Selected Music File
+          </h1>
+        </Row>
+        {this.state.filesSelected.map(item => {
+          return (
+            <Row key={item}>
+              {item}
+            </Row>
+          );
+        })}
+        <Row>
+          <Col sm={6} md={6}>
+            <Button className="clear-button" onClick={this.clearButtonOnClick.bind(this)}>X    Clear</Button>
+          </Col>
+          <Col sm={6} md={6}>
+            <Button className="submit-button" onClick={this.submitButtonOnClick.bind(this)}>√   Submit</Button>
+          </Col>
+        </Row>
 
 
-        </Col>
+      </Col>
 
-      </div>
+    </div>
 
-    );
-  }
+  );
+}
 }
 class FileButton extends Component {
   state = {
