@@ -9,7 +9,7 @@ import logo from '../../img/logo.svg';
 class NavigationBar extends Component {
 
   signOut() {
-    this.props.dispatch(userLogout());
+    this.props.userLogout();
     this.props.history.push('/');
   }
 
@@ -44,4 +44,12 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(NavigationBar));
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogout: () => {
+      dispatch(userLogout())
+    }
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavigationBar));

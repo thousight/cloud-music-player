@@ -13,10 +13,10 @@ class LoginPage extends Component {
     const gapiAuth = gapi.auth2.getAuthInstance();
 
     if (gapiAuth.isSignedIn.get()) {
-      this.props.dispatch(userLogin(gapiAuth.currentUser.get().getBasicProfile()));
+      this.props.userLogin(gapiAuth.currentUser.get().getBasicProfile());
     } else {
       gapiAuth.signIn().then(user => {
-        this.props.dispatch(userLogin(user.getBasicProfile()));
+        this.props.userLogin(user.getBasicProfile());
         firebase.auth().signInWithCredential(
           firebase.auth.GoogleAuthProvider.credential(user.getAuthResponse().id_token)
         ).then(firebaseUser => {
@@ -55,4 +55,12 @@ const mapStateToProps = state => {
 	}
 }
 
-export default withRouter(connect(mapStateToProps)(LoginPage));
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogin: user => {
+      dispatch(userLogin(user))
+    }
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginPage));

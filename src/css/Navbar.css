@@ -61,6 +61,10 @@
 }
 
 @media (max-width: 767px) {
+  .navbar {
+    z-index: 1;
+  }
+
   .navbar-header {
     display: none;
   }

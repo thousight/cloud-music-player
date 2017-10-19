@@ -34,8 +34,8 @@ class App extends Component {
         gapi.auth2.init(gapiConfig).then(auth => {
           firebase.initializeApp(firebaseConfig);
 
-          this.props.dispatch(setFirebase(firebase));
-          this.props.dispatch(setGAPI(gapi));
+          this.props.setGAPI(gapi)
+          this.props.setFirebase(firebase)
 
           if (auth.isSignedIn.get()) {
             firebase.auth().signInWithCredential(
@@ -51,7 +51,7 @@ class App extends Component {
               console.log(error);
             });
 
-            this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
+            this.props.userLogin(auth.currentUser.get().getBasicProfile());
           }
         }, error => {
           console.log(error);
@@ -76,4 +76,18 @@ class App extends Component {
   }
 }
 
-export default withRouter(connect()(App));
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogin: user => {
+      dispatch(userLogin(user))
+    },
+    setFirebase: firebase => {
+      dispatch(setFirebase(firebase))
+    },
+    setGAPI: gapi => {
+      dispatch(setGAPI(gapi))
+    }
+  }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(App));
