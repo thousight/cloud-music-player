@@ -36,6 +36,7 @@
   display: inline-block;
   color: #36A9F7;
   font-size: 18px;
+  vertical-align: middle;
 }
 
 .caret {
