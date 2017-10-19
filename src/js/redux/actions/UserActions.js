@@ -5,13 +5,13 @@ import {
 
 /**
 * Save user data to redux
-* @param: payload(Google login user basic profile)
+* @param: user(Google login user basic profile)
 */
-export const userLogin = payload => {
+export const userLogin = user => {
   return dispatch => dispatch({
     type: USER_LOGIN,
-    name: payload.getName(),
-    profilePicURL: payload.getImageUrl()
+    name: user.getName(),
+    profilePicURL: user.getImageUrl()
   });
 };
 

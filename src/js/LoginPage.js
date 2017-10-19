@@ -20,8 +20,12 @@ class LoginPage extends Component {
         firebase.auth().signInWithCredential(
           firebase.auth.GoogleAuthProvider.credential(user.getAuthResponse().id_token)
         ).then(firebaseUser => {
-          console.log(firebaseUser);
-          this.props.history.push('/import');
+          firebase.database().ref('/playlists').once('value').then(snapshot => {
+            snapshot.val() ?
+            this.props.history.push('/player')
+             :
+            this.props.history.push('/import');
+          })
         }).catch(error => {
           console.log(error);
         });
