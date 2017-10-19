@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Navbar from './components/Navbar';
 import { Row, Col } from 'react-bootstrap';
 import '../css/MusicPlayerPage.css';
 import Side from './components/Side';
@@ -22,7 +21,6 @@ class MusicPlayerPage extends Component {
       <Col  xs={0} sm ={2} md ={3}>
 
 
-        {/* <Navbar /> */}
       </Col>
 
       <Col xs ={12} sm={10} md={9}>

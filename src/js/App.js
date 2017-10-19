@@ -7,7 +7,7 @@ import firebase from 'firebase';
 import LoginPage from './LoginPage';
 import ImportPage from './ImportPage';
 import MusicPlayerPage from './MusicPlayerPage';
-import Navbar from './components/Navbar';
+import NavigationBar from './components/NavigationBar';
 import { userLogin, setFirebase, setGAPI } from './redux/actions';
 
 class App extends Component {
@@ -61,7 +61,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Navbar />
+        <NavigationBar />
         <Switch key={this.props.location.pathname} location={this.props.location}>
           <Route exact path="/" component={LoginPage} />
           <Route path="/player" component={MusicPlayerPage} />
