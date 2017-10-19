@@ -3,14 +3,23 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
 
-import { userLogout } from '../redux/actions';
+import { userLogout, setSidebarOpenState } from '../redux/actions';
 import logo from '../../img/logo.svg';
 
 class NavigationBar extends Component {
 
+  state = {
+    isSidebarOpen: false
+  }
+
   signOut() {
     this.props.userLogout();
     this.props.history.push('/');
+  }
+
+  handleToggleClick() {
+    this.setState({isSidebarOpen: !this.state.isSidebarOpen});
+    this.props.setSidebarOpenState(this.state.isSidebarOpen);
   }
 
   render() {
@@ -18,6 +27,7 @@ class NavigationBar extends Component {
 
     return (
       <Navbar collapseOnSelect style={{display: user.name ? 'block' : 'none'}}>
+        <Navbar.Toggle onClick={this.handleToggleClick.bind(this)} />
         <Navbar.Header>
           <Navbar.Brand>
             <a><img alt="logo" src={logo} />Cloud Music Player</a>
@@ -48,6 +58,9 @@ const mapDispatchToProps = dispatch => {
   return {
     userLogout: () => {
       dispatch(userLogout())
+    },
+    setSidebarOpenState: isSidebarOpen => {
+      dispatch(setSidebarOpenState(isSidebarOpen))
     }
   }
 }

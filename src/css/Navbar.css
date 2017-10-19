@@ -60,6 +60,18 @@
   margin-top: 4px;
 }
 
+.navbar-toggle {
+  float: left;
+  margin-top: 16px;
+  padding-left: 0;
+}
+
+.navbar-default .navbar-toggle:focus,
+.navbar-default .navbar-toggle:hover {
+  background-color: transparent;
+  border: none;
+}
+
 @media (max-width: 767px) {
   .navbar {
     z-index: 1;

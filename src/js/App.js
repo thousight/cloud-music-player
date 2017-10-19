@@ -42,10 +42,7 @@ class App extends Component {
               firebase.auth.GoogleAuthProvider.credential(auth.currentUser.get().getAuthResponse().id_token)
             ).then(firebaseUser => {
               firebase.database().ref('/users/' + firebaseUser.uid + '/playlists').once('value').then(snapshot => {
-                snapshot.val() ?
-                this.props.history.push('/player')
-                 :
-                this.props.history.push('/import');
+                this.props.history.push(snapshot.val() ? '/player' : '/import');
               })
             }).catch(error => {
               console.log(error);

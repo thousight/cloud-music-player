@@ -1,6 +1,7 @@
 .cover-page {
-  border: 1px ridge grey
-
+  border: 1px ridge grey;
+  border-radius: 100px;
+  width: 100px;
 }
 .previous-song {
   transform: rotate(180deg);
