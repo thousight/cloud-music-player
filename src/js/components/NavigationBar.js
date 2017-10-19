@@ -20,7 +20,7 @@ class NavigationBar extends Component {
       <Navbar collapseOnSelect style={{display: user.name ? 'block' : 'none'}}>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#"><img alt="logo" src={logo} />Cloud Music Player</a>
+            <a><img alt="logo" src={logo} />Cloud Music Player</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav pullRight>
