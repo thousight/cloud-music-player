@@ -8,7 +8,7 @@ import LoginPage from './LoginPage';
 import ImportPage from './ImportPage';
 import MusicPlayerPage from './MusicPlayerPage';
 import NavigationBar from './components/NavigationBar';
-import { userLogin, setFirebase, setGAPI } from './redux/actions';
+import { userLogin, setFirebase, setGAPI, setPlaylists } from './redux/actions';
 
 class App extends Component {
 
@@ -34,20 +34,22 @@ class App extends Component {
         gapi.auth2.init(gapiConfig).then(auth => {
           firebase.initializeApp(firebaseConfig);
 
-          this.props.dispatch(setFirebase(firebase));
-          this.props.dispatch(setGAPI(gapi));
+          this.props.setGAPI(gapi)
+          this.props.setFirebase(firebase)
 
           if (auth.isSignedIn.get()) {
             firebase.auth().signInWithCredential(
               firebase.auth.GoogleAuthProvider.credential(auth.currentUser.get().getAuthResponse().id_token)
             ).then(firebaseUser => {
-              console.log(firebaseUser);
-              this.props.history.push('/import');
+              firebase.database().ref('/users/' + firebaseUser.uid + '/playlists').once('value').then(snapshot => {
+                this.props.history.push(snapshot.val() ? '/player' : '/import');
+                this.props.setPlaylists(snapshot.val());
+              })
             }).catch(error => {
               console.log(error);
             });
 
-            this.props.dispatch(userLogin(auth.currentUser.get().getBasicProfile()));
+            this.props.userLogin(auth.currentUser.get().getBasicProfile());
           }
         }, error => {
           console.log(error);
@@ -72,4 +74,21 @@ class App extends Component {
   }
 }
 
-export default withRouter(connect()(App));
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogin: user => {
+      dispatch(userLogin(user))
+    },
+    setFirebase: firebase => {
+      dispatch(setFirebase(firebase))
+    },
+    setGAPI: gapi => {
+      dispatch(setGAPI(gapi))
+    },
+    setPlaylists: playlists => {
+      dispatch(setPlaylists(playlists))
+    }
+  }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(App));

@@ -1,22 +1,23 @@
 import {
   USER_LOGIN,
-  USER_LOGOUT
+  USER_LOGOUT,
+  SET_PLAYLISTS
 } from './actionTypes';
 
 /**
 * Save user data to redux
-* @param: payload(Google login user basic profile)
+* @param: user(Google login user basic profile)
 */
-export const userLogin = payload => {
+export const userLogin = user => {
   return dispatch => dispatch({
     type: USER_LOGIN,
-    name: payload.getName(),
-    profilePicURL: payload.getImageUrl()
+    name: user.getName(),
+    profilePicURL: user.getImageUrl()
   });
 };
 
 /**
-* Remove user data to redux
+* Log out and remove user data to redux
 */
 export const userLogout = () => {
   return (dispatch, getState) => {
@@ -32,4 +33,15 @@ export const userLogout = () => {
       });
     })
   }
+};
+
+/**
+* Save user playlists into redux
+* @param: playlists(Firebase data snapshot val())
+*/
+export const setPlaylists = playlists => {
+  return dispatch => dispatch({
+    type: SET_PLAYLISTS,
+    playlists
+  });
 };
