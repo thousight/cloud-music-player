@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 
-import { userLogin } from './redux/actions';
+import { userLogin, setPlaylists } from './redux/actions';
 import logo from '../img/logo.svg';
 
 class LoginPage extends Component {
@@ -22,6 +22,7 @@ class LoginPage extends Component {
         ).then(firebaseUser => {
           firebase.database().ref('/users/' + firebaseUser.uid + '/playlists').once('value').then(snapshot => {
             this.props.history.push(snapshot.val() ? '/player' : '/import');
+            this.props.setPlaylists(snapshot.val());
           })
         }).catch(error => {
           console.log(error);
@@ -56,6 +57,9 @@ const mapDispatchToProps = dispatch => {
   return {
     userLogin: user => {
       dispatch(userLogin(user))
+    },
+    setPlaylists: playlists => {
+      dispatch(setPlaylists(playlists))
     }
   }
 }

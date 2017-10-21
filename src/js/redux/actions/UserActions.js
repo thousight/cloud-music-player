@@ -1,6 +1,7 @@
 import {
   USER_LOGIN,
-  USER_LOGOUT
+  USER_LOGOUT,
+  SET_PLAYLISTS
 } from './actionTypes';
 
 /**
@@ -16,7 +17,7 @@ export const userLogin = user => {
 };
 
 /**
-* Remove user data to redux
+* Log out and remove user data to redux
 */
 export const userLogout = () => {
   return (dispatch, getState) => {
@@ -32,4 +33,15 @@ export const userLogout = () => {
       });
     })
   }
+};
+
+/**
+* Save user playlists into redux
+* @param: playlists(Firebase data snapshot val())
+*/
+export const setPlaylists = playlists => {
+  return dispatch => dispatch({
+    type: SET_PLAYLISTS,
+    playlists
+  });
 };

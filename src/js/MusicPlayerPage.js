@@ -20,12 +20,16 @@ class MusicPlayerPage extends Component {
   }
 
   render() {
+    // Sidebar content stuff
+    const sidebarContent = (<div style={{ width: '300px' }}>
+        <SidebarContent />
+      </div>);
+
     return (
       <Sidebar
-        sidebar={<div>{SidebarContent}</div>}
+        sidebar={sidebarContent}
         open={this.props.settings.isSidebarOpen}
-        docked={this.state.sidebarDocked}
-        onSetOpen={this.onSetSidebarOpen} >
+        docked={this.state.sidebarDocked} >
         <div className="player-page">
 
         </div>

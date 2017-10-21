@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Accordion } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
+import PlaylistItem from './PlaylistItem'
 
 class SidebarContent extends Component {
 
   render() {
     return (
-      <div className="sidebar-content">
-        lollololololollll
-      </div>
+      <Accordion className="sidebar-content">
+        {this.props.user.playlists ? Object.keys(this.props.user.playlists).map((key, index) => {
+          return (
+            <PlaylistItem key={index}
+              header={key}
+              playlistSongs={this.props.user.playlists[key]}
+              eventKey={index}/>
+          )
+        }) : <div />}
+      </Accordion>
     );
   }
 }

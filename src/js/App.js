@@ -8,7 +8,7 @@ import LoginPage from './LoginPage';
 import ImportPage from './ImportPage';
 import MusicPlayerPage from './MusicPlayerPage';
 import NavigationBar from './components/NavigationBar';
-import { userLogin, setFirebase, setGAPI } from './redux/actions';
+import { userLogin, setFirebase, setGAPI, setPlaylists } from './redux/actions';
 
 class App extends Component {
 
@@ -43,6 +43,7 @@ class App extends Component {
             ).then(firebaseUser => {
               firebase.database().ref('/users/' + firebaseUser.uid + '/playlists').once('value').then(snapshot => {
                 this.props.history.push(snapshot.val() ? '/player' : '/import');
+                this.props.setPlaylists(snapshot.val());
               })
             }).catch(error => {
               console.log(error);
@@ -83,6 +84,9 @@ const mapDispatchToProps = dispatch => {
     },
     setGAPI: gapi => {
       dispatch(setGAPI(gapi))
+    },
+    setPlaylists: playlists => {
+      dispatch(setPlaylists(playlists))
     }
   }
 }
