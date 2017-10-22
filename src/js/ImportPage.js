@@ -54,7 +54,8 @@ class ImportPage extends Component {
   }
 
   backButtonOnClick() {
-    alert("Need to be specified by MusicPlayerPage data structure");
+    document.location.href = '/MusicPlayerPage'
+
   }
   renderFiles() {
     require('google-client-api')().then(gapi => {
