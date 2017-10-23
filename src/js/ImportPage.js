@@ -49,8 +49,7 @@ class ImportPage extends Component {
 
   }
   submitButtonOnClick() {
-    alert("Need to be specified by MusicPlayerPage data structure");
-    //FilesId and prefix of URL
+
   }
 
   backButtonOnClick() {
@@ -108,6 +107,15 @@ class ImportPage extends Component {
               </Row>
             );
           })}
+          <Row>
+            <Col md={6}>
+              <Button className="clear-button" onClick={this.clearButtonOnClick.bind(this)}>Clear</Button>
+            </Col>
+            <Col md={6}>
+              <Button className="submit-button" onClick={this.submitButtonOnClick.bind(this)}>Submit</Button>
+            </Col>
+
+          </Row>
         </Col>
 
       </div>
