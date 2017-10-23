@@ -8,18 +8,13 @@ import logo from '../../img/logo.svg';
 
 class NavigationBar extends Component {
 
-  state = {
-    isSidebarOpen: false
-  }
-
   signOut() {
     this.props.userLogout();
     this.props.history.push('/');
   }
 
   handleToggleClick() {
-    this.setState({isSidebarOpen: !this.state.isSidebarOpen});
-    this.props.setSidebarOpenState(this.state.isSidebarOpen);
+    this.props.setSidebarOpenState(!this.props.settings.isSidebarOpen);
   }
 
   render() {
@@ -50,7 +45,8 @@ class NavigationBar extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    settings: state.settings
   }
 }
 

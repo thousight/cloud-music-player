@@ -3,7 +3,7 @@ import {
 } from '../actions';
 
 const initialState = {
-  isSidebarOpen: true
+  isSidebarOpen: false
 }
 
 const SettingsReducer = (state = initialState, action) => {
