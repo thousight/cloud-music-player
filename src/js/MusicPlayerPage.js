@@ -10,7 +10,7 @@ import shuffle from '../img/shuffle.svg';
 import next from '../img/skip_next.svg';
 import play from '../img/play_arrow.svg';
 import volume from '../img/volume.svg';
-import cover from '../img/kris.jpg';
+import cover from '../img/music_note.svg';
 import { setSidebarOpenState } from './redux/actions';
 
 const mql = window.matchMedia(`(min-width: 768px)`);
@@ -43,6 +43,7 @@ class MusicPlayerPage extends Component {
     this.state.mql.removeListener(this.mediaQueryChanged);
   }
 
+  // When screen size changes from sm to md(mql.matches = true) and from md to sm(mql.matches = false)
   mediaQueryChanged() {
     this.setState({sidebarDocked: this.state.mql.matches});
     this.props.setSidebarOpenState(false);
@@ -61,8 +62,12 @@ class MusicPlayerPage extends Component {
         overlayClassName="playlists-sidebar-overlay"
         open={this.props.settings.isSidebarOpen}
         docked={this.state.sidebarDocked} >
-        <div className="player-page">
-
+        <div className="player-page container">
+          <Row>
+            <Col xs={12}>
+              
+            </Col>
+          </Row>
         </div>
       </Sidebar>
     );
