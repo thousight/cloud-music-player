@@ -14,7 +14,6 @@ import cover from '../img/kris.jpg';
 
 import { Button } from 'react-bootstrap';
 class MusicPlayerPage extends Component {
-
   state = {
     sidebarDocked: true
   }
@@ -24,6 +23,8 @@ class MusicPlayerPage extends Component {
     const sidebarContent = (<div style={{ width: '300px' }}>
         <SidebarContent />
         <Button className="roundbutton" onClick={this.backButtonOnClick.bind(this)}>←</Button>
+        <Button className="goback" onClick={this.backButtonOnClick.bind(this)}>←</Button>
+
       </div>);
 
     return (
