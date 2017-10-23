@@ -12,7 +12,6 @@ import play from '../img/play_arrow.svg';
 import volume from '../img/volume.svg';
 import cover from '../img/kris.jpg';
 
-import { Button } from 'react-bootstrap';
 class MusicPlayerPage extends Component {
 
   state = {
@@ -23,7 +22,6 @@ class MusicPlayerPage extends Component {
     // Sidebar content stuff
     const sidebarContent = (<div style={{ width: '300px' }}>
         <SidebarContent />
-        <Button className="roundbutton" onClick={this.backButtonOnClick.bind(this)}>←</Button>
       </div>);
 
     return (
