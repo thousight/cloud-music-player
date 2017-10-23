@@ -1,7 +1,8 @@
 import {
   USER_LOGIN,
   USER_LOGOUT,
-  SET_PLAYLISTS
+  SET_PLAYLISTS,
+  PLAY_MUSIC
 } from './actionTypes';
 
 /**
@@ -43,5 +44,16 @@ export const setPlaylists = playlists => {
   return dispatch => dispatch({
     type: SET_PLAYLISTS,
     playlists
+  });
+};
+
+/**
+* Save user's currently playing music id to redux
+* @param: id(string)
+*/
+export const setPlayingMusicId = id => {
+  return dispatch => dispatch({
+    type: PLAY_MUSIC,
+    id
   });
 };

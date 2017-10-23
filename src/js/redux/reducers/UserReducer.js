@@ -1,13 +1,15 @@
 import {
   USER_LOGIN,
   USER_LOGOUT,
-  SET_PLAYLISTS
+  SET_PLAYLISTS,
+  PLAY_MUSIC
 } from '../actions';
 
 const initialState = {
   name: null,
   profilePicURL: null,
-  playlists: {}
+  playlists: {},
+  currentlyPlayingMusicId: ''
 }
 
 const UserReducer = (state = initialState, action) => {
@@ -28,6 +30,11 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         playlists: action.playlists
+      }
+    case SET_PLAYLISTS:
+      return {
+        ...state,
+        currentlyPlayingMusicId: action.id
       }
     default:
       return state
