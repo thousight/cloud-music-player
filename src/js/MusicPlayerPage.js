@@ -10,11 +10,43 @@ import shuffle from '../img/shuffle.svg';
 import next from '../img/skip_next.svg';
 import play from '../img/play_arrow.svg';
 import volume from '../img/volume.svg';
-import cover from '../img/kris.jpg';
+import cover from '../img/music_note.svg';
+import { setSidebarOpenState } from './redux/actions';
+
+const mql = window.matchMedia(`(min-width: 768px)`);
 
 class MusicPlayerPage extends Component {
-  state = {
-    sidebarDocked: true
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sidebarDocked: true
+    }
+
+    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
+  }
+
+  componentWillMount() {
+    mql.addListener(this.mediaQueryChanged);
+    this.setState({ mql, sidebarDocked: mql.matches });
+  }
+
+  componentDidMount() {
+    let sidebarOverlay = document.getElementsByClassName('playlists-sidebar-overlay').item(0);
+    sidebarOverlay.onclick = () => {
+      this.props.setSidebarOpenState(false);
+    }
+  }
+
+  componentWillUnmount() {
+    this.state.mql.removeListener(this.mediaQueryChanged);
+  }
+
+  // When screen size changes from sm to md(mql.matches = true) and from md to sm(mql.matches = false)
+  mediaQueryChanged() {
+    this.setState({sidebarDocked: this.state.mql.matches});
+    this.props.setSidebarOpenState(false);
   }
 
   render() {
@@ -26,10 +58,16 @@ class MusicPlayerPage extends Component {
     return (
       <Sidebar
         sidebar={sidebarContent}
+        sidebarClassName="playlists-sidebar"
+        overlayClassName="playlists-sidebar-overlay"
         open={this.props.settings.isSidebarOpen}
         docked={this.state.sidebarDocked} >
-        <div className="player-page">
-
+        <div className="player-page container">
+          <Row>
+            <Col xs={12}>
+              
+            </Col>
+          </Row>
         </div>
       </Sidebar>
     );
@@ -44,4 +82,12 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(MusicPlayerPage));
+const mapDispatchToProps = dispatch => {
+  return {
+    setSidebarOpenState: bool => {
+      dispatch(setSidebarOpenState(bool))
+    }
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicPlayerPage));
