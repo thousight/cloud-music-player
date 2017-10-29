@@ -1,3 +1,13 @@
+.playlists-sidebar {
+  background-color: #FFFFFF;
+}
+
 .sidebar-content {
   margin-top: 80px;
+}
+
+@media (max-width: 767px) {
+  .sidebar-content {
+    margin-top: 30px;
+  }
 }

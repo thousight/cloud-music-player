@@ -49,12 +49,12 @@ class ImportPage extends Component {
 
   }
   submitButtonOnClick() {
-
+    document.location.href = '/MusicPlayerPage'
+    //FilesId and prefix of URL
   }
 
   backButtonOnClick() {
-    document.location.href = '/MusicPlayerPage'
-
+    alert("Need to be specified by MusicPlayerPage data structure");
   }
   renderFiles() {
     require('google-client-api')().then(gapi => {
@@ -108,12 +108,8 @@ class ImportPage extends Component {
             );
           })}
           <Row>
-            <Col md={6}>
-              <Button className="clear-button" onClick={this.clearButtonOnClick.bind(this)}>Clear</Button>
-            </Col>
-            <Col md={6}>
-              <Button className="submit-button" onClick={this.submitButtonOnClick.bind(this)}>Submit</Button>
-            </Col>
+            <Button className="submit-button" onClick={this.submitButtonOnClick.bind(this)}>√  Submit</Button>
+            <Button className="clear-button"  onClick={this.clearButtonOnClick.bind(this)}>X Clear</Button>
 
           </Row>
         </Col>
