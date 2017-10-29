@@ -14,7 +14,7 @@ class ImportPage extends Component {
     folderIds: ['root'],
     folderFiles: [],
     selectedFiles: [],
-    currentFolderName: 'root'
+    currentFolderName: ['root']
   }
 
   componentWillMount() {
@@ -33,7 +33,7 @@ class ImportPage extends Component {
           gapi.client.drive.files.list({
             pageSize: 1000,
             fields: 'nextPageToken, files(id, name, mimeType)',
-            q: `'${this.state.folderIds[this.state.folderIds.length - 1]}' in parents and (name contains '.mp3' or mimeType = 'application/vnd.google-apps.folder')`
+            q: `'${this.state.folderIds[this.state.folderIds.length - 1]}' in parents and trashed = false and (name contains '.mp3' or mimeType = 'application/vnd.google-apps.folder')`
           }).then(res => {
             this.setState({folderFiles: res.result.files})
           });
@@ -43,9 +43,12 @@ class ImportPage extends Component {
   }
 
   backButtonOnClick() {
-    let temp = this.state.folderIds;
-    temp.pop();
-    this.setState({folderIds: temp});
+    let tempFolderIds = this.state.folderIds, tempCurrentFolderName = this.state.currentFolderName;
+    if (tempFolderIds[tempFolderIds.length - 1] != 'root') {
+      tempFolderIds.pop();
+    }
+    tempCurrentFolderName.pop();
+    this.setState({folderIds: tempFolderIds, currentFolderName: tempCurrentFolderName});
     this.getDriveFiles();
   }
 
@@ -53,11 +56,13 @@ class ImportPage extends Component {
     if (file.mimeType === 'application/vnd.google-apps.folder') {
       this.setState({
         folderIds: this.state.folderIds.concat([file.id]),
-        currentFolderName: file.name
+        currentFolderName: this.state.currentFolderName.concat([file.name])
       });
       this.getDriveFiles();
     } else {
-
+      let temp = this.state.selectedFiles;
+      temp.push(file);
+      this.setState({selectedFiles: temp});
     }
   }
 
@@ -75,7 +80,10 @@ class ImportPage extends Component {
                 <Button className="import-page-back-button" onClick={this.backButtonOnClick.bind(this)}>
                   <img alt="Folder icon" src={backIcon} />
                 </Button>
-                <h4 className="import-page-folder-title"><img alt="Folder icon" src={folderIcon} />{this.state.currentFolderName}</h4>
+                <h4 className="import-page-folder-title">
+                  <img alt="Folder icon" src={folderIcon} />
+                  {this.state.currentFolderName[this.state.currentFolderName.length - 1]}
+                </h4>
               </div>
 
               <div>
