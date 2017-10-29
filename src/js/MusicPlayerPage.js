@@ -10,7 +10,7 @@ import shuffle from '../img/shuffle.svg';
 import next from '../img/skip_next.svg';
 import play from '../img/play_arrow.svg';
 import volume from '../img/volume.svg';
-import cover from '../img/music_note.svg';
+import cover from '../img/music_node.svg';
 import { setSidebarOpenState } from './redux/actions';
 
 const mql = window.matchMedia(`(min-width: 768px)`);
@@ -71,6 +71,7 @@ class MusicPlayerPage extends Component {
                       html5={true} />
           <Row>
             <Col xs={12}>
+
             </Col>
           </Row>
         </div>

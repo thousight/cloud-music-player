@@ -1,8 +1,63 @@
-.import-page {
-  text-align: center;
+.import-page-card {
+  display: block;
+  position: relative;
 }
 
-.select-all-button {
+.import-page-card-title {
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+.import-page-folder-title {
+  font-weight: 100;
+  display: block;
+  vertical-align: middle;
+  text-align: center;
+  padding-top: 6px;
+}
+
+.import-page-folder-title > img {
+  width: 28px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.import-page-back-button, .import-page-back-button:focus,
+.import-page-back-button:hover, .import-page-back-button:active,
+.import-page-back-button:active:focus {
+  background-color: #36A9F7;
+  border-radius: 100px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  float: left;
+  width: 40px;
+  height: 40px;
+  border: none;
+  padding: 6px;
+  margin-left: 10px;
+  outline: 0;
+}
+
+.import-page-back-button > img,
+.import-page-folder-file > img {
+  width: 25px;
+  height: 25px;
+}
+
+.import-page-folder-file, .import-page-folder-file:focus,
+.import-page-folder-file:hover, .import-page-folder-file:active,
+.import-page-folder-file:active:focus {
+  border: 0;
+  margin: 10px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  outline: 0;
+}
+
+.import-page-folder-file > img {
+  margin-right: 5px;
+}
+
+/*.select-all-button {
   margin-top: 30px;
   line-height: 40px;
   font-weight: bold;
@@ -57,4 +112,4 @@
   background-color: rgb(54, 169, 247);
   border-radius: 50%;
   border: 1px solid white;
-}
+}*/
