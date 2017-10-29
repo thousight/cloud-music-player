@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Sidebar from 'react-sidebar';
-
+import ReactHowler from 'react-howler'
 import SidebarContent from './components/SidebarContent.js'
 import repeat from '../img/repeat.svg';
 import shuffle from '../img/shuffle.svg';
@@ -21,9 +21,9 @@ class MusicPlayerPage extends Component {
     super(props);
 
     this.state = {
-      sidebarDocked: true
+      sidebarDocked: true,
+      url: 'https://drive.google.com/uc?export=download&id=0B3-82hcS8hjnaUdUWGxwV19NM0k'
     }
-
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
   }
 
@@ -63,9 +63,14 @@ class MusicPlayerPage extends Component {
         open={this.props.settings.isSidebarOpen}
         docked={this.state.sidebarDocked} >
         <div className="player-page container">
+          {/* Music Player */}
+                    <ReactHowler
+                      src={this.state.url}
+                      playing={true}
+                      loop={true}
+                      html5={true} />
           <Row>
             <Col xs={12}>
-              
             </Col>
           </Row>
         </div>
