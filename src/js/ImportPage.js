@@ -33,7 +33,7 @@ class ImportPage extends Component {
           gapi.client.drive.files.list({
             pageSize: 1000,
             fields: 'nextPageToken, files(id, name, mimeType)',
-            q: `'${this.state.folderIds[this.state.folderIds.length - 1]}' in parents and (name contains '.mp3' or mimeType = 'application/vnd.google-apps.folder')`
+            q: `'${this.state.folderIds[this.state.folderIds.length - 1]}' in parents and (name contains '.mp3' or mimeType = 'application/vnd.google-apps.folder' or mimeType = 'audio/mp3d')`
           }).then(res => {
             this.setState({folderFiles: res.result.files})
           });
@@ -44,9 +44,11 @@ class ImportPage extends Component {
 
   backButtonOnClick() {
     let temp = this.state.folderIds;
-    temp.pop();
-    this.setState({folderIds: temp});
-    this.getDriveFiles();
+    if (temp.length !== 1) {
+      temp.pop();
+      this.setState({folderIds: temp});
+      this.getDriveFiles();
+    }
   }
 
   folderFileOnClick(file) {
