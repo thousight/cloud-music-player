@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Panel } from 'react-bootstrap';
 import listoption from '../../img/playlist_play.svg';
-import note from '../../img/music_note.svg';
+import note from '../../img/music_node.svg';
 import ReactDOM from 'react-dom';
 
 function handleClick() {
