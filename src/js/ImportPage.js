@@ -1,159 +1,145 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { setGAPI } from './redux/actions';
+
+import folderIcon from '../img/folder.svg';
+import backIcon from '../img/go_back.svg';
+import singleNodeIcon from '../img/music_node.svg';
 
 class ImportPage extends Component {
 
   state = {
-    files: [],
-    filesSelected: [],
-    numFilesSelected: 0,
-    filesId: []
+    folderIds: ['root'],
+    folderFiles: [],
+    selectedFiles: [],
+    currentFolderName: ['root']
   }
 
   componentWillMount() {
-    this.renderFiles();
+    this.getDriveFiles();
   }
 
-  selectAllButtonOnClick() {
-    this.setState(previousState => {
-      previousState.filesSelected = [];
-      previousState.filesId = [];
-      previousState.numFilesSelected = [];
-      previousState.files.map(item => {
-        if (item.mimeType === 'audio/mp3' || item.name.endsWith('.mp3')) {
-          previousState.filesSelected.push(item.name);
-          previousState.filesId.push(item.id);
-          previousState.numFilesSelected++;
-        }
-        return 0;
-      })
-      return (
-        {
-          filesSelected: previousState.filesSelected,
-          filesId: previousState.filesId,
-          numFilesSelected: previousState.numFilesSelected
-        }
-      )
-    });
-
-
-
-  }
-  clearButtonOnClick() {
-    this.setState({
-      filesSelected: [],
-      numFilesSelected: 0,
-      filesId: []
-    })
-
-  }
-  submitButtonOnClick() {
-    document.location.href = '/MusicPlayerPage'
-    //FilesId and prefix of URL
+  getGapi() {
+    return this.props.packages.gapi ? new Promise((resolve, failure) => resolve(this.props.packages.gapi)) : require('google-client-api')();
   }
 
-  backButtonOnClick() {
-    alert("Need to be specified by MusicPlayerPage data structure");
-  }
-  renderFiles() {
-    require('google-client-api')().then(gapi => {
+  getDriveFiles() {
+    this.getGapi().then(gapi => {
       gapi.load('client', () => {
         gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest')
         .then(success => {
           gapi.client.drive.files.list({
-            'pageSize': 1000,
-            'fields': "nextPageToken, files(id, name)"
+            pageSize: 1000,
+            fields: 'nextPageToken, files(id, name, mimeType)',
+            q: `'${this.state.folderIds[this.state.folderIds.length - 1]}' in parents and trashed = false and (name contains '.mp3' or mimeType = 'application/vnd.google-apps.folder')`
           }).then(res => {
-            this.setState({files: res.result.files})
+            this.setState({folderFiles: res.result.files})
           });
         })
       })
     });
   }
 
-  render() {
-    return (
-      <div className="import-page">
-        <Col className="navigating" md={5} mdOffset={2}>
-          <Button className="roundbutton" onClick={this.backButtonOnClick.bind(this)}>←</Button>
-          <Row className="navigating-header">
-            <h1 className="header">
-              User's Music Folder
-            </h1>
-          </Row>
-          <Row className="navigating-content">
-            {this.state.files.map(item => {
-              if (item.mimeType === 'audio/mp3' || item.name.endsWith('.mp3')) {
-                return (
-                  <FileButton key={item.id} name={item.name} instance={this} active={true} file_id={item.id} />
-
-                );
-              }
-            })}
-          </Row>
-          <Button className="select-all-button" onClick={this.selectAllButtonOnClick.bind(this)}>Select All</Button>
-        </Col>
-        <Col className="selecting" md={2} mdOffset={1}>
-          <Row className="selecting-header">
-            <h1 className="header">
-              Selected Music File
-            </h1>
-          </Row>
-          {this.state.filesSelected.map((item, index) => {
-            return (
-              <Row key={index}>
-                {item}
-              </Row>
-            );
-          })}
-          <Row>
-            <Button className="submit-button" onClick={this.submitButtonOnClick.bind(this)}>√  Submit</Button>
-            <Button className="clear-button"  onClick={this.clearButtonOnClick.bind(this)}>X Clear</Button>
-
-          </Row>
-        </Col>
-
-      </div>
-
-    );
-  }
-}
-class FileButton extends Component {
-  state = {
-    active: true
-  }
-  fileButtonOnClick = () => {
-    if (this.props.instance.state.filesId.indexOf(this.props.file_id) === -1) {
-      this.state.active = true;
-
+  backButtonOnClick() {
+    let tempFolderIds = this.state.folderIds, tempCurrentFolderName = this.state.currentFolderName;
+    if (tempFolderIds[tempFolderIds.length - 1] != 'root') {
+      tempFolderIds.pop();
     }
-    else {
-      this.state.active = false;
-    }
-    if (this.state.active === true) {
-      this.props.instance.setState(previousState => {
-        previousState.filesSelected.push(this.props.name);
-        previousState.filesId.push(this.props.file_id);
-        return {
-          filesSelected: previousState.filesSelected,
-          numFilesSelected: ++previousState.numFilesSelected,
-          filesId: previousState.filesId
-        }
+    tempCurrentFolderName.pop();
+    this.setState({folderIds: tempFolderIds, currentFolderName: tempCurrentFolderName});
+    this.getDriveFiles();
+  }
+
+  folderFileOnClick(file) {
+    if (file.mimeType === 'application/vnd.google-apps.folder') {
+      this.setState({
+        folderIds: this.state.folderIds.concat([file.id]),
+        currentFolderName: this.state.currentFolderName.concat([file.name])
       });
-      this.state.active = false;
-
+      this.getDriveFiles();
+    } else {
+      let temp = this.state.selectedFiles;
+      temp.push(file);
+      this.setState({selectedFiles: temp});
     }
+  }
+
+  selectedFileOnClick() {
 
   }
+
   render() {
     return (
-      <Col md={3}>
-        <Button onClick={this.fileButtonOnClick}>
-          {this.props.name}
-        </Button>
-      </Col>
-    );
+      <div className="import-page container">
+        <Row>
+          <Col xs={12} sm={9} md={7} mdOffset={1}>
+            <div className="card import-page-card">
+              <div className="import-page-card-title">
+                <Button className="import-page-back-button" onClick={this.backButtonOnClick.bind(this)}>
+                  <img alt="Folder icon" src={backIcon} />
+                </Button>
+                <h4 className="import-page-folder-title">
+                  <img alt="Folder icon" src={folderIcon} />
+                  {this.state.currentFolderName[this.state.currentFolderName.length - 1]}
+                </h4>
+              </div>
+
+              <div>
+                {this.state.folderFiles.sort((a, b) => {
+                  if (a.mimeType === 'application/vnd.google-apps.folder' && b.mimeType === 'application/vnd.google-apps.folder') {
+                    return 0;
+                  } else if (a.mimeType === 'application/vnd.google-apps.folder') {
+                    return -1;
+                  } else {
+                    return 1;
+                  }
+                }).map((item, index) => {
+                  return(
+                    <Button className="import-page-folder-file card"
+                      onClick={() => this.folderFileOnClick(item)}
+                      style={{backgroundColor: this.state.selectedFiles.includes(item) ? '#e6e6e6' : '#ffffff'}}
+                      key={index}>
+                      <img alt="Music node icon" src={item.mimeType === 'application/vnd.google-apps.folder' ? folderIcon : singleNodeIcon} />
+                      {item.name.length > 20 ? item.name.substring(0 ,20)+'...' : item.name}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+          </Col>
+
+          <Col xs={12} sm={3}>
+            <div className="card import-page-card">
+              {this.state.selectedFiles.map((item, index) => {
+                return(
+                  <Button className="import-page-folder-file card"
+                    onClick={this.selectedFileOnClick.bind(this)}
+                    key={index}>
+                  </Button>
+                )
+              })}
+            </div>
+          </Col>
+        </Row>
+      </div>
+    )
   }
 }
-export default ImportPage;
+
+const mapStateToProps = state => {
+	return {
+    packages: state.packages
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setGAPI: gapi => {
+      dispatch(setGAPI(gapi))
+    }
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ImportPage));
