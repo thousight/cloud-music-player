@@ -14,9 +14,10 @@ class ImportPage extends Component {
     folderIds: ['root'],
     folderFiles: [],
     selectedFiles: [],
+    selectedFilesIds: [],
     currentFolderName: ['root']
   }
-  
+
   componentWillMount() {
     this.getDriveFiles();
   }
@@ -46,12 +47,21 @@ class ImportPage extends Component {
     let tempFolderIds = this.state.folderIds, tempCurrentFolderName = this.state.currentFolderName;
     if (tempFolderIds[tempFolderIds.length - 1] != 'root') {
       tempFolderIds.pop();
+      tempCurrentFolderName.pop();
     }
-    tempCurrentFolderName.pop();
+
     this.setState({folderIds: tempFolderIds, currentFolderName: tempCurrentFolderName});
     this.getDriveFiles();
   }
-
+  submitButtonOnClick() {
+    
+  }
+  clearButtonOnClick() {
+    this.setState({
+      selectedFiles: [],
+      selectedFilesIds: []
+    })
+  }
   folderFileOnClick(file) {
     if (file.mimeType === 'application/vnd.google-apps.folder') {
       this.setState({
@@ -61,23 +71,32 @@ class ImportPage extends Component {
       this.getDriveFiles();
     } else {
       let temp = this.state.selectedFiles;
-      temp.push(file);
-      this.setState({selectedFiles: temp});
-    }
+      let tempIds = this.state.selectedFilesIds;
+      if (this.state.selectedFilesIds.indexOf(file.id) == -1) {
+        temp.push(file);
+        tempIds.push(file.id);
+        this.setState({selectedFiles: temp,
+                      selectedFilesIds: tempIds});
+
   }
+}
+}
 
-  selectedFileOnClick() {
 
-  }
-  checkElementsInArray(arr, element) {
-
-    for (var i = 0; i < arr.length; i++) {
-      if (element === arr[i]) {
-        return true;
+  selectedFileOnClick(file) {
+    let temp = this.state.selectedFiles;
+    let tempIds = this.state.selectedFilesIds;
+    for (var i = 0; i < temp.length; i++) {
+      if (temp[i].id === file.id) {
+        temp.splice(i);
+        break;
       }
     }
-    return false;
+    tempIds.splice(file.id);
+    this.setState({selectedFiles: temp,
+                  selectedFilesIds: tempIds});
   }
+
   render() {
     return (
       <div className="import-page container">
@@ -107,7 +126,7 @@ class ImportPage extends Component {
                   return(
                     <Button className="import-page-folder-file card"
                       onClick={() => this.folderFileOnClick(item)}
-                      style={{backgroundColor: this.checkElementsInArray(this.state.selectedIds, item.id) ? '#e6e6e6' : '#ffffff'}}
+                      style={{backgroundColor: this.state.selectedFilesIds.includes(item.id) ? '#e6e6e6' : '#ffffff'}}
                       key={index}>
                       <img alt="Music node icon" src={item.mimeType === 'application/vnd.google-apps.folder' ? folderIcon : singleNodeIcon} />
                       {item.name.length > 20 ? item.name.substring(0 ,20)+'...' : item.name}
@@ -119,17 +138,33 @@ class ImportPage extends Component {
           </Col>
 
           <Col xs={12} sm={3}>
+            <Row>
             <div className="card import-page-card">
-              {
-                this.state.selectedFiles.map((item, index) => {
+              {this.state.selectedFiles.map((item, index) => {
                 return(
                   <Button className="import-page-folder-file card"
-                    onClick={this.selectedFileOnClick.bind(this)}
-                    key={index}>
+                    onClick={() => this.selectedFileOnClick(item)}
+                    key={index}>{item.name}
                   </Button>
                 )
               })}
             </div>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Button className="import-page-folder-file card"
+                  onClick={this.clearButtonOnClick.bind(this)}
+                  >Clear
+                </Button>
+              </Col>
+
+              <Col md={6}>
+                <Button className="import-page-folder-file card"
+                  onClick={this.submitButtonOnClick.bind(this)}
+                  >Submit
+                </Button>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>
@@ -138,9 +173,9 @@ class ImportPage extends Component {
 }
 
 const mapStateToProps = state => {
-  return {
+	return {
     packages: state.packages
-  }
+	}
 }
 
 const mapDispatchToProps = dispatch => {
