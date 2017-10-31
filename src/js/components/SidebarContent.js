@@ -14,6 +14,7 @@ class SidebarContent extends Component {
             <PlaylistItem key={index}
               header={key}
               playlistSongs={this.props.user.playlists[key]}
+
               eventKey={index}/>
           )
         }) : <div />}
