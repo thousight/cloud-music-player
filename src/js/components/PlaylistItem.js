@@ -3,11 +3,12 @@ import { Panel, Button } from 'react-bootstrap';
 import { setPlayingMusicId } from '../redux/actions';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+
 class PlaylistItem extends Component {
   songOnClick(key) {
-    
     this.props.setPlayingMusicId(key);
   }
+
   render() {
     return (
       <Panel className="sidebar-playlist-item"
@@ -18,7 +19,6 @@ class PlaylistItem extends Component {
             <Button className="song-item" onClick={() => this.songOnClick(songKey)} key={index}>
               {this.props.playlistSongs[songKey]}
             </Button>
-
           )
         })}
       </Panel>
