@@ -1,19 +1,56 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
+import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import { setPlayingMusicId } from '../redux/actions';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 
-export default class PlaylistItem extends Component {
+class PlaylistItem extends Component {
+  songOnClick(key) {
+    this.props.setPlayingMusicId(key);
+  }
 
+
+//  componentDidMount () {
+//   let elements = document.getElementsByClassName('id')
+//   const elem = document.createElement("img");
+//   elem.src = require('../../img/playlist_play.svg');
+//   console.log(elements);
+//   // Object.keys(elements).map((key, index) =>  {
+//   //   console.log(key);
+//   //   console.log(elements);
+//   //   document.getElementById(key).appendChild(elem);
+//   // })
+// }
   render() {
     return (
-      <Panel className="sidebar-playlist-item"
+      <Panel className="sidebar-playlist-item" id="progress" ref="progress"
         eventKey={this.props.eventKey}
         {...this.props}>
-        {Object.values(this.props.playlistSongs).map((songItem, index) => {
+        {Object.keys(this.props.playlistSongs).map((songKey, index) => {
           return (
-            <h6 key={index}>{songItem}</h6>
+            <ButtonToolbar>
+            <Button className="song-item" onClick={() => this.songOnClick(songKey)} key={index}>
+              {this.props.playlistSongs[songKey]}
+            </Button>
+          </ButtonToolbar>
           )
         })}
       </Panel>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPlayingMusicId: musicId => {
+      dispatch(setPlayingMusicId(musicId));
+    }
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlaylistItem));

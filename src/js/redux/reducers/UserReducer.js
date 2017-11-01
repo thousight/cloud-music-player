@@ -31,7 +31,7 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         playlists: action.playlists
       }
-    case SET_PLAYLISTS:
+    case PLAY_MUSIC:
       return {
         ...state,
         currentlyPlayingMusicId: action.id
