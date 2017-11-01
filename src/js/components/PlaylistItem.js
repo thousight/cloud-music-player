@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
-import listoption from '../../img/playlist_play.svg';
-import note from '../../img/music_node.svg';
-import ReactDOM from 'react-dom';
+import { Panel, Button } from 'react-bootstrap';
+import { setPlayingMusicId } from '../redux/actions';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 
-function handleClick() {
-alert('You have clicked on me');
-}
-export default class PlaylistItem extends Component {
+class PlaylistItem extends Component {
+  songOnClick(key) {
+    this.props.setPlayingMusicId(key);
+  }
 
 
 //  componentDidMount () {
@@ -26,19 +26,29 @@ export default class PlaylistItem extends Component {
       <Panel className="sidebar-playlist-item" id="progress" ref="progress"
         eventKey={this.props.eventKey}
         {...this.props}>
-
-
-        {Object.values(this.props.playlistSongs).map((songItem, index) => {
-
+        {Object.keys(this.props.playlistSongs).map((songKey, index) => {
           return (
-
-            <Panel onClick={handleClick}>
-            <img className = "musicNote" src = {note}/>
-            <h6  className = "singleSong" key={index}>{songItem}</h6>
-          </Panel>
+            <Button className="song-item" onClick={() => this.songOnClick(songKey)} key={index}>
+              {this.props.playlistSongs[songKey]}
+            </Button>
           )
         })}
       </Panel>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPlayingMusicId: musicId => {
+      dispatch(setPlayingMusicId(musicId));
+    }
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlaylistItem));
