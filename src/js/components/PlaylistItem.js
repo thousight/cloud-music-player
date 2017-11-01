@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Button } from 'react-bootstrap';
+import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import { setPlayingMusicId } from '../redux/actions';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -28,9 +28,11 @@ class PlaylistItem extends Component {
         {...this.props}>
         {Object.keys(this.props.playlistSongs).map((songKey, index) => {
           return (
+            <ButtonToolbar>
             <Button className="song-item" onClick={() => this.songOnClick(songKey)} key={index}>
               {this.props.playlistSongs[songKey]}
             </Button>
+          </ButtonToolbar>
           )
         })}
       </Panel>

@@ -5,8 +5,8 @@
 .musicNote {
   display: inline-block;
 }
-.panel-heading {
+.song-item:before{
 
-
+  content:url('../img/music_node.svg')
 
 }
