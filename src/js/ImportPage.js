@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
 import { setGAPI, setPlaylists } from './redux/actions';
 import folderIcon from '../img/folder.svg';
 import backIcon from '../img/go_back.svg';

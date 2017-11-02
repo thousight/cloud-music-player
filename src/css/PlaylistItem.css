@@ -1,12 +1,5 @@
-.singleSong {
-  display: inline-block;
-}
-
-.musicNote {
-  display: inline-block;
-}
-.song-item:before{
-
-  content:url('../img/music_node.svg')
-
+.sidebar-song-item > img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
 }

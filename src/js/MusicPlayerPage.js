@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Sidebar from 'react-sidebar';
-import ReactHowler from 'react-howler'
+
 import SidebarContent from './components/SidebarContent.js'
 import MusicPlayer from './components/MusicPlayer.js'
 import { setSidebarOpenState } from './redux/actions';

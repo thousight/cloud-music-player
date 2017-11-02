@@ -1,38 +1,28 @@
 import React, { Component } from 'react';
-import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 import { setPlayingMusicId } from '../redux/actions';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
+import singleNodeIcon from '../../img/music_node.svg';
+import playingBars from '../../img/bars.svg';
+
 class PlaylistItem extends Component {
-  songOnClick(key) {
-    this.props.setPlayingMusicId(key);
-  }
 
-
-//  componentDidMount () {
-//   let elements = document.getElementsByClassName('id')
-//   const elem = document.createElement("img");
-//   elem.src = require('../../img/playlist_play.svg');
-//   console.log(elements);
-//   // Object.keys(elements).map((key, index) =>  {
-//   //   console.log(key);
-//   //   console.log(elements);
-//   //   document.getElementById(key).appendChild(elem);
-//   // })
-// }
   render() {
+    let tempSongName = ''
     return (
-      <Panel className="sidebar-playlist-item" id="progress" ref="progress"
+      <Panel className="sidebar-playlist-item"
         eventKey={this.props.eventKey}
         {...this.props}>
         {Object.keys(this.props.playlistSongs).map((songKey, index) => {
+          tempSongName = this.props.playlistSongs[songKey];
           return (
-            <ButtonToolbar>
-            <Button className="song-item" onClick={() => this.songOnClick(songKey)} key={index}>
-              {this.props.playlistSongs[songKey]}
-            </Button>
-          </ButtonToolbar>
+            <div className="sidebar-song-item card" onClick={() => this.props.setPlayingMusicId(songKey)} key={index}>
+              <img alt="Song icon" src={singleNodeIcon} />
+              {tempSongName.length > 20 ? tempSongName.substring(0 ,20)+'...' : tempSongName}
+              {songKey === this.props.user.currentlyPlayingMusicId ? <img style={{float: 'right'}} alt="Song icon" src={playingBars} /> : ''}
+            </div>
           )
         })}
       </Panel>
