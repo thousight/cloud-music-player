@@ -12,7 +12,7 @@ class PlaylistItem extends Component {
   render() {
     let tempSongName = ''
     return (
-      <Panel className="sidebar-playlist-item"
+      <Panel className="sidebar-playlist-item card"
         eventKey={this.props.eventKey}
         {...this.props}>
         {Object.keys(this.props.playlistSongs).map((songKey, index) => {
