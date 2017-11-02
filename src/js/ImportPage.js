@@ -211,16 +211,16 @@ class ImportPage extends Component {
                 </Row>
                 <Row>
                   <Col md={6}>
-                    <Button className="import-page-folder-file card"
+                    <Button className="clear-button"
                       onClick={this.clearButtonOnClick.bind(this)}
-                      >Clear
+                      >X Clear
                     </Button>
                   </Col>
 
                   <Col md={6}>
-                    <Button className="import-page-folder-file card"
+                    <Button className="submit-button"
                       onClick={this.submitButtonOnClick.bind(this)}
-                      >Submit
+                      >√ Submit
                     </Button>
                   </Col>
                 </Row>
