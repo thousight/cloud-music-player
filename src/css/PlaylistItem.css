@@ -1,12 +1,9 @@
-.singleSong {
-  display: inline-block;
-}
-
-.musicNote {
-  display: inline-block;
+.panel-title:before{
+  content:url('../img/playlist_play.svg')
 }
 .song-item:before{
-
   content:url('../img/music_node.svg')
-
+}
+.song-item.btn.btn-default{
+  text-align: left;
 }
