@@ -81,12 +81,8 @@ class MusicPlayerPage extends Component {
         overlayClassName="playlists-sidebar-overlay"
         open={this.props.settings.isSidebarOpen}
         docked={this.state.sidebarDocked} >
-        <div className="player-page container">
-          <Row>
-            <Col md={6}>
-              <MusicPlayer />
-            </Col>
-          </Row>
+        <div className="player-page">
+          <MusicPlayer />
         </div>
       </Sidebar>
     );
