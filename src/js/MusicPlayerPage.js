@@ -59,7 +59,7 @@ class MusicPlayerPage extends Component {
       xhr.onload = () => {
         jsmediatags.read(xhr.response, {
           onSuccess: tag => {
-            console.log(tag.tags);
+            xhr.abort();
             this.setState({
               title: tag.tags.title,
               singer: tag.tags.artist,
