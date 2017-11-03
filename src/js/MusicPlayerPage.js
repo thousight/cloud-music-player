@@ -46,7 +46,7 @@ class MusicPlayerPage extends Component {
 
   getMusicMetadata() {
       if (this.props.packages.gapi && this.props.user.currentlyPlayingMusicId) {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${this.props.user.currentlyPlayingMusicId}?alt=media`, true);
         xhr.setRequestHeader('Authorization', `Bearer ${this.props.packages.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token}`)
         xhr.withCredentials = true;
