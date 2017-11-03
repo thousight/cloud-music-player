@@ -23,9 +23,6 @@
   padding: 10px 15px;
   display: block;
 }
-.song-item.btn.btn-default{
-  text-align: left;
-}
 
 .sidebar-playlist-title > a:hover {
   text-decoration: none;

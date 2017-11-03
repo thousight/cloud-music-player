@@ -14,10 +14,7 @@ class PlaylistItem extends Component {
     return (
       <Panel className="sidebar-playlist-item card"
         eventKey={this.props.eventKey}
-        onClick = {() => this.expandPlaylist(this.props.eventKey)}
         {...this.props}>
-          <ToggleButtonGroup vertical  type="radio" name="options" value={this.state.value}
-        onChange={this.onChange}>
         {Object.keys(this.props.playlistSongs).map((songKey, index) => {
           tempSongName = this.props.playlistSongs[songKey];
           return (
@@ -28,8 +25,6 @@ class PlaylistItem extends Component {
             </div>
           )
         })}
-        </ToggleButtonGroup>
-
       </Panel>
     );
   }
