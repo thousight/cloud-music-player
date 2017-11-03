@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Sidebar from 'react-sidebar';
+import jsmediatags from 'jsmediatags';
 
 import SidebarContent from './components/SidebarContent.js'
 import MusicPlayer from './components/MusicPlayer.js'
@@ -15,9 +16,9 @@ class MusicPlayerPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sidebarDocked: true
+      sidebarDocked: true,
+      url: 'https://drive.google.com/uc?export=download&id=0B3-82hcS8hjnaUdUWGxwV19NM0k'
     }
-
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
   }
 
@@ -43,49 +44,53 @@ class MusicPlayerPage extends Component {
     this.props.setSidebarOpenState(false);
   }
 
-  renderMusicInfo() {
-    //0B1_viDQ4tDgRb3E3WC1kTFI5RTg/view?usp=sharing
-    /*
-    var url = "https://drive.google.com/uc?export=download&id=" + this.props.user.currentlyPlayingMusicId;
-    var jsmediatags = require("jsmediatags");
+  getMusicMetadata() {
+      if (this.props.packages.gapi && this.props.user.currentlyPlayingMusicId) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${this.props.user.currentlyPlayingMusicId}?alt=media`, true);
+        xhr.setRequestHeader('Authorization', `Bearer ${this.props.packages.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token}`)
+        xhr.withCredentials = true;
+        xhr.responseType = 'blob';
+        xhr.onload = function() {
+          jsmediatags.read(xhr.response, {
+            onSuccess: tag => {
+              console.log(tag);
+            },
+            onError: error => {
+              console.log(error);
+            }
+          })
+          console.log(xhr.response);
+        }
+        xhr.send();
+      }
+  }
 
-    jsmediatags.read(url, {
-    onSuccess: function(tag) {
-    console.log(tag);
-  },
-  onError: function(error) {
-  console.log(':(', error.type, error.info);
-}
-});
+  render() {
+    // Sidebar content stuff
+    const sidebarContent = (<div style={{ width: '300px' }}>
+      <SidebarContent />
+    </div>);
 
-return this.props.user.currentlyPlayingMusicId
-*/
-}
+    this.getMusicMetadata();
 
-render() {
-  // Sidebar content stuff
-  const sidebarContent = (<div style={{ width: '300px' }}>
-    <SidebarContent />
-  </div>);
-
-  return (
-    <Sidebar
-      sidebar={sidebarContent}
-      sidebarClassName="playlists-sidebar"
-      overlayClassName="playlists-sidebar-overlay"
-      open={this.props.settings.isSidebarOpen}
-      docked={this.state.sidebarDocked} >
-      <div className="player-page container">
-        <Row>
-          <Col md={6}>
-            {this.renderMusicInfo()}
-            <MusicPlayer />
-          </Col>
-        </Row>
-      </div>
-    </Sidebar>
-  );
-}
+    return (
+      <Sidebar
+        sidebar={sidebarContent}
+        sidebarClassName="playlists-sidebar"
+        overlayClassName="playlists-sidebar-overlay"
+        open={this.props.settings.isSidebarOpen}
+        docked={this.state.sidebarDocked} >
+        <div className="player-page container">
+          <Row>
+            <Col md={6}>
+              <MusicPlayer />
+            </Col>
+          </Row>
+        </div>
+      </Sidebar>
+    );
+  }
 }
 
 const mapStateToProps = state => {

@@ -1,9 +1,54 @@
-.panel-title:before{
-  content:url('../img/playlist_play.svg')
+.sidebar-playlist-item {
+  border: 0;
+  box-shadow: none;
+  background-color: #FCFCFC;
 }
-.song-item:before{
-  content:url('../img/music_node.svg')
+
+/*Playlist card*/
+.panel-default > .panel-heading {
+  background-color: #FFFFFF;
+  border: none;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  cursor: pointer;
+  margin-right: 20px;
+  padding: 0;
+}
+
+.panel-default>.panel-heading+.panel-collapse>.panel-body {
+  border-top: 0;
+  padding-right: 5px;
+}
+
+.sidebar-playlist-title > a {
+  padding: 10px 15px;
+  display: block;
 }
 .song-item.btn.btn-default{
   text-align: left;
+}
+
+.sidebar-playlist-title > a:hover {
+  text-decoration: none;
+}
+
+.sidebar-playlist-arrow {
+  float: right;
+  margin-right: 0;
+}
+
+/*Playlist title icon*/
+.sidebar-playlist-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.sidebar-song-item {
+  cursor: pointer;
+}
+
+.sidebar-song-item > img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
 }

@@ -18,7 +18,7 @@ class App extends Component {
       cookiepolicy: 'single_host_origin',
       api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28',
       discovery_docs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-      scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
+      scope: 'https://www.googleapis.com/auth/drive.readonly'
     }
     const firebaseConfig = {
       apiKey: "AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28",

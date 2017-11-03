@@ -1,6 +1,7 @@
 .import-page-card {
   display: block;
   position: relative;
+  background-color: #FBFBFB;
 }
 
 .import-page-card-title {
@@ -14,13 +15,14 @@
   vertical-align: middle;
   text-align: center;
   padding-top: 6px;
+  margin-bottom: 30px;
 }
 
 .import-page-folder-title > img {
-  width: 28px;
+  height: 27px;
   display: inline-block;
   vertical-align: middle;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .import-page-back-button, .import-page-back-button:focus,
@@ -57,59 +59,43 @@
   margin-right: 5px;
 }
 
-/*.select-all-button {
+.import-page-selected-song, .import-page-selected-song:hover,
+.import-page-selected-song:active, .import-page-selected-song:focus,
+.import-page-selected-song:active:hover, .import-page-selected-song:active:focus,
+.import-page-selected-song:active:hover:focus {
+  width: stretch;
+  text-align: left;
+  margin: 5px 20px;
+}
+
+.import-page-buttons-wrapper {
+  text-align: center;
   margin-top: 30px;
-  line-height: 40px;
-  font-weight: bold;
-  padding: 0 15px;
-  background: salmon;
+  margin-bottom: 10px;
+}
+
+.import-page-button {
+  display: inline-block;
+  color: #FFFFFF;
+  outline: none;
   border: none;
-}
-.select-all-button:hover {
-  background: lightsalmon;
+  margin: 5px;
+  cursor: pointer;
 }
 
-.navigating {
-  background: rgb(249, 249, 249);
-  border-width: thin;
-  border-color: black;
+.import-page-button > img {
+  width: 24px;
+  margin-right: 10px;
 }
-.header {
-  font-size: 18px;
-}
-.clear-button {
-  margin-left: 15px;
-  color: white;
-  background-color: rgb(222, 0, 24);
 
+.import-page-button-clear {
+  background-color: #E53935;
 }
-.clear-button:hover{
-  color: white;
-  background-color: orange;
-}
-.submit-button {
-  margin-left: 5px;
-  color: white;
-  background-color: rgb(0, 217, 76);
 
+.import-page-button-all {
+  background-color: #36A9F7;
 }
-.submit-button:hover{
-  color: white;
-  background-color: greenyellow;
-}
-.selecting {
-  background: rgb(249, 249, 249);
-  border-width: thin;
-  border-color: black;
 
+.import-page-button-submit {
+  background-color: #4EE053;
 }
-.roundbutton{
-  display:block;
-  color: white;
-  display:block;
-  height: 40px;
-  width: 40px;
-  background-color: rgb(54, 169, 247);
-  border-radius: 50%;
-  border: 1px solid white;
-}*/
