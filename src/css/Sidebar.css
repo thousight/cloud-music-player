@@ -6,6 +6,18 @@
   margin-top: 80px;
 }
 
+.sidebar-playlist-arrow {
+  float: right;
+  margin-right: 0;
+}
+
+/*Playlist title icon*/
+.sidebar-playlist-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
 @media (max-width: 767px) {
   .sidebar-content {
     margin-top: 30px;

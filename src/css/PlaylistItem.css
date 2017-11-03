@@ -15,11 +15,8 @@
   text-decoration: none;
 }
 
-/*Playlist title icon*/
-.sidebar-playlist-title > a > img {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
+.sidebar-song-item {
+  cursor: pointer;
 }
 
 .sidebar-song-item > img {
