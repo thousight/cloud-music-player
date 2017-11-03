@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Sidebar from 'react-sidebar';
@@ -8,6 +7,7 @@ import jsmediatags from 'jsmediatags';
 import SidebarContent from './components/SidebarContent.js'
 import MusicPlayer from './components/MusicPlayer.js'
 import { setSidebarOpenState } from './redux/actions';
+import singleNodeIcon from '../img/music_node.svg';
 
 const mql = window.matchMedia(`(min-width: 768px)`);
 
@@ -17,9 +17,14 @@ class MusicPlayerPage extends Component {
     super(props);
     this.state = {
       sidebarDocked: true,
-      url: 'https://drive.google.com/uc?export=download&id=0B3-82hcS8hjnaUdUWGxwV19NM0k'
+      url: 'https://drive.google.com/uc?export=download&id=0B3-82hcS8hjnaUdUWGxwV19NM0k',
+      cover: null,
+      title: '',
+      singer: '',
+      album: ''
     }
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
+    this.getMusicMetadata = this.getMusicMetadata.bind(this);
   }
 
   componentWillMount() {
@@ -51,16 +56,20 @@ class MusicPlayerPage extends Component {
         xhr.setRequestHeader('Authorization', `Bearer ${this.props.packages.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token}`)
         xhr.withCredentials = true;
         xhr.responseType = 'blob';
-        xhr.onload = function() {
+        xhr.onload = () => {
           jsmediatags.read(xhr.response, {
             onSuccess: tag => {
-              console.log(tag);
+              this.setState({
+                title: tag.tags.title,
+                singer: tag.tags.artist,
+                album: tag.tags.album,
+                cover: tag.tags.picture ? tag.tags.picture.data.toString('base64') : null
+              });
             },
             onError: error => {
               console.log(error);
             }
           })
-          console.log(xhr.response);
         }
         xhr.send();
       }
@@ -81,12 +90,12 @@ class MusicPlayerPage extends Component {
         overlayClassName="playlists-sidebar-overlay"
         open={this.props.settings.isSidebarOpen}
         docked={this.state.sidebarDocked} >
-        <div className="player-page container">
-          <Row>
-            <Col md={6}>
-              <MusicPlayer />
-            </Col>
-          </Row>
+        <div className="player-page">
+          <img className="player-page-cover" alt="cover" src={this.state.cover ? this.state.cover : singleNodeIcon} />
+          <h3>{this.state.title}</h3>
+          <h5>{this.state.singer}</h5>
+          <h5>{this.state.album}</h5>
+          <MusicPlayer />
         </div>
       </Sidebar>
     );

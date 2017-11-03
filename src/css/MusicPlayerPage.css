@@ -1,11 +1,23 @@
-.cover-page {
-  border: 1px ridge grey;
-  border-radius: 100px;
-  width: 100px;
+.player-page {
+  text-align: center;
 }
-.previous-song {
-  transform: rotate(180deg);
+
+.player-page-cover {
+  background-color: #FFFFFF;
+  padding: 10px;
+  margin-top: 150px;
+  margin-bottom: 30px;
+  border-radius: 250px;
+  width: 250px;
+  height: 250px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
 }
-.playlist {
-  border: 3px ridge grey
+
+.player-page > h3 {
+  font-size: 28px;
+  margin: 25px auto;
+}
+
+.player-page > h5 {
+  margin: 25px auto;
 }
