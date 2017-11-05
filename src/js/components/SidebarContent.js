@@ -13,7 +13,16 @@ class SidebarContent extends Component {
     return (
       <Accordion className="sidebar-content">
         {this.props.user.playlists ?
-          Object.keys(this.props.user.playlists).map((key, index) => {
+          Object.keys(this.props.user.playlists).sort((a, b) => {
+            // Keep Google Drive Imports on top
+            if (a === 'Google Drive Imports') {
+              return 1;
+            } else if (b === 'Google Drive Imports') {
+              return 1;
+            } else {
+              return -1;
+            }
+          }).map((key, index) => {
             return (
               <PlaylistItem
                 key={index}
