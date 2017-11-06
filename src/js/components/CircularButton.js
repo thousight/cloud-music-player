@@ -14,7 +14,8 @@ export default class CircularButton extends Component {
           src={this.props.icon}
           style={{
             width: this.props.lg ? '36px' : '28px',
-            height: this.props.lg ? '36px' : '28px'
+            height: this.props.lg ? '36px' : '28px',
+            transform: this.props.flipIcon ? 'rotate(180deg)' : 'rotate(0deg)'
           }} />
       </div>
     )
