@@ -3,13 +3,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
 
-import { userLogout, setSidebarOpenState } from '../redux/actions';
+import { userLogout, setSidebarOpenState, setPlayingMusicId, setPlaylists } from '../redux/actions';
 import logo from '../../img/logo.svg';
 
 class NavigationBar extends Component {
 
   signOut() {
     this.props.userLogout();
+    this.props.setPlayingMusicId('');
+    this.props.setPlaylists({});
     this.props.history.push('/');
   }
 
@@ -52,12 +54,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    userLogout: () => {
-      dispatch(userLogout())
-    },
-    setSidebarOpenState: isSidebarOpen => {
-      dispatch(setSidebarOpenState(isSidebarOpen))
-    }
+    userLogout: () => dispatch(userLogout()),
+    setSidebarOpenState: isSidebarOpen => dispatch(setSidebarOpenState(isSidebarOpen)),
+    setPlaylists: playlists => dispatch(setPlaylists(playlists)),
+    setPlayingMusicId: id => dispatch(setPlayingMusicId(id))
   }
 }
 
