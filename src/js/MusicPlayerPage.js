@@ -9,11 +9,6 @@ import MusicPlayer from './components/MusicPlayer.js'
 import { setSidebarOpenState } from './redux/actions';
 import singleNodeIcon from '../img/music_node.svg';
 
-import playArrowIcon from '../img/play_arrow.svg';
-import shuffleIcon from '../img/shuffle.svg';
-import repeatOneIcon from '../img/repeat_one.svg';
-import skipNextIcon from '../img/skip_next.svg';
-
 const mql = window.matchMedia(`(min-width: 768px)`);
 
 class MusicPlayerPage extends Component {
@@ -115,24 +110,6 @@ class MusicPlayerPage extends Component {
           <h5>{this.state.singer}</h5>
           <h5>{this.state.album}</h5>
           <MusicPlayer />
-        </div>
-        <div className="player-page-progress-bar">
-          <img className="player-page-progress-bar-shuffle"
-            alt="shuffle"
-            src={shuffleIcon} />
-          <img className="player-page-progress-bar-repeat-one"
-            alt="repeat-one"
-            src={repeatOneIcon} />
-          <img className="player-page-progress-bar-back"
-            alt="back"
-            src={skipNextIcon} />
-          <img className="player-page-progress-bar-play-arrow"
-            alt="play-arrow"
-            src={this.props.user.isPlaying ? skipNextIcon : shuffleIcon} />
-
-          <img className="player-page-progress-bar-skip-next"
-            alt="skip-next"
-            src={skipNextIcon} />
         </div>
       </Sidebar>
     );
