@@ -20,3 +20,36 @@
 .player-page > h5 {
   margin: 25px auto;
 }
+
+.player-page-progress-bar {
+
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 30px;
+  border: solid ;
+  
+
+}
+
+.player-page-progress-bar-shuffle {
+  display:inline-block;
+  margin-left: 100px;
+
+}
+
+.player-page-progress-bar-repeat-one {
+  display: inline-block;
+  margin-left: 50px;
+}
+
+.player-page-progress-bar-back{
+  display: inline-block;
+  margin-left: 300px;
+}
+
+.player-page-progress-bar-play-arrow {
+  display: inline-block;
+}
+.player-page-progress-bar-skip-next{
+  display: inline-block;
+}

@@ -9,7 +9,8 @@ const initialState = {
   name: null,
   profilePicURL: null,
   playlists: {},
-  currentlyPlayingMusicId: ''
+  currentlyPlayingMusicId: '',
+  isPlaying: false
 }
 
 const UserReducer = (state = initialState, action) => {
@@ -34,7 +35,8 @@ const UserReducer = (state = initialState, action) => {
     case PLAY_MUSIC:
       return {
         ...state,
-        currentlyPlayingMusicId: action.id
+        currentlyPlayingMusicId: action.id,
+        isPlaying: true
       }
     default:
       return state
