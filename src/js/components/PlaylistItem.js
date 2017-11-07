@@ -22,7 +22,7 @@ class PlaylistItem extends Component {
 
   handleOptionAddToPlaylistClick(event, playlistName) {
     document.getElementById(this.state.currentlyOpenedPopover).style.display = "none"; // Hide opened popover
-    
+
   }
 
   handleOptionDelete(event, songKey) {
@@ -57,11 +57,11 @@ class PlaylistItem extends Component {
         {...this.props}>
         {Object.keys(this.props.playlistSongs).map((songKey, index) => {
           let tempSongName = this.props.playlistSongs[songKey];
+          
           return (
             <div className="sidebar-song-item card" key={index} onClick={() => this.props.setPlayingMusicId(songKey)}>
-              <img alt="Song icon" src={singleNodeIcon} />
-              {tempSongName.length > 18 ? tempSongName.substring(0, 18) + '...' : tempSongName}
-              <img className="sidebar-song-item-playing-icon" style={{opacity: songKey === this.props.user.currentlyPlayingMusicId ? '1' : '0'}} alt="Song icon" src={playingBars} />
+              <img alt="Song icon" src={songKey === this.props.user.currentlyPlayingMusicId ? playingBars : singleNodeIcon} />
+              {tempSongName.length > 29 ? tempSongName.substring(0, 26) + '...' : tempSongName}
               <div className="song-item-options">
                 <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistsPopover(songKey)}>
                   <img onClick={e => this.handleOptionAddClick(e, songKey)} alt="Add icon" src={add} />
