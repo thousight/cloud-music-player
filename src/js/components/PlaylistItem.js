@@ -20,14 +20,14 @@ class PlaylistItem extends Component {
     this.setState({currentlyOpenedPopover: `Popover${songKey}`});
   }
 
-  handleOptionPlaylistClick(event, playlistName) {
-
+  handleOptionAddToPlaylistClick(event, playlistName) {
     document.getElementById(this.state.currentlyOpenedPopover).style.display = "none"; // Hide opened popover
+    
   }
 
   handleOptionDelete(event, songKey) {
     event.stopPropagation(); // Prevent calling parent onClick()
-    console.log(songKey);
+
   }
 
   render() {
@@ -42,7 +42,7 @@ class PlaylistItem extends Component {
             return -1;
           }).map((playlistName, index) => {
             return (
-              <div onClick={e => this.handleOptionPlaylistClick(e, playlistName)} key={index}>
+              <div onClick={e => this.handleOptionAddToPlaylistClick(e, playlistName)} key={index}>
                 {playlistName}
               </div>
             )
