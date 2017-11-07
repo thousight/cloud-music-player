@@ -22,7 +22,6 @@ class LoginPage extends Component {
         ).then(firebaseUser => {
           firebase.database().ref('/users/' + firebaseUser.uid + '/playlists').once('value').then(snapshot => {
             this.props.history.push(snapshot.val() ? '/player' : '/import');
-            this.props.setPlaylists(snapshot.val());
           })
         }).catch(error => {
           console.log(error);

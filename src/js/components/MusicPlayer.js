@@ -15,7 +15,6 @@ import play from '../../img/play_arrow.svg';
 import pause from '../../img/pause.svg';
 import volume from '../../img/volume.svg';
 import mute from '../../img/mute.svg';
-import cover from '../../img/music_node.svg';
 
 class MusicPlayer extends Component {
 
@@ -71,10 +70,8 @@ class MusicPlayer extends Component {
     switch (this.state.currentPlayMode) {
       case 'singleRepeat':
         return repeatOne;
-        break;
       case 'shuffle':
         return shuffle;
-        break;
       default:
         return repeat;
     }
@@ -138,13 +135,15 @@ class MusicPlayer extends Component {
             icon={next}
           />
 
-          <img className="music-player-volume"
-            alt="Volume button"
-            src={this.getVolumeIcon()}
-            onClick={this.setMute.bind(this)}/>
+          <div className="music-player-volume-wrapper">
+            <img className="music-player-volume"
+              alt="Volume button"
+              src={this.getVolumeIcon()}
+              onClick={this.setMute.bind(this)}/>
 
-          <ProgressBar className="music-player-volume-progress"
-            now={this.state.volume * 100}/>
+            <ProgressBar className="music-player-volume-progress"
+              now={this.state.volume * 100}/>
+          </div>
         </div>
       </div>
     )

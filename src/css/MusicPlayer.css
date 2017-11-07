@@ -9,6 +9,7 @@
   margin: 0;
   padding-top: 15px;
   padding-bottom: 15px;
+  padding-left: 100px;
 }
 
 .circular-button {
@@ -16,11 +17,16 @@
   border-radius: 100px;
   display: inline-block;
   margin: 0 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16);
 }
 
 .music-player-modes {
   width: 24px;
   margin-right: 50px;
+}
+
+.music-player-volume-wrapper {
+  display: inline-block;
 }
 
 .music-player-volume {
@@ -50,8 +56,16 @@
     margin: 0 10px;
   }
 
+  .music-player-buttons-wrapper {
+    padding-left: 0;
+  }
+
   .music-player-modes {
     margin-right: 10px;
+  }
+
+  .music-player-volume-wrapper {
+    margin-top: 10px;
   }
 
   .music-player-volume {

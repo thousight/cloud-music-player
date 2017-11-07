@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class CircularButton extends Component {
   render() {
     return (
-      <div className="circular-button"
+      <div className={`${this.props.className} circular-button`}
         onClick={this.props.onClick.bind(this)}
         style={{
           width: this.props.lg ? '50px' : '40px',
