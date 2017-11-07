@@ -6,7 +6,7 @@ import jsmediatags from 'jsmediatags';
 
 import SidebarContent from './components/SidebarContent.js'
 import MusicPlayer from './components/MusicPlayer.js'
-import { setSidebarOpenState } from './redux/actions';
+import { setSidebarOpenState, setPlaylists } from './redux/actions';
 import singleNodeIcon from '../img/music_node.svg';
 
 const mql = window.matchMedia(`(min-width: 768px)`);
@@ -17,7 +17,6 @@ class MusicPlayerPage extends Component {
     super(props);
     this.state = {
       sidebarDocked: true,
-      url: 'https://drive.google.com/uc?export=download&id=0B3-82hcS8hjnaUdUWGxwV19NM0k',
       cover: null,
       title: '',
       singer: '',
@@ -25,6 +24,7 @@ class MusicPlayerPage extends Component {
     }
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.getMusicMetadata = this.getMusicMetadata.bind(this);
+    this.playlistsRef = null;
   }
 
   componentWillMount() {
@@ -87,6 +87,14 @@ class MusicPlayerPage extends Component {
   }
 
   render() {
+    // Setting playlists change listener
+    if (this.props.packages.firebase && this.props.packages.firebase.auth().getUid() && !this.playlistsRef) {
+      this.playlistsRef = this.props.packages.firebase.database().ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists`);
+      this.playlistsRef.on('value', snapshot => {
+        this.props.setPlaylists(snapshot.val()); // gets executed every time playlists change
+      })
+    }
+
     // Sidebar content stuff
     const sidebarContent = (<div style={{ width: this.state.sidebarDocked ? '350px' : '300px' }}>
       <SidebarContent />
@@ -126,9 +134,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSidebarOpenState: bool => {
-      dispatch(setSidebarOpenState(bool))
-    }
+    setSidebarOpenState: bool => dispatch(setSidebarOpenState(bool)),
+    setPlaylists: playlists => dispatch(setPlaylists(playlists))
   }
 }
 
