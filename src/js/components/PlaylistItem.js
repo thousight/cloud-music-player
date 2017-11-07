@@ -22,12 +22,12 @@ class PlaylistItem extends Component {
 
   handleOptionAddToPlaylistClick(event, playlistName) {
     document.getElementById(this.state.currentlyOpenedPopover).style.display = "none"; // Hide opened popover
-
+    console.log('handleOptionAddToPlaylistClick(): ' + playlistName);
   }
 
   handleOptionDelete(event, songKey) {
     event.stopPropagation(); // Prevent calling parent onClick()
-
+    console.log('handleOptionDelete(): ' + songKey);
   }
 
   render() {
@@ -57,7 +57,7 @@ class PlaylistItem extends Component {
         {...this.props}>
         {Object.keys(this.props.playlistSongs).map((songKey, index) => {
           let tempSongName = this.props.playlistSongs[songKey];
-          
+
           return (
             <div className="sidebar-song-item card" key={index} onClick={() => this.props.setPlayingMusicId(songKey)}>
               <img alt="Song icon" src={songKey === this.props.user.currentlyPlayingMusicId ? playingBars : singleNodeIcon} />
