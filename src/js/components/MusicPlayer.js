@@ -138,13 +138,15 @@ class MusicPlayer extends Component {
             icon={next}
           />
 
-          <img className="music-player-volume"
-            alt="Volume button"
-            src={this.getVolumeIcon()}
-            onClick={this.setMute.bind(this)}/>
+          <div className="music-player-volume-wrapper">
+            <img className="music-player-volume"
+              alt="Volume button"
+              src={this.getVolumeIcon()}
+              onClick={this.setMute.bind(this)}/>
 
-          <ProgressBar className="music-player-volume-progress"
-            now={this.state.volume * 100}/>
+            <ProgressBar className="music-player-volume-progress"
+              now={this.state.volume * 100}/>
+          </div>
         </div>
       </div>
     )

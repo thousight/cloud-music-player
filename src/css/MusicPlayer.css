@@ -9,6 +9,7 @@
   margin: 0;
   padding-top: 15px;
   padding-bottom: 15px;
+  padding-left: 100px;
 }
 
 .circular-button {
@@ -21,6 +22,10 @@
 .music-player-modes {
   width: 24px;
   margin-right: 50px;
+}
+
+.music-player-volume-wrapper {
+  display: inline-block;
 }
 
 .music-player-volume {
@@ -50,8 +55,16 @@
     margin: 0 10px;
   }
 
+  .music-player-buttons-wrapper {
+    padding-left: 0;
+  }
+
   .music-player-modes {
     margin-right: 10px;
+  }
+
+  .music-player-volume-wrapper {
+    margin-top: 10px;
   }
 
   .music-player-volume {
