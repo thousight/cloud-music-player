@@ -30,6 +30,13 @@ class PlaylistItem extends Component {
     console.log('handleOptionDelete(): ' + songKey);
   }
 
+  getSongNameString(name) {
+    if (this.props.settings.isSidebarOpen) {
+      return name.length > 23 ? name.substring(0, 20) + '...' : name;
+    }
+    return name.length > 29 ? name.substring(0, 26) + '...' : name;
+  }
+
   render() {
     const playlistsPopover = (songKey) => {
       return (
@@ -61,7 +68,7 @@ class PlaylistItem extends Component {
           return (
             <div className="sidebar-song-item card" key={index} onClick={() => this.props.setPlayingMusicId(songKey)}>
               <img alt="Song icon" src={songKey === this.props.user.currentlyPlayingMusicId ? playingBars : singleNodeIcon} />
-              {tempSongName.length > 29 ? tempSongName.substring(0, 26) + '...' : tempSongName}
+              {this.getSongNameString(tempSongName)}
               <div className="song-item-options">
                 <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistsPopover(songKey)}>
                   <img onClick={e => this.handleOptionAddClick(e, songKey)} alt="Add icon" src={add} />
@@ -77,7 +84,8 @@ class PlaylistItem extends Component {
 }
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    settings: state.settings
   }
 }
 
