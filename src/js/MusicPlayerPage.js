@@ -88,7 +88,7 @@ class MusicPlayerPage extends Component {
 
   render() {
     // Sidebar content stuff
-    const sidebarContent = (<div style={{ width: '300px' }}>
+    const sidebarContent = (<div style={{ width: this.state.sidebarDocked ? '350px' : '300px' }}>
       <SidebarContent />
     </div>);
 

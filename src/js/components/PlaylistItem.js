@@ -1,27 +1,73 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
+import { Panel, OverlayTrigger, Popover } from 'react-bootstrap';
 import { setPlayingMusicId } from '../redux/actions';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
+import add from '../../img/add-option.svg';
+import remove from '../../img/clear-option.svg';
 import singleNodeIcon from '../../img/music_node.svg';
 import playingBars from '../../img/bars.svg';
 
 class PlaylistItem extends Component {
 
+  state = {
+    currentlyOpenedPopover: ''
+  }
+
+  handleOptionAddClick(event, songKey) {
+    event.stopPropagation();
+    this.setState({currentlyOpenedPopover: `Popover${songKey}`});
+  }
+
+  handleOptionPlaylistClick(event, playlistName) {
+
+    document.getElementById(this.state.currentlyOpenedPopover).style.display = "none"; // Hide opened popover
+  }
+
+  handleOptionDelete(event, songKey) {
+    event.stopPropagation(); // Prevent calling parent onClick()
+    console.log(songKey);
+  }
+
   render() {
-    let tempSongName = ''
+    const playlistsPopover = (songKey) => {
+      return (
+        <Popover title="Add to" id={`Popover${songKey}`}>
+          {Object.keys(this.props.user.playlists).sort((a, b) => {
+            // Keep Google Drive Imports on top
+            if (a === 'Google Drive Imports' || b === 'Google Drive Imports') {
+              return 1;
+            }
+            return -1;
+          }).map((playlistName, index) => {
+            return (
+              <div onClick={e => this.handleOptionPlaylistClick(e, playlistName)} key={index}>
+                {playlistName}
+              </div>
+            )
+          })}
+        </Popover>
+      )
+    };
+
     return (
       <Panel className="sidebar-playlist-item card"
         eventKey={this.props.eventKey}
         {...this.props}>
         {Object.keys(this.props.playlistSongs).map((songKey, index) => {
-          tempSongName = this.props.playlistSongs[songKey];
+          let tempSongName = this.props.playlistSongs[songKey];
           return (
-            <div className="sidebar-song-item card" onClick={() => this.props.setPlayingMusicId(songKey)} key={index}>
+            <div className="sidebar-song-item card" key={index} onClick={() => this.props.setPlayingMusicId(songKey)}>
               <img alt="Song icon" src={singleNodeIcon} />
-              {tempSongName.length > 20 ? tempSongName.substring(0 ,20)+'...' : tempSongName}
-              {songKey === this.props.user.currentlyPlayingMusicId ? <img style={{float: 'right'}} alt="Song icon" src={playingBars} /> : ''}
+              {tempSongName.length > 18 ? tempSongName.substring(0, 18) + '...' : tempSongName}
+              <img className="sidebar-song-item-playing-icon" style={{opacity: songKey === this.props.user.currentlyPlayingMusicId ? '1' : '0'}} alt="Song icon" src={playingBars} />
+              <div className="song-item-options">
+                <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistsPopover(songKey)}>
+                  <img onClick={e => this.handleOptionAddClick(e, songKey)} alt="Add icon" src={add} />
+                </OverlayTrigger>
+                <img onClick={e => this.handleOptionDelete(e, songKey)} alt="Song icon" src={remove} />
+              </div>
             </div>
           )
         })}
