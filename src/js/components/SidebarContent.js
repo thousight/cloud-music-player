@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Accordion } from 'react-bootstrap';
+import { Accordion, OverlayTrigger, Popover } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import PlaylistItem from './PlaylistItem';
@@ -12,6 +12,12 @@ import share from '../../img/share.svg';
 
 class SidebarContent extends Component {
 
+  state = {
+    playlistName: '',
+    playlistNameError: '',
+    submitButtonBackground: '#888888'
+  }
+
   handlePlaylistShare(event, playlistName, playlistSongs) {
     event.stopPropagation();
     console.log('handlePlaylistShare(): ' + playlistName);
@@ -21,7 +27,56 @@ class SidebarContent extends Component {
     console.log('handleAddPlaylistButtonClick()');
   }
 
+  handlePlaylistNameChange(name) {
+    this.setState({playlistName: name});
+    if (name.length >= 30) {
+      this.setErrorState('Playlist name is too long')
+    } else if (name === 'Google Drive Imports') {
+      this.setErrorState('Please do not use a predefined name')
+    } else if (name in this.props.user.playlists) {
+      this.setErrorState('Playlist exists')
+    } else if (name.length === 0) {
+      this.setState({playlistNameError: '', submitButtonBackground: '#888888'});
+    } else {
+      this.setState({playlistNameError: '', submitButtonBackground: '#36A9F7'});
+    }
+  }
+
+  setErrorState(message) {
+    this.setState({
+      playlistNameError: message,
+      submitButtonBackground: '#E53935'
+    });
+  }
+
+  handlePlaylistNameConfirm() {
+    console.log(this.state.playlistName);
+  }
+
   render() {
+    const playlistNamePopover = (
+      <Popover title="Add new playlist" id="NEW_PLAYLIST_POPOVER">
+        <input className="new-playlist-input"
+          onChange={e => this.handlePlaylistNameChange(e.target.value)}
+          value={this.state.playlistName}
+          style={{
+            borderBottomColor: this.state.playlistNameError.length > 0 ? '#E53935' : '#36A9F7',
+            color: this.state.playlistNameError.length > 0 ? '#E53935' : '#36A9F7'
+          }}/>
+        {
+          this.state.playlistNameError.length > 0 ?
+            <p className="new-playlist-input-error">{this.state.playlistNameError}</p>
+          :
+            null
+        }
+        <button className="new-playlist-input-confirm"
+          style={{backgroundColor: this.state.submitButtonBackground}}
+          onClick={this.handlePlaylistNameConfirm.bind(this)}>
+          Confirm
+        </button>
+      </Popover>
+    );
+
     return (
       <div>
         <Accordion className="sidebar-content">
@@ -54,11 +109,14 @@ class SidebarContent extends Component {
                 :
                 <div />}
         </Accordion>
-        <CircularButton
-          className="sidebar-add-playlist-button"
-          onClick={this.handleAddPlaylistButtonClick.bind(this)}
-          icon={add}
-          lg />
+
+        <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistNamePopover}>
+          <CircularButton
+            className="sidebar-add-playlist-button"
+            onClick={this.handleAddPlaylistButtonClick.bind(this)}
+            icon={add}
+            lg />
+        </OverlayTrigger>
       </div>
     );
   }
