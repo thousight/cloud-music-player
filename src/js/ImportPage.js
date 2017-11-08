@@ -178,12 +178,10 @@ class ImportPage extends Component {
 
               <div>
                 {this.state.folderFiles.sort((a, b) => {
-                  if (a.mimeType === 'application/vnd.google-apps.folder' && b.mimeType === 'application/vnd.google-apps.folder') {
-                    return 0;
-                  } else if (a.mimeType === 'application/vnd.google-apps.folder') {
+                  if ((a.mimeType === 'application/vnd.google-apps.folder' && b.mimeType === 'application/vnd.google-apps.folder') || a.mimeType === 'application/vnd.google-apps.folder') {
                     return -1;
                   } else {
-                    return 1;
+                    return a.name < b.name ? 0 : 1;
                   }
                 }).map((item, index) => {
                   return(
