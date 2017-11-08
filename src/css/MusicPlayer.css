@@ -53,11 +53,13 @@
   border-radius: 10px;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 767px) {
   .music-player {
     padding-left: 0;
   }
+}
 
+@media (max-width: 1023px) {
   .circular-button {
     margin: 0 10px;
   }
