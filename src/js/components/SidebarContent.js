@@ -23,10 +23,6 @@ class SidebarContent extends Component {
     console.log('handlePlaylistShare(): ' + playlistName);
   }
 
-  handleAddPlaylistButtonClick() {
-    console.log('handleAddPlaylistButtonClick()');
-  }
-
   handlePlaylistNameChange(name) {
     this.setState({playlistName: name});
     if (name.length >= 30) {
@@ -50,7 +46,11 @@ class SidebarContent extends Component {
   }
 
   handlePlaylistNameConfirm() {
-    console.log(this.state.playlistName);
+    if (this.state.playlistName.length > 0 && this.state.playlistNameError.length === 0) {
+      console.log(this.state.playlistName);
+      this.setState({playlistName: '', submitButtonBackground: '#888888'});
+      document.getElementById('NEW_PLAYLIST_POPOVER').style.display = "none";
+    }
   }
 
   render() {
@@ -113,7 +113,6 @@ class SidebarContent extends Component {
         <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistNamePopover}>
           <CircularButton
             className="sidebar-add-playlist-button"
-            onClick={this.handleAddPlaylistButtonClick.bind(this)}
             icon={add}
             lg />
         </OverlayTrigger>
