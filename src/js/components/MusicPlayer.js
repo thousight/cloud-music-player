@@ -107,6 +107,7 @@ class MusicPlayer extends Component {
       this.errorTimeout = setTimeout(() => {
         let filename = this.props.user.playlists[this.props.user.currentlyPlayingPlaylistName][this.props.user.currentlyPlayingMusicId];
         toast.error(`Unable to fetch ${filename}`, {closeButton: false});
+        this.playNext(); 
       }, 1000)
     }
   }
