@@ -46,6 +46,8 @@ h1 {
   text-align: center;
   padding: 8px 16px;
   float: right;
+  margin-right: 5px;
+  margin-top: 5px;
 }
 
 @media (max-width: 767px) {
