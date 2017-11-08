@@ -9,7 +9,7 @@ import LoginPage from './LoginPage';
 import ImportPage from './ImportPage';
 import MusicPlayerPage from './MusicPlayerPage';
 import NavigationBar from './components/NavigationBar';
-import { userLogin, setFirebase, setGAPI } from './redux/actions';
+import { userLogin, setFirebase, setGAPI, setPlaylists } from './redux/actions';
 
 class App extends Component {
 
@@ -35,15 +35,26 @@ class App extends Component {
         gapi.auth2.init(gapiConfig).then(auth => {
           firebase.initializeApp(firebaseConfig);
 
-          this.props.setGAPI(gapi)
-          this.props.setFirebase(firebase)
-
           if (auth.isSignedIn.get()) {
             firebase.auth().signInWithCredential(
               firebase.auth.GoogleAuthProvider.credential(auth.currentUser.get().getAuthResponse().id_token)
             ).then(firebaseUser => {
-              firebase.database().ref('/users/' + firebaseUser.uid + '/playlists').once('value').then(snapshot => {
-                this.props.history.push(snapshot.val() ? '/player' : '/import');
+
+              this.props.setGAPI(gapi)
+              this.props.setFirebase(firebase)
+
+              let ref = firebase.database().ref('/users/' + firebaseUser.uid + '/playlists')
+
+              // Reroute user if user is at '/'
+              ref.once('value').then(snapshot => {
+                if (this.props.history.location.pathname === '/') {
+                  this.props.history.push(snapshot.val() ? '/player' : '/import');
+                }
+              })
+
+              // Listen for playlists change
+              ref.on('value', snapshot => {
+                this.props.setPlaylists(snapshot.val()); // gets executed every time playlists change
               })
             }).catch(error => {
               console.log(error);
@@ -86,7 +97,8 @@ const mapDispatchToProps = dispatch => {
   return {
     userLogin: user => dispatch(userLogin(user)),
     setFirebase: firebase => dispatch(setFirebase(firebase)),
-    setGAPI: gapi => dispatch(setGAPI(gapi))
+    setGAPI: gapi => dispatch(setGAPI(gapi)),
+    setPlaylists: playlist => dispatch(setPlaylists(playlist))
   }
 }
 

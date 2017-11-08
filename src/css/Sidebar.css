@@ -58,7 +58,7 @@
 }
 
 @media (max-width: 767px) {
-  .add-new-playlist-card {
+  .add-new-playlist-card-wrapper {
     margin-top: 30px;
   }
 }
