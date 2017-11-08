@@ -10,6 +10,7 @@ import add from '../../img/add.svg';
 import back from '../../img/back.svg';
 import driveIcon from '../../img/GoogleDrive.png';
 import playlistIcon from '../../img/playlist_play.svg';
+import playingBars from '../../img/bars.svg';
 import share from '../../img/share.svg';
 
 class SidebarContent extends Component {
@@ -60,6 +61,14 @@ class SidebarContent extends Component {
     }
   }
 
+  // Shows song name with different length based on screen size
+  getPlaylistNameString(name) {
+    if (this.props.settings.isSidebarOpen) {
+      return name.length > 18 ? name.substring(0, 15) + '...' : name;
+    }
+    return name.length > 20 ? name.substring(0, 17) + '...' : name;
+  }
+
   render() {
     const playlistNamePopover = (
       <Popover title="Add new playlist" id="NEW_PLAYLIST_POPOVER">
@@ -102,9 +111,14 @@ class SidebarContent extends Component {
                     <div className="sidebar-playlist-title">
                       <img className="sidebar-playlist-icon"
                         alt="Playlist icon"
-                        src={key === 'Google Drive Imports' ? driveIcon : playlistIcon} />
+                        src={
+                          this.props.user.currentlyPlayingPlaylistName === key ?
+                            playingBars
+                          :
+                            (key === 'Google Drive Imports' ? driveIcon : playlistIcon)
+                        } />
 
-                      {key.length > 20 ? key.substring(0 ,20)+'...' : key}
+                      {this.getPlaylistNameString(key)}
 
                       <img className="sidebar-playlist-share"
                         alt="Share icon"
@@ -136,7 +150,8 @@ class SidebarContent extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    packages: state.packages
+    packages: state.packages,
+    settings: state.settings
   }
 }
 

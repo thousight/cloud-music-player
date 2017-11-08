@@ -43,7 +43,7 @@ class PlaylistItem extends Component {
   // Shows song name with different length based on screen size
   getSongNameString(name) {
     if (this.props.settings.isSidebarOpen) {
-      return name.length > 23 ? name.substring(0, 20) + '...' : name;
+      return name.length > 21 ? name.substring(0, 18) + '...' : name;
     }
     return name.length > 29 ? name.substring(0, 26) + '...' : name;
   }
