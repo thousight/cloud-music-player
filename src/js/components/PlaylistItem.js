@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Panel, OverlayTrigger, Popover } from 'react-bootstrap';
-import { setPlayingMusicId } from '../redux/actions';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+
+import { setPlayingMusicId, setPlayingPlaylist } from '../redux/actions';
 
 import add from '../../img/add-option.svg';
 import remove from '../../img/clear-option.svg';
@@ -13,6 +14,11 @@ class PlaylistItem extends Component {
 
   state = {
     currentlyOpenedPopover: ''
+  }
+
+  handleMusicOnClick(songKey) {
+    this.props.setPlayingMusicId(songKey);
+    this.props.setPlayingPlaylist(this.props.playlistName);
   }
 
   handleOptionAddClick(event, songKey) {
@@ -51,7 +57,7 @@ class PlaylistItem extends Component {
             return (
                 this.props.playlistName !== playlistName
                 && !(songKey in this.props.user.playlists[playlistName])
-                && playlistName != 'Google Drive Imports'
+                && playlistName !== 'Google Drive Imports'
             ) ?
               <div className="popover-playlist"
                 onClick={e => this.handleOptionAddToPlaylistClick(e, playlistName, songKey, songName)}
@@ -75,8 +81,12 @@ class PlaylistItem extends Component {
           let tempSongName = this.props.playlistSongs[songKey];
 
           return (
-            <div className="sidebar-song-item card" key={index} onClick={() => this.props.setPlayingMusicId(songKey)}>
-              <img alt="Song icon" src={songKey === this.props.user.currentlyPlayingMusicId ? playingBars : singleNodeIcon} />
+            <div className="sidebar-song-item card" key={index} onClick={() => this.handleMusicOnClick(songKey)}>
+              <img alt="Song icon"
+                src={(
+                  songKey === this.props.user.currentlyPlayingMusicId
+                  && this.props.playlistName === this.props.user.currentlyPlayingPlaylistName
+                ) ? playingBars : singleNodeIcon} />
               {this.getSongNameString(tempSongName)}
               <div className="song-item-options">
                 <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistsPopover(songKey, tempSongName)}>
@@ -100,7 +110,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPlayingMusicId: musicId => dispatch(setPlayingMusicId(musicId))
+    setPlayingMusicId: musicId => dispatch(setPlayingMusicId(musicId)),
+    setPlayingPlaylist: playlistName => dispatch(setPlayingPlaylist(playlistName)),
   }
 }
 

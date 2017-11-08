@@ -5,5 +5,6 @@ export const USER_LOGIN = 'USER_LOGIN';
 export const USER_LOGOUT = 'USER_LOGOUT';
 export const SET_PLAYLISTS = 'SET_PLAYLISTS';
 export const PLAY_MUSIC = 'PLAY_MUSIC';
+export const PLAY_PLAYLIST = 'PLAY_PLAYLIST';
 
 export const SIDEBAR_OPEN = 'SIDEBAR_OPEN';

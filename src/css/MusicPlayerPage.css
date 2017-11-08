@@ -20,3 +20,8 @@
 .player-page > h5 {
   margin: 25px auto;
 }
+
+.add-current-song-button {
+  display: inline-block;
+  width: 24px;
+}
