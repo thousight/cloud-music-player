@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 import PlaylistItem from './PlaylistItem';
 import CircularButton from './CircularButton';
 
-import add from '../../img/add.svg';
+import add from '../../img/add-option.svg';
 import back from '../../img/back.svg';
 import driveIcon from '../../img/GoogleDrive.png';
 import playlistIcon from '../../img/playlist_play.svg';
@@ -95,6 +95,10 @@ class SidebarContent extends Component {
 
     return (
       <div>
+        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={playlistNamePopover}>
+          <div className="add-new-playlist-card card"><img alt="Add icon" src={add} />Create new playlist</div>
+        </OverlayTrigger>
+
         <Accordion className="sidebar-content">
           {this.props.user.playlists ?
             Object.keys(this.props.user.playlists).sort((a, b) => {
@@ -135,13 +139,6 @@ class SidebarContent extends Component {
                 :
                 <div />}
         </Accordion>
-
-        <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistNamePopover}>
-          <CircularButton
-            className="sidebar-add-playlist-button"
-            icon={add}
-            lg />
-        </OverlayTrigger>
       </div>
     );
   }
