@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Sidebar from 'react-sidebar';
 import jsmediatags from 'jsmediatags';
+import { toast } from 'react-toastify';
 
 import SidebarContent from './components/SidebarContent.js'
 import MusicPlayer from './components/MusicPlayer.js'
@@ -15,6 +16,8 @@ import add from '../img/add-option.svg';
 const mql = window.matchMedia(`(min-width: 768px)`);
 
 class MusicPlayerPage extends Component {
+
+  errorTimeout;
 
   constructor(props) {
     super(props);
@@ -71,7 +74,14 @@ class MusicPlayerPage extends Component {
             });
           },
           onError: error => {
-            console.log(error);
+            if (this.props.user.currentlyPlayingMusicId) {
+              clearTimeout(this.errorTimeout);
+
+              this.errorTimeout = setTimeout(() => {
+                let filename = this.props.user.playlists[this.props.user.currentlyPlayingPlaylistName][this.props.user.currentlyPlayingMusicId];
+                toast.error(`Unable to decode ${filename}`, {closeButton: false});
+              }, 1000)
+            }
           }
         })
       }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { ProgressBar } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import ReactHowler from 'react-howler';
-import { ProgressBar } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 import CircularButton from './CircularButton';
 import { setPlayingMusicId } from '../redux/actions';
@@ -18,7 +19,9 @@ import mute from '../../img/mute.svg';
 
 class MusicPlayer extends Component {
 
-  playModes = ['singleRepeat', 'playlistRepeat', 'shuffle']
+  playModes = ['singleRepeat', 'playlistRepeat', 'shuffle'];
+
+  errorTimeout;
 
   state = {
     playlist: [],
@@ -97,6 +100,17 @@ class MusicPlayer extends Component {
 
   }
 
+  onLoadError() {
+    if (this.props.user.currentlyPlayingMusicId) {
+      clearTimeout(this.errorTimeout);
+
+      this.errorTimeout = setTimeout(() => {
+        let filename = this.props.user.playlists[this.props.user.currentlyPlayingPlaylistName][this.props.user.currentlyPlayingMusicId];
+        toast.error(`Unable to fetch ${filename}`, {closeButton: false});
+      }, 1000)
+    }
+  }
+
   render() {
 
     return (
@@ -106,6 +120,7 @@ class MusicPlayer extends Component {
           src={'https://drive.google.com/uc?export=download&id=' + this.props.user.currentlyPlayingMusicId}
           playing={true}
           html5={true}
+          onLoadError={this.onLoadError.bind(this)}
           ref={(ref) => (this.player = ref)} />
 
         <div className="music-player-progress-bar">

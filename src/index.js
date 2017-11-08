@@ -10,6 +10,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import rootReducer from './js/redux/reducers/index';
 import App from './js/App';
 
+import 'react-toastify/dist/ReactToastify.min.css';
 import './css/bootstrap/bootstrap.min.css';
 import './index.css';
 

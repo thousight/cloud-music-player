@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import firebase from 'firebase';
+import { ToastContainer } from 'react-toastify';
 
 import LoginPage from './LoginPage';
 import ImportPage from './ImportPage';
@@ -63,6 +64,14 @@ class App extends Component {
     return (
       <div className="App">
         <NavigationBar />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+        />
         <Switch key={this.props.location.pathname} location={this.props.location}>
           <Route exact path="/" component={LoginPage} />
           <Route path="/player" component={MusicPlayerPage} />
