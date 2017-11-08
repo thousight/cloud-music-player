@@ -23,6 +23,8 @@
 .sidebar-playlist-title > a {
   padding: 10px 15px;
   display: block;
+  user-select: none;
+  cursor: pointer;
 }
 
 .sidebar-playlist-title > a:hover {
@@ -65,6 +67,10 @@
   width: 24px;
   height: 24px;
   margin: 10px
+}
+
+.sidebar-song-item > span {
+  vertical-align: middle;
 }
 
 .sidebar-song-item > .sidebar-song-item-playing-icon {

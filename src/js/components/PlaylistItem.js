@@ -87,7 +87,7 @@ class PlaylistItem extends Component {
                   songKey === this.props.user.currentlyPlayingMusicId
                   && this.props.playlistName === this.props.user.currentlyPlayingPlaylistName
                 ) ? playingBars : singleNodeIcon} />
-              {this.getSongNameString(tempSongName)}
+              <span>{this.getSongNameString(tempSongName)}</span>
               <div className="song-item-options">
                 <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistsPopover(songKey, tempSongName)}>
                   <img onClick={e => this.handleOptionAddClick(e, songKey)} alt="Add icon" src={add} />

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import PlaylistItem from './PlaylistItem';
-import CircularButton from './CircularButton';
 
 import add from '../../img/add-option.svg';
 import back from '../../img/back.svg';
@@ -95,9 +94,16 @@ class SidebarContent extends Component {
 
     return (
       <div>
-        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={playlistNamePopover}>
-          <div className="add-new-playlist-card card"><img alt="Add icon" src={add} />Create new playlist</div>
-        </OverlayTrigger>
+        <div className="add-new-playlist-card-wrapper">
+          <div className="add-new-playlist-card card" onClick={this.navigateBackToImport.bind(this)}>
+            <img alt="Back icon" src={back} />
+            <span>Import songs</span>
+          </div>
+
+          <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={playlistNamePopover}>
+            <div className="add-new-playlist-card card"><img alt="Add icon" src={add} /><span>New playlist</span></div>
+          </OverlayTrigger>
+        </div>
 
         <Accordion className="sidebar-content">
           {this.props.user.playlists ?
@@ -122,17 +128,12 @@ class SidebarContent extends Component {
                             (key === 'Google Drive Imports' ? driveIcon : playlistIcon)
                         } />
 
-                      {this.getPlaylistNameString(key)}
+                      <span>{this.getPlaylistNameString(key)}</span>
 
                       <img className="sidebar-playlist-share"
                         alt="Share icon"
                         src={share}
                         onClick={e => this.handlePlaylistShare(e, key, this.props.user.playlists[key])} />
-
-                      <img className={key === 'Google Drive Imports' ? "sidebar-playlist-back-to-import" : "hide"}
-                        alt="Back icon"
-                        src={back}
-                        onClick={this.navigateBackToImport.bind(this)} />
                     </div>
                   }/>
                 )})

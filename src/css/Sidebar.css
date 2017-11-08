@@ -2,19 +2,28 @@
   background-color: #FCFCFC;
 }
 
-.add-new-playlist-card {
-  font-size: 16px;
+.add-new-playlist-card-wrapper {
   margin-top: 80px;
-  margin-bottom: 15px;
-  margin-left: 15px;
-  margin-right: 30px;
+  margin-left: 5px;
+}
+
+.add-new-playlist-card {
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 10px;
   user-select: none;
   cursor: pointer;
+  padding-right: 19px;
 }
 
 .add-new-playlist-card > img {
   margin-right: 10px;
   margin-left: 3.5px;
+}
+
+.add-new-playlist-card > span,
+.sidebar-playlist-title > a > span {
+  vertical-align: middle;
 }
 
 .new-playlist-input {
