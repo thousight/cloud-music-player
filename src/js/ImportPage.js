@@ -170,7 +170,9 @@ class ImportPage extends Component {
           <Col xs={12} sm={9} md={7} mdOffset={1}>
             <div className="card import-page-card">
               <div className="import-page-card-title">
-                <Button className="import-page-back-button" onClick={this.backButtonOnClick.bind(this)}>
+                <Button className="import-page-back-button"
+                  onClick={this.backButtonOnClick.bind(this)}
+                  style={{visibility: this.state.folderIds.length <= 1 ? 'hidden' : 'visible'}}>
                   <img alt="Folder icon" src={backIcon} />
                 </Button>
                 <h4 className="import-page-folder-title">
