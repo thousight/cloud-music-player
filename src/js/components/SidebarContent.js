@@ -97,7 +97,7 @@ class SidebarContent extends Component {
         <div className="add-new-playlist-card-wrapper">
           <div className="add-new-playlist-card card" onClick={this.navigateBackToImport.bind(this)}>
             <img alt="Back icon" src={back} />
-            <span>Import songs</span>
+            <span>{this.props.settings.isSidebarOpen ? 'Import' : 'Import songs'}</span>
           </div>
 
           <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={playlistNamePopover}>
