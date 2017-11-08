@@ -20,6 +20,20 @@ class ImportPage extends Component {
 
   componentWillMount() {
     this.getDriveFiles();
+    if (this.props.user.playlists['Google Drive Imports']) {
+      let playlist = this.props.user.playlists['Google Drive Imports'];
+      let objs = [];
+      Object.keys(playlist).map(key => {
+        let obj = {}
+        obj['id'] = key;
+        obj['name'] = playlist[key];
+        return objs.push(obj);
+      })
+      this.setState({
+        selectedFiles: objs,
+        selectedFilesIds: Object.keys(playlist)
+      })
+    }
   }
 
   getGapi() {

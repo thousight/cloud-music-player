@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Accordion, OverlayTrigger, Popover } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import PlaylistItem from './PlaylistItem';
 import CircularButton from './CircularButton';
 
 import add from '../../img/add.svg';
+import back from '../../img/back.svg';
 import driveIcon from '../../img/GoogleDrive.png';
 import playlistIcon from '../../img/playlist_play.svg';
 import share from '../../img/share.svg';
@@ -21,6 +23,11 @@ class SidebarContent extends Component {
   handlePlaylistShare(event, playlistName, playlistSongs) {
     event.stopPropagation();
     console.log('handlePlaylistShare(): ' + playlistName);
+  }
+
+  navigateBackToImport(e) {
+    e.stopPropagation();
+    this.props.history.push('/import');
   }
 
   handlePlaylistNameChange(name) {
@@ -94,15 +101,20 @@ class SidebarContent extends Component {
                   header={
                     <div className="sidebar-playlist-title">
                       <img className="sidebar-playlist-icon"
-                        alt="playlist icon"
+                        alt="Playlist icon"
                         src={key === 'Google Drive Imports' ? driveIcon : playlistIcon} />
 
                       {key.length > 20 ? key.substring(0 ,20)+'...' : key}
 
                       <img className="sidebar-playlist-share"
-                        alt="Arrow icon"
+                        alt="Share icon"
                         src={share}
                         onClick={e => this.handlePlaylistShare(e, key, this.props.user.playlists[key])} />
+
+                      <img className={key === 'Google Drive Imports' ? "sidebar-playlist-back-to-import" : "hide"}
+                        alt="Back icon"
+                        src={back}
+                        onClick={this.navigateBackToImport.bind(this)} />
                     </div>
                   }/>
                 )})
@@ -128,4 +140,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(SidebarContent);
+export default withRouter(connect(mapStateToProps)(SidebarContent));
