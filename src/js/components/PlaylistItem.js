@@ -46,12 +46,13 @@ class PlaylistItem extends Component {
     const playlistsPopover = (songKey, songName) => {
       return (
         <Popover title="Add to" id={`Popover${songKey}`}>
-          {Object.keys(this.props.user.playlists).sort((a, b) => {
-            // Keep Google Drive Imports on top
-            return (a === 'Google Drive Imports' || b === 'Google Drive Imports') ? 1 : -1;
-          }).map((playlistName, index) => {
+          {Object.keys(this.props.user.playlists).map((playlistName, index) => {
             // Filter out current playlist or playlists that contain the song
-            return (this.props.playlistName !== playlistName && !(songKey in this.props.user.playlists[playlistName])) ?
+            return (
+                this.props.playlistName !== playlistName
+                && !(songKey in this.props.user.playlists[playlistName])
+                && playlistName != 'Google Drive Imports'
+            ) ?
               <div className="popover-playlist"
                 onClick={e => this.handleOptionAddToPlaylistClick(e, playlistName, songKey, songName)}
                 key={index}>
