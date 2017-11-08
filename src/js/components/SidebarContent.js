@@ -28,14 +28,12 @@ class SidebarContent extends Component {
           {this.props.user.playlists ?
             Object.keys(this.props.user.playlists).sort((a, b) => {
               // Keep Google Drive Imports on top
-              if (a === 'Google Drive Imports' || b === 'Google Drive Imports') {
-                return 1;
-              }
-              return -1;
+              return (a === 'Google Drive Imports' || b === 'Google Drive Imports') ? 1 : -1;
             }).map((key, index) => {
               return (
                 <PlaylistItem
                   key={index}
+                  playlistName={key}
                   playlistSongs={this.props.user.playlists[key]}
                   eventKey={index}
                   header={
