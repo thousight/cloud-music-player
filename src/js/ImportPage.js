@@ -15,7 +15,8 @@ class ImportPage extends Component {
     folderFiles: [],
     selectedFiles: [],
     selectedFilesIds: [],
-    currentFolderName: ['root']
+    currentFolderName: ['root'],
+    loadedImported: false
   }
 
   componentWillMount() {
@@ -23,7 +24,7 @@ class ImportPage extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.user.playlists['Google Drive Imports'] && this.state.selectedFiles.length === 0) {
+    if (this.props.user.playlists['Google Drive Imports'] && this.state.selectedFiles.length === 0 && !this.state.loadedImported) {
       let playlist = this.props.user.playlists['Google Drive Imports'];
       let objs = this.state.selectedFiles, obj;
       Object.keys(playlist).map(key => {
@@ -34,7 +35,8 @@ class ImportPage extends Component {
       })
       this.setState({
         selectedFiles: objs,
-        selectedFilesIds: Object.keys(playlist)
+        selectedFilesIds: Object.keys(playlist),
+        loadedImported: true
       })
     }
   }
