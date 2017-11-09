@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Accordion, OverlayTrigger, Popover } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { toast } from 'react-toastify';
 
 import PlaylistItem from './PlaylistItem';
 
@@ -20,11 +21,41 @@ class SidebarContent extends Component {
     submitButtonBackground: '#888888'
   }
 
-  handlePlaylistShare(event, playlistName, playlistSongs) {
-    event.stopPropagation();
-    console.log('handlePlaylistShare(): ' + playlistName);
+  componentDidMount() {
+
   }
 
+  handlePlaylistShare(event, playlistName, playlistSongs) {
+    event.stopPropagation();
+    // Generated URL
+    let url = `http://cloud-music-player.herokuapp.com/player?sharePlaylist=${playlistName}&data=${JSON.stringify(playlistSongs)}`;
+
+    // Copy URL to clipboard
+    let textArea = document.createElement("textarea");
+    textArea.style.position = 'fixed';
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = url;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      if (document.execCommand('copy')) {
+        toast.success('Successfully copy sharing url to clipboard', {closeButton: false});
+      } else {
+        toast.error('Fail copying sharing link to clipboard, please try again', {closeButton: false});
+      }
+    } catch (err) {
+      toast.error('Fail copying sharing link to clipboard, please try again', {closeButton: false});
+    }
+    document.body.removeChild(textArea);
+  }
   navigateBackToImport(e) {
     e.stopPropagation();
     this.props.history.push('/import');
