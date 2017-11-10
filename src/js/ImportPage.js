@@ -24,7 +24,11 @@ class ImportPage extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.user.playlists['Google Drive Imports'] && this.state.selectedFiles.length === 0 && !this.state.loadedImported) {
+    if (this.props.user.playlists
+      && this.props.user.playlists['Google Drive Imports']
+      && this.state.selectedFiles.length === 0
+      && !this.state.loadedImported) {
+        
       let playlist = this.props.user.playlists['Google Drive Imports'];
       let objs = this.state.selectedFiles, obj;
       Object.keys(playlist).map(key => {
