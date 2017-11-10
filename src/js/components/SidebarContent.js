@@ -19,11 +19,19 @@ class SidebarContent extends Component {
     playlistName: '',
     playlistNameError: '',
     submitButtonBackground: '#888888',
-    sharingError: null
+    sharingError: null,
+    receivedSharingPlaylist: null,
+    receivedSharingPlaylistName: null
   }
 
   componentDidMount() {
-
+    if (this.props.history.location.search.includes('sharePlaylist')) {
+      let playlistStr = decodeURIComponent(this.props.history.location.search);
+      this.setState({
+        receivedSharingPlaylistName: playlistStr.substring(15, playlistStr.indexOf('&data=')),
+        receivedSharingPlaylist: JSON.parse(playlistStr.substring(playlistStr.indexOf('&data=') + 6, playlistStr.length))
+      });
+    }
   }
 
   handlePlaylistShare(event, playlistName, playlistSongs) {
@@ -54,7 +62,7 @@ class SidebarContent extends Component {
         toast.success(
           `Successfully copy sharing url to clipboard${this.state.sharingError ?
             ', however, some songs might not be able to share'
-            : ''}`,
+            : ''}. Paste the url on the browser to add playlist.`,
           {closeButton: false}
         );
         this.setState({sharingError: null});
@@ -65,8 +73,12 @@ class SidebarContent extends Component {
   }
 
   copyUrl(playlistName, playlistSongs) {
-    // Generated URL
-    let url = `http://cloud-music-player.herokuapp.com/player?sharePlaylist=${playlistName}&data=${JSON.stringify(playlistSongs)}`;
+    // Generated URL based on environment
+    let url = `${process.env.NODE_ENV === 'development' ?
+      'http://localhost:3000'
+      :
+      'http://cloud-music-player.herokuapp.com'
+    }/player?sharePlaylist=${playlistName}&data=${JSON.stringify(playlistSongs)}`;
 
     // Copy URL to clipboard
     let textArea = document.createElement("textarea");
