@@ -19,7 +19,7 @@ class App extends Component {
       cookiepolicy: 'single_host_origin',
       api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28',
       discovery_docs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-      scope: 'https://www.googleapis.com/auth/drive.readonly'
+      scope: 'https://www.googleapis.com/auth/drive'
     }
     const firebaseConfig = {
       apiKey: "AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28",
@@ -40,14 +40,14 @@ class App extends Component {
               firebase.auth.GoogleAuthProvider.credential(auth.currentUser.get().getAuthResponse().id_token)
             ).then(firebaseUser => {
 
-              this.props.setGAPI(gapi)
-              this.props.setFirebase(firebase)
+              this.props.setGAPI(gapi);
+              this.props.setFirebase(firebase);
 
-              let ref = firebase.database().ref('/users/' + firebaseUser.uid + '/playlists')
+              let ref = firebase.database().ref('/users/' + firebaseUser.uid + '/playlists');
 
-              // Reroute user if user is at '/'
+              // Reroute user if user is at '/' or user does not have any playlists
               ref.once('value').then(snapshot => {
-                if (this.props.history.location.pathname === '/') {
+                if (this.props.history.location.pathname === '/' || !snapshot.val()) {
                   this.props.history.push(snapshot.val() ? '/player' : '/import');
                 }
               })
@@ -61,6 +61,9 @@ class App extends Component {
             });
 
             this.props.userLogin(auth.currentUser.get().getBasicProfile());
+          } else {
+            this.props.setGAPI(gapi)
+            this.props.setFirebase(firebase)
           }
         }, error => {
           console.log(error);

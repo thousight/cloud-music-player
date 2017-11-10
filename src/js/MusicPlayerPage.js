@@ -117,7 +117,8 @@ class MusicPlayerPage extends Component {
     // Popover showing all playlists user can add the song to
     const playlistsPopover = (
       <Popover title="Add to" id="ADD_CURRENT_SONG_POPOVER">
-        {Object.keys(this.props.user.playlists).map((playlistName, index) => {
+        {this.props.user.playlists ?
+          Object.keys(this.props.user.playlists).map((playlistName, index) => {
           // Filter out current playlist or playlists that contain the song
           return (
               this.props.playlistName !== playlistName
@@ -131,7 +132,8 @@ class MusicPlayerPage extends Component {
             </div>
            :
            null ;
-        })}
+        })
+      : null}
       </Popover>
     );
 
