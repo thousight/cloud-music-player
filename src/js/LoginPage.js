@@ -20,8 +20,18 @@ class LoginPage extends Component {
         firebase.auth().signInWithCredential(
           firebase.auth.GoogleAuthProvider.credential(user.getAuthResponse().id_token)
         ).then(firebaseUser => {
-          firebase.database().ref('/users/' + firebaseUser.uid + '/playlists').once('value').then(snapshot => {
-            this.props.history.push(snapshot.val() ? '/player' : '/import');
+          let ref = firebase.database().ref('/users/' + firebaseUser.uid + '/playlists')
+
+          // Reroute user if user is at '/'
+          ref.once('value').then(snapshot => {
+            if (this.props.history.location.pathname === '/') {
+              this.props.history.push(snapshot.val() ? '/player' : '/import');
+            }
+          })
+
+          // Listen for playlists change
+          ref.on('value', snapshot => {
+            this.props.setPlaylists(snapshot.val()); // gets executed every time playlists change
           })
         }).catch(error => {
           console.log(error);

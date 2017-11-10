@@ -19,7 +19,7 @@ class App extends Component {
       cookiepolicy: 'single_host_origin',
       api_key: 'AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28',
       discovery_docs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-      scope: 'https://www.googleapis.com/auth/drive.readonly'
+      scope: 'https://www.googleapis.com/auth/drive'
     }
     const firebaseConfig = {
       apiKey: "AIzaSyDe81MXEotfiSTyJA_7EOvbtWhFKr93Y28",
@@ -61,6 +61,9 @@ class App extends Component {
             });
 
             this.props.userLogin(auth.currentUser.get().getBasicProfile());
+          } else {
+            this.props.setGAPI(gapi)
+            this.props.setFirebase(firebase)
           }
         }, error => {
           console.log(error);
