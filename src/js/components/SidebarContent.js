@@ -18,7 +18,8 @@ class SidebarContent extends Component {
   state = {
     playlistName: '',
     playlistNameError: '',
-    submitButtonBackground: '#888888'
+    submitButtonBackground: '#888888',
+    sharingError: null
   }
 
   componentDidMount() {
@@ -27,6 +28,43 @@ class SidebarContent extends Component {
 
   handlePlaylistShare(event, playlistName, playlistSongs) {
     event.stopPropagation();
+    let playlistArray = Object.keys(playlistSongs);
+    let copyResult = this.copyUrl(playlistName, playlistSongs);
+
+    // Request sharing permission for each of files
+    Promise.all(playlistArray.map(key => {
+      return this.props.packages.gapi.client.request({
+        path: `https://www.googleapis.com/drive/v3/files/${key}/permissions`,
+        method: 'POST',
+        body: {
+          role: 'reader',
+          type: 'anyone',
+          allowFileDiscovery: true
+        }
+      }).then(
+        success => {
+          // Nothing to do here yet
+        },
+        error => {
+          this.setState({sharingError: error.result.error.message});
+        }
+      )
+    })).then(() => {
+      if (copyResult) {
+        toast.success(
+          `Successfully copy sharing url to clipboard${this.state.sharingError ?
+            ', however, some songs might not be able to share'
+            : ''}`,
+          {closeButton: false}
+        );
+        this.setState({sharingError: null});
+      } else {
+        toast.error('Fail copying sharing link to clipboard, please try again', {closeButton: false});
+      }
+    })
+  }
+
+  copyUrl(playlistName, playlistSongs) {
     // Generated URL
     let url = `http://cloud-music-player.herokuapp.com/player?sharePlaylist=${playlistName}&data=${JSON.stringify(playlistSongs)}`;
 
@@ -45,17 +83,13 @@ class SidebarContent extends Component {
     textArea.value = url;
     document.body.appendChild(textArea);
     textArea.select();
-    try {
-      if (document.execCommand('copy')) {
-        toast.success('Successfully copy sharing url to clipboard', {closeButton: false});
-      } else {
-        toast.error('Fail copying sharing link to clipboard, please try again', {closeButton: false});
-      }
-    } catch (err) {
-      toast.error('Fail copying sharing link to clipboard, please try again', {closeButton: false});
-    }
+
+    let res = document.execCommand('copy');
+
     document.body.removeChild(textArea);
+    return res;
   }
+
   navigateBackToImport(e) {
     e.stopPropagation();
     this.props.history.push('/import');
