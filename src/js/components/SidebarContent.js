@@ -26,9 +26,9 @@ class SidebarContent extends Component {
 
   componentDidMount() {
     if (this.props.history.location.search.includes('sharePlaylist')) {
-      let playlistStr = decodeURIComponent(this.props.history.location.search);
+      let playlistStr = decodeURIComponent(window.location.href);
       this.setState({
-        receivedSharingPlaylistName: playlistStr.substring(15, playlistStr.indexOf('&data=')),
+        receivedSharingPlaylistName: playlistStr.substring(playlistStr.indexOf('sharePlaylist=') + 14, playlistStr.indexOf('&data=')),
         receivedSharingPlaylist: JSON.parse(playlistStr.substring(playlistStr.indexOf('&data=') + 6, playlistStr.length))
       });
     }
@@ -131,7 +131,6 @@ class SidebarContent extends Component {
 
   handlePlaylistNameConfirm() {
     if (this.state.playlistName.length > 0 && this.state.playlistNameError.length === 0) {
-      console.log(this.state.playlistName);
       this.setState({playlistName: '', submitButtonBackground: '#888888'});
       document.getElementById('NEW_PLAYLIST_POPOVER').style.display = "none";
     }

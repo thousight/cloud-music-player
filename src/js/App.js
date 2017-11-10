@@ -40,14 +40,14 @@ class App extends Component {
               firebase.auth.GoogleAuthProvider.credential(auth.currentUser.get().getAuthResponse().id_token)
             ).then(firebaseUser => {
 
-              this.props.setGAPI(gapi)
-              this.props.setFirebase(firebase)
+              this.props.setGAPI(gapi);
+              this.props.setFirebase(firebase);
 
-              let ref = firebase.database().ref('/users/' + firebaseUser.uid + '/playlists')
+              let ref = firebase.database().ref('/users/' + firebaseUser.uid + '/playlists');
 
-              // Reroute user if user is at '/'
+              // Reroute user if user is at '/' or user does not have any playlists
               ref.once('value').then(snapshot => {
-                if (this.props.history.location.pathname === '/') {
+                if (this.props.history.location.pathname === '/' || !snapshot.val()) {
                   this.props.history.push(snapshot.val() ? '/player' : '/import');
                 }
               })

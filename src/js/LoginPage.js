@@ -20,11 +20,11 @@ class LoginPage extends Component {
         firebase.auth().signInWithCredential(
           firebase.auth.GoogleAuthProvider.credential(user.getAuthResponse().id_token)
         ).then(firebaseUser => {
-          let ref = firebase.database().ref('/users/' + firebaseUser.uid + '/playlists')
+          let ref = firebase.database().ref('/users/' + firebaseUser.uid + '/playlists');
 
           // Reroute user if user is at '/'
           ref.once('value').then(snapshot => {
-            if (this.props.history.location.pathname === '/') {
+            if (this.props.history.location.pathname === '/' || !snapshot.val()) {
               this.props.history.push(snapshot.val() ? '/player' : '/import');
             }
           })
