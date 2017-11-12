@@ -36,9 +36,9 @@ class PlaylistItem extends Component {
   // Alert user about deleting a song
   // If user confirms, delete the song, else return
   handleOptionDelete(event, songKey) {
-    event.stopPropagation(); // Prevent calling parent onClick()
-    console.log('handleOptionDelete(): ' + songKey);
-
+    //event.stopPropagation(); // Prevent calling parent onClick()
+    //console.log('handleOptionDelete(): ' + songKey);
+    this.playlist.pop(songkey);
   }
 
   // Shows song name with different length based on screen size
