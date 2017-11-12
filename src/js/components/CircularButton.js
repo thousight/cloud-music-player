@@ -4,7 +4,7 @@ export default class CircularButton extends Component {
   render() {
     return (
       <div className={`${this.props.className} circular-button`}
-        onClick={this.props.onClick.bind(this)}
+        onClick={this.props.onClick ? this.props.onClick.bind(this) : null}
         style={{
           width: this.props.lg ? '50px' : '40px',
           height: this.props.lg ? '50px' : '40px',

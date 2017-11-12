@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { ProgressBar } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import ReactHowler from 'react-howler';
-import { ProgressBar } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 import CircularButton from './CircularButton';
 import { setPlayingMusicId } from '../redux/actions';
+import { startPlaying } from '../redux/actions';
+import { stopPlaying } from '../redux/actions';
 
 import repeat from '../../img/repeat.svg';
 import repeatOne from '../../img/repeat_one.svg';
@@ -18,14 +21,16 @@ import mute from '../../img/mute.svg';
 
 class MusicPlayer extends Component {
 
-  playModes = ['singleRepeat', 'playlistRepeat', 'shuffle']
+  playModes = ['singleRepeat', 'playlistRepeat', 'shuffle'];
+
+  errorTimeout;
 
   state = {
     playlist: [],
     playingOrder: [],
     currentPlayMode: 'normal',
     volume: 0.3,
-    isPlaying: false
+
   }
 
   componentDidMount() {
@@ -35,16 +40,19 @@ class MusicPlayer extends Component {
   playMusic() {
     console.log(this.player);
     // Control music play pause
-    if (this.state.isPlaying) {
+
+    if (this.props.user.isPlaying) {
       this.player.pause();
+      this.props.stopPlaying();
     } else {
       this.player.play();
+      this.props.startPlaying();
     }
-    this.setState({isPlaying: !this.state.isPlaying});
+
   }
 
   getPlayIcon() {
-    return this.state.isPlaying ? pause : play
+    return this.props.user.isPlaying ? pause : play
   }
 
   playNext() {
@@ -97,6 +105,18 @@ class MusicPlayer extends Component {
 
   }
 
+  onLoadError() {
+    if (this.props.user.currentlyPlayingMusicId) {
+      clearTimeout(this.errorTimeout);
+
+      this.errorTimeout = setTimeout(() => {
+        let filename = this.props.user.playlists[this.props.user.currentlyPlayingPlaylistName][this.props.user.currentlyPlayingMusicId];
+        toast.error(`Unable to fetch ${filename}`, {closeButton: false});
+        this.playNext();
+      }, 1000)
+    }
+  }
+
   render() {
 
     return (
@@ -104,8 +124,9 @@ class MusicPlayer extends Component {
         {/* Music Player */}
         <ReactHowler
           src={'https://drive.google.com/uc?export=download&id=' + this.props.user.currentlyPlayingMusicId}
-          playing={true}
+          playing={this.props.user.isPlaying}
           html5={true}
+          onLoadError={this.onLoadError.bind(this)}
           ref={(ref) => (this.player = ref)} />
 
         <div className="music-player-progress-bar">
@@ -159,7 +180,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPlayingMusicId: id => dispatch(setPlayingMusicId(id))
+    setPlayingMusicId: id => dispatch(setPlayingMusicId(id)),
+    startPlaying: () => dispatch(startPlaying()),
+    stopPlaying: () => dispatch(stopPlaying()),
   }
 }
 

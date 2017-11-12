@@ -2,22 +2,63 @@
   background-color: #FCFCFC;
 }
 
-.sidebar-content {
+.add-new-playlist-card-wrapper {
   margin-top: 80px;
+  margin-left: 5px;
 }
 
-.sidebar-add-playlist-button {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  right: 50%;
-  margin: 0;
-  margin-left: -23.5px;
-  margin-bottom: 20px;
+.add-new-playlist-card {
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 10px;
+  user-select: none;
+  cursor: pointer;
+  padding-right: 18.5px;
+}
+
+.add-new-playlist-card > img {
+  margin-right: 10px;
+  margin-left: 3.5px;
+}
+
+.add-new-playlist-card > span,
+.sidebar-playlist-title > a > span {
+  vertical-align: middle;
+}
+
+.new-playlist-input {
+  font-size: 16px;
+  margin: 10px 14px;
+  border: 0;
+  border-bottom: 2px solid #36A9F7;
+  color: #36A9F7;
+  width: 200px;
+}
+
+.new-playlist-input:focus,
+.new-playlist-input-confirm:focus {
+  outline: 0;
+}
+
+.new-playlist-input-error {
+  padding: 0 14px;
+  font-size: 12px;
+  color: #E53935;
+}
+
+.new-playlist-input-confirm {
+  background-color: #36A9F7;
+  border: 0;
+  border-radius: 2.5px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  color: #FFFFFF;
+  display: block;
+  margin: 10px auto;
+  padding: 8px 16px;
 }
 
 @media (max-width: 767px) {
-  .sidebar-content {
+  .add-new-playlist-card-wrapper {
     margin-top: 30px;
   }
 }

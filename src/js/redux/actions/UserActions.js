@@ -2,7 +2,10 @@ import {
   USER_LOGIN,
   USER_LOGOUT,
   SET_PLAYLISTS,
-  PLAY_MUSIC
+  PLAY_MUSIC,
+  PLAY_PLAYLIST,
+  STOP_PLAY,
+  START_PLAY
 } from './actionTypes';
 
 /**
@@ -51,9 +54,32 @@ export const setPlaylists = playlists => {
 * Save user's currently playing music id to redux
 * @param: id(string)
 */
+export const setPlayingPlaylist= playlistName => {
+  return dispatch => dispatch({
+    type: PLAY_PLAYLIST,
+    playlistName
+  });
+};
+
+/**
+* Save user's currently playing music id to redux
+* @param: id(string)
+*/
 export const setPlayingMusicId = id => {
   return dispatch => dispatch({
     type: PLAY_MUSIC,
     id
+  });
+};
+
+export const startPlaying = () => {
+  return dispatch => dispatch({
+    type: START_PLAY,
+  });
+};
+
+export const stopPlaying = () => {
+  return dispatch => dispatch({
+    type: STOP_PLAY,
   });
 };

@@ -15,8 +15,22 @@
 .player-page > h3 {
   font-size: 28px;
   margin: 25px auto;
+  padding: 0 20px;
 }
 
 .player-page > h5 {
+  padding: 0 20px;
   margin: 25px auto;
+}
+
+.add-current-song-button {
+  display: inline-block;
+  width: 24px;
+  margin-bottom: 160px;
+}
+
+@media (max-width: 767px) {
+  .player-page-cover {
+    margin-top: 120px;
+  }
 }

@@ -15,11 +15,34 @@ class ImportPage extends Component {
     folderFiles: [],
     selectedFiles: [],
     selectedFilesIds: [],
-    currentFolderName: ['root']
+    currentFolderName: ['root'],
+    loadedImported: false
   }
 
   componentWillMount() {
     this.getDriveFiles();
+  }
+
+  componentDidUpdate() {
+    if (this.props.user.playlists
+      && this.props.user.playlists['Google Drive Imports']
+      && this.state.selectedFiles.length === 0
+      && !this.state.loadedImported) {
+        
+      let playlist = this.props.user.playlists['Google Drive Imports'];
+      let objs = this.state.selectedFiles, obj;
+      Object.keys(playlist).map(key => {
+        obj = {};
+        obj['id'] = key;
+        obj['name'] = playlist[key];
+        return objs.unshift(obj);
+      })
+      this.setState({
+        selectedFiles: objs,
+        selectedFilesIds: Object.keys(playlist),
+        loadedImported: true
+      })
+    }
   }
 
   getGapi() {
@@ -83,19 +106,13 @@ class ImportPage extends Component {
 
   submitButtonOnClick() {
     if (this.state.selectedFilesIds.length !== 0) {
-
       let newLocation = this.props.packages.firebase.database()
       .ref(`/users/${this.props.packages.firebase.auth().currentUser.uid}/playlists/Google Drive Imports`);
-      let temp = this.state.selectedFiles, obj = {};
-      temp.map(item => {
-        let id = item.id;
-        let name = item.name.replace(".mp3", "");
-        obj[id] = name;
-        return newLocation.set(obj);
-      })
-      this.props.packages.firebase.database().ref('/users/' +
-      this.props.packages.firebase.auth().currentUser.uid + '/playlists' ).once('value').then(snapshot => {
-        this.props.setPlaylists(snapshot.val());
+      let obj = {};
+      this.state.selectedFiles.map(item => {
+        return obj[item.id] = item.name.replace(".mp3", "");
+      });
+      newLocation.set(obj).then(() => {
         this.props.history.push('/player');
       })
     }
@@ -121,141 +138,143 @@ class ImportPage extends Component {
       if (this.state.selectedFilesIds.indexOf(file.id) === -1) {
         temp.push(file);
         tempIds.push(file.id);
-        this.setState({selectedFiles: temp,
-          selectedFilesIds: tempIds});
+        this.setState({
+          selectedFiles: temp,
+          selectedFilesIds: tempIds
+        });
 
-        }
+      }
+    }
+  }
+
+  selectedFileOnClick(file) {
+    let temp = this.state.selectedFiles;
+    let tempIds = this.state.selectedFilesIds;
+    for (let i = 0; i < temp.length; i++) {
+      if (temp[i].id === file.id) {
+        temp.splice(i, 1);
+        break;
+      }
+    }
+    for (let i = 0; i < tempIds.length; i++) {
+      if (tempIds[i] === file.id) {
+        tempIds.splice(i, 1);
+        break;
       }
     }
 
-    selectedFileOnClick(file) {
-      let temp = this.state.selectedFiles;
-      let tempIds = this.state.selectedFilesIds;
-      for (let i = 0; i < temp.length; i++) {
-        if (temp[i].id === file.id) {
-          temp.splice(i, 1);
-          break;
-        }
-      }
-      for (let i = 0; i < tempIds.length; i++) {
-        if (tempIds[i] === file.id) {
-          tempIds.splice(i, 1);
-          break;
-        }
-      }
+    this.setState({
+      selectedFiles: temp,
+      selectedFilesIds: tempIds
+    });
+  }
 
-      this.setState({
-        selectedFiles: temp,
-        selectedFilesIds: tempIds
-      });
-    }
+  render() {
+    return (
+      <div className="import-page container">
+        <Row>
+          <Col xs={12} sm={9} md={7} mdOffset={1}>
+            <div className="card import-page-card">
+              <div className="import-page-card-title">
+                <Button className="import-page-back-button"
+                  onClick={this.backButtonOnClick.bind(this)}
+                  style={{visibility: this.state.folderIds.length <= 1 ? 'hidden' : 'visible'}}>
+                  <img alt="Folder icon" src={backIcon} />
+                </Button>
+                <h4 className="import-page-folder-title">
+                  <img alt="Folder icon" src={folderIcon} />
+                  {this.state.currentFolderName[this.state.currentFolderName.length - 1]}
+                </h4>
+              </div>
 
-    render() {
-      return (
-        <div className="import-page container">
-          <Row>
-            <Col xs={12} sm={9} md={7} mdOffset={1}>
+              <div>
+                {this.state.folderFiles.sort((a, b) => {
+                  if ((a.mimeType === 'application/vnd.google-apps.folder' && b.mimeType === 'application/vnd.google-apps.folder') || a.mimeType === 'application/vnd.google-apps.folder') {
+                    return -1;
+                  } else {
+                    return a.name < b.name ? 0 : 1;
+                  }
+                }).map((item, index) => {
+                  return(
+                    <Button className="import-page-folder-file card"
+                      onClick={() => this.folderFileOnClick(item)}
+                      style={{backgroundColor: this.state.selectedFilesIds.includes(item.id) ? '#e6e6e6' : '#ffffff'}}
+                      key={index}>
+                      <img alt="Music node icon" src={item.mimeType === 'application/vnd.google-apps.folder' ? folderIcon : singleNodeIcon} />
+                      {item.name.length > 20 ? item.name.substring(0 ,20)+'...' : item.name}
+                    </Button>
+                  )
+                })}
+              </div>
+
+            </div>
+          </Col>
+
+          <Col xs={12} sm={3}>
+            <Row>
               <div className="card import-page-card">
-                <div className="import-page-card-title">
-                  <Button className="import-page-back-button" onClick={this.backButtonOnClick.bind(this)}>
-                    <img alt="Folder icon" src={backIcon} />
-                  </Button>
-                  <h4 className="import-page-folder-title">
-                    <img alt="Folder icon" src={folderIcon} />
-                    {this.state.currentFolderName[this.state.currentFolderName.length - 1]}
-                  </h4>
-                </div>
+                <h4 className="import-page-folder-title">
+                  <img alt="Folder icon" src={require('../img/music_double_node.png')} />
+                  Selected Music Files
+                </h4>
 
                 <div>
-                  {this.state.folderFiles.sort((a, b) => {
-                    if (a.mimeType === 'application/vnd.google-apps.folder' && b.mimeType === 'application/vnd.google-apps.folder') {
-                      return 0;
-                    } else if (a.mimeType === 'application/vnd.google-apps.folder') {
-                      return -1;
-                    } else {
-                      return 1;
-                    }
-                  }).map((item, index) => {
+                  {this.state.selectedFiles.map((item, index) => {
                     return(
-                      <Button className="import-page-folder-file card"
-                        onClick={() => this.folderFileOnClick(item)}
-                        style={{backgroundColor: this.state.selectedFilesIds.includes(item.id) ? '#e6e6e6' : '#ffffff'}}
+                      <Button className="import-page-selected-song import-page-folder-file card"
+                        onClick={() => this.selectedFileOnClick(item)}
                         key={index}>
-                        <img alt="Music node icon" src={item.mimeType === 'application/vnd.google-apps.folder' ? folderIcon : singleNodeIcon} />
+                        <img alt="Music node icon" src={singleNodeIcon} />
                         {item.name.length > 20 ? item.name.substring(0 ,20)+'...' : item.name}
                       </Button>
                     )
                   })}
                 </div>
 
-              </div>
-            </Col>
-
-            <Col xs={12} sm={3}>
-              <Row>
-                <div className="card import-page-card">
-                  <h4 className="import-page-folder-title">
-                    <img alt="Folder icon" src={require('../img/music_double_node.png')} />
-                    Selected Music Files
-                  </h4>
-
-                  <div>
-                    {this.state.selectedFiles.map((item, index) => {
-                      return(
-                        <Button className="import-page-selected-song import-page-folder-file card"
-                          onClick={() => this.selectedFileOnClick(item)}
-                          key={index}>
-                          <img alt="Music node icon" src={singleNodeIcon} />
-                          {item.name.length > 20 ? item.name.substring(0 ,20)+'...' : item.name}
-                        </Button>
-                      )
-                    })}
+                <div className="import-page-buttons-wrapper">
+                  <div className="import-page-button-clear import-page-button card"
+                    onClick={this.clearButtonOnClick.bind(this)}>
+                    <img alt="Folder icon" src={require('../img/clear.svg')} />
+                    Clear
                   </div>
 
-                  <div className="import-page-buttons-wrapper">
-                    <div className="import-page-button-clear import-page-button card"
-                      onClick={this.clearButtonOnClick.bind(this)}>
-                      <img alt="Folder icon" src={require('../img/clear.svg')} />
-                      Clear
-                    </div>
+                  <div className="import-page-button-all import-page-button card"
+                    onClick={this.selectAllButtonOnClick.bind(this)}>
+                    <img alt="Folder icon" src={require('../img/add.svg')} />
+                    Select All
+                  </div>
 
-                    <div className="import-page-button-all import-page-button card"
-                      onClick={this.selectAllButtonOnClick.bind(this)}>
-                      <img alt="Folder icon" src={require('../img/add.svg')} />
-                      Select All
-                    </div>
-
-                    <div className="import-page-button-submit import-page-button card"
-                      onClick={this.submitButtonOnClick.bind(this)}>
-                      <img alt="Folder icon" src={require('../img/check.svg')} />
-                      Submit
-                    </div>
+                  <div className="import-page-button-submit import-page-button card"
+                    onClick={this.submitButtonOnClick.bind(this)}>
+                    <img alt="Folder icon" src={require('../img/check.svg')} />
+                    Submit
                   </div>
                 </div>
-              </Row>
-            </Col>
-          </Row>
-        </div>
-      )
+              </div>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    packages: state.packages,
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setGAPI: gapi => {
+      dispatch(setGAPI(gapi))
+    },
+    setPlaylists: playlists => {
+      dispatch(setPlaylists(playlists))
     }
   }
+}
 
-  const mapStateToProps = state => {
-    return {
-      packages: state.packages,
-      user: state.user
-    }
-  }
-
-  const mapDispatchToProps = dispatch => {
-    return {
-      setGAPI: gapi => {
-        dispatch(setGAPI(gapi))
-      },
-      setPlaylists: playlists => {
-        dispatch(setPlaylists(playlists))
-      }
-    }
-  }
-
-  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ImportPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ImportPage));

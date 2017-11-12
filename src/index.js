@@ -6,17 +6,24 @@ import createHistory from 'history/createBrowserHistory'
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
-import { createLogger } from 'redux-logger';
 
 import rootReducer from './js/redux/reducers/index';
 import App from './js/App';
 
+import 'react-toastify/dist/ReactToastify.min.css';
 import './css/bootstrap/bootstrap.min.css';
 import './index.css';
 
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(rootReducer, applyMiddleware(promiseMiddleware(), thunk, createLogger()));
+const middlewares = [];
+
+if (process.env.NODE_ENV === `development`) {
+  const { logger } = require(`redux-logger`);
+  middlewares.push(logger);
+}
+
+const store = createStore(rootReducer, applyMiddleware(promiseMiddleware(), thunk, ...middlewares));
 const history = createHistory();
 
 ReactDOM.render(
