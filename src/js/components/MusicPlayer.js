@@ -28,6 +28,7 @@ class MusicPlayer extends Component {
     playingOrder: [],
     currentPlayMode: 'normal',
     volume: 0.3,
+    mute: false,
 
   }
 
@@ -91,11 +92,11 @@ class MusicPlayer extends Component {
 
   setMute() {
     // Set mute or not
-    this.state.volume === 0 ? this.player.volume() : this.player.mute();
+    this.setState({mute: !this.state.mute})
   }
 
   getVolumeIcon() {
-    return this.state.volume === 0 ? mute : volume
+    return this.state.mute ? mute : volume
   }
 
   setProgress(percent) {
@@ -125,6 +126,7 @@ class MusicPlayer extends Component {
           playing={this.props.user.isPlaying}
           html5={true}
           onLoadError={this.onLoadError.bind(this)}
+          mute={this.state.mute}
           ref={(ref) => (this.player = ref)} />
 
         <div className="music-player-progress-bar">
