@@ -3,7 +3,9 @@ import {
   USER_LOGOUT,
   SET_PLAYLISTS,
   PLAY_MUSIC,
-  PLAY_PLAYLIST
+  PLAY_PLAYLIST,
+  START_PLAY,
+  STOP_PLAY
 } from '../actions';
 
 const initialState = {
@@ -11,7 +13,8 @@ const initialState = {
   profilePicURL: null,
   playlists: {},
   currentlyPlayingMusicId: '',
-  currentlyPlayingPlaylistName: ''
+  currentlyPlayingPlaylistName: '',
+  isPlaying: false
 }
 
 const UserReducer = (state = initialState, action) => {
@@ -42,6 +45,16 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         currentlyPlayingPlaylistName: action.playlistName
+      }
+    case START_PLAY:
+      return {
+        ...state,
+        isPlaying: true
+      }
+    case STOP_PLAY:
+      return {
+        ...state,
+        isPlaying: false
       }
     default:
       return state

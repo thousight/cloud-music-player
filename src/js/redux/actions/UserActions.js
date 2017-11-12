@@ -3,7 +3,9 @@ import {
   USER_LOGOUT,
   SET_PLAYLISTS,
   PLAY_MUSIC,
-  PLAY_PLAYLIST
+  PLAY_PLAYLIST,
+  STOP_PLAY,
+  START_PLAY
 } from './actionTypes';
 
 /**
@@ -67,5 +69,17 @@ export const setPlayingMusicId = id => {
   return dispatch => dispatch({
     type: PLAY_MUSIC,
     id
+  });
+};
+
+export const startPlaying = () => {
+  return dispatch => dispatch({
+    type: START_PLAY,
+  });
+};
+
+export const stopPlaying = () => {
+  return dispatch => dispatch({
+    type: STOP_PLAY,
   });
 };
