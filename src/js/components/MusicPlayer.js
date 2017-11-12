@@ -6,9 +6,7 @@ import ReactHowler from 'react-howler';
 import { toast } from 'react-toastify';
 
 import CircularButton from './CircularButton';
-import { setPlayingMusicId } from '../redux/actions';
-import { startPlaying } from '../redux/actions';
-import { stopPlaying } from '../redux/actions';
+import { setPlayingMusicId, startPlaying, stopPlaying } from '../redux/actions';
 
 import repeat from '../../img/repeat.svg';
 import repeatOne from '../../img/repeat_one.svg';
