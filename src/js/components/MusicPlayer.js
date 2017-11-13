@@ -30,11 +30,7 @@ class MusicPlayer extends Component {
     volume: 0.5
 
   }
-  slidebarOnClick(e) {
-    var specs = ReactDOM.findDOMNode(this.slidebar).getBoundingClientRect();
-    this.setState({ volume: (e.screenX - specs.left) / 100});
-    console.log(this.state.volume);
-  }
+
   componentDidMount() {
     console.log(this.player);
 
@@ -88,10 +84,10 @@ class MusicPlayer extends Component {
     }
   }
 
-  setVolume(volume) {
-    // Set volume of music player
-    this.setState({volume});
-    this.player.volume(volume);
+  setVolumeClick(e) {
+    var specs = ReactDOM.findDOMNode(this.slidebar).getBoundingClientRect();
+    this.setState({ volume: (e.screenX - specs.left) / 100});
+    console.log(this.state.volume);
   }
 
   setMute() {
@@ -130,6 +126,7 @@ class MusicPlayer extends Component {
           playing={this.props.user.isPlaying}
           html5={true}
           onLoadError={this.onLoadError.bind(this)}
+          volume={this.state.volume}
           ref={(ref) => (this.player = ref)} />
 
           <div className="music-player-progress-bar">
@@ -167,7 +164,8 @@ class MusicPlayer extends Component {
                   <ProgressBar className="music-player-volume-progress"
                     now={this.state.volume * 100}
                     ref={(input) => { this.slidebar = input }}
-                    onClick={this.slidebarOnClick.bind(this)} />
+                    onClick={this.setVolumeClick.bind(this)}
+                    />
 
 
 
