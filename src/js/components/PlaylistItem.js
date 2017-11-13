@@ -36,9 +36,12 @@ class PlaylistItem extends Component {
   // Alert user about deleting a song
   // If user confirms, delete the song, else return
   handleOptionDelete(event, songKey) {
-    //event.stopPropagation(); // Prevent calling parent onClick()
-    //console.log('handleOptionDelete(): ' + songKey);
-    this.playlist.pop(songkey);
+    event.stopPropagation(); // Prevent calling parent onClick()
+    console.log('handleOptionDelete(): ' + songKey);
+    this.props.packages.firebase.database()
+    .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlistSongs/songKey`).remove(() => {console.log('Song removed')});
+    //event.stopPropagation();
+    //this.setState({playlist: []})
   }
 
   // Shows song name with different length based on screen size
@@ -105,7 +108,8 @@ class PlaylistItem extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    settings: state.settings
+    settings: state.settings,
+    packages: state.packages
   }
 }
 
