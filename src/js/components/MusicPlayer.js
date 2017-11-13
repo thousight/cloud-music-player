@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import ReactHowler from 'react-howler';
 import { toast } from 'react-toastify';
-
+import ReactDOM from 'react-dom';
 import CircularButton from './CircularButton';
 import { setPlayingMusicId, startPlaying, stopPlaying } from '../redux/actions';
 
@@ -27,12 +27,17 @@ class MusicPlayer extends Component {
     playlist: [],
     playingOrder: [],
     currentPlayMode: 'normal',
-    volume: 0.3,
+    volume: 0.5
 
   }
-
+  slidebarOnClick(e) {
+    var specs = ReactDOM.findDOMNode(this.slidebar).getBoundingClientRect();
+    this.setState({ volume: (e.screenX - specs.left) / 100});
+    console.log(this.state.volume);
+  }
   componentDidMount() {
     console.log(this.player);
+
   }
 
   playMusic() {
@@ -75,11 +80,11 @@ class MusicPlayer extends Component {
   getPlayModeIcon() {
     switch (this.state.currentPlayMode) {
       case 'singleRepeat':
-        return repeatOne;
+      return repeatOne;
       case 'shuffle':
-        return shuffle;
+      return shuffle;
       default:
-        return repeat;
+      return repeat;
     }
   }
 
@@ -119,7 +124,7 @@ class MusicPlayer extends Component {
 
     return (
       <div className="music-player">
-        {/* Music Player */}
+        {/* Music Player     */}
         <ReactHowler
           src={'https://drive.google.com/uc?export=download&id=' + this.props.user.currentlyPlayingMusicId}
           playing={this.props.user.isPlaying}
@@ -127,61 +132,65 @@ class MusicPlayer extends Component {
           onLoadError={this.onLoadError.bind(this)}
           ref={(ref) => (this.player = ref)} />
 
-        <div className="music-player-progress-bar">
+          <div className="music-player-progress-bar">
 
-        </div>
-
-        <div className="music-player-buttons-wrapper card">
-          <img className="music-player-modes"
-            alt="Play modes"
-            src={this.getPlayModeIcon()}
-            onClick={this.setPlayMode.bind(this)}/>
-
-          <CircularButton
-            flipIcon
-            onClick={this.playPrevious.bind(this)}
-            icon={next}
-          />
-
-          <CircularButton
-            lg
-            onClick={this.playMusic.bind(this)}
-            icon={this.getPlayIcon()}
-          />
-
-          <CircularButton
-            onClick={this.playNext.bind(this)}
-            icon={next}
-          />
-
-          <div className="music-player-volume-wrapper">
-            <img className="music-player-volume"
-              alt="Volume button"
-              src={this.getVolumeIcon()}
-              onClick={this.setMute.bind(this)}/>
-
-            <ProgressBar className="music-player-volume-progress"
-              now={this.state.volume * 100}/>
           </div>
-        </div>
-      </div>
-    )
-  }
-}
 
-const mapStateToProps = state => {
-  return {
-    user: state.user,
-    packages: state.packages,
-  }
-}
+          <div className="music-player-buttons-wrapper card">
+            <img className="music-player-modes"
+              alt="Play modes"
+              src={this.getPlayModeIcon()}
+              onClick={this.setPlayMode.bind(this)}/>
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setPlayingMusicId: id => dispatch(setPlayingMusicId(id)),
-    startPlaying: () => dispatch(startPlaying()),
-    stopPlaying: () => dispatch(stopPlaying()),
-  }
-}
+              <CircularButton
+                flipIcon
+                onClick={this.playPrevious.bind(this)}
+                icon={next}
+              />
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicPlayer));
+              <CircularButton
+                lg
+                onClick={this.playMusic.bind(this)}
+                icon={this.getPlayIcon()}
+              />
+
+              <CircularButton
+                onClick={this.playNext.bind(this)}
+                icon={next}
+              />
+
+              <div className="music-player-volume-wrapper">
+                <img className="music-player-volume"
+                  alt="Volume button"
+                  src={this.getVolumeIcon()}
+                  onClick={this.setMute.bind(this)}/>
+                  <ProgressBar className="music-player-volume-progress"
+                    now={this.state.volume * 100}
+                    ref={(input) => { this.slidebar = input }}
+                    onClick={this.slidebarOnClick.bind(this)} />
+
+
+
+                  </div>
+                </div>
+              </div>
+            )
+          }
+        }
+
+        const mapStateToProps = state => {
+          return {
+            user: state.user,
+            packages: state.packages,
+          }
+        }
+
+        const mapDispatchToProps = dispatch => {
+          return {
+            setPlayingMusicId: id => dispatch(setPlayingMusicId(id)),
+            startPlaying: () => dispatch(startPlaying()),
+            stopPlaying: () => dispatch(stopPlaying()),
+          }
+        }
+
+        export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicPlayer));
