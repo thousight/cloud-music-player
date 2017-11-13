@@ -128,6 +128,7 @@ class MusicPlayer extends Component {
           html5={true}
           onLoadError={this.onLoadError.bind(this)}
           volume={this.state.volume}
+          mute={this.state.mute}
           ref={(ref) => (this.player = ref)} />
 
           <div className="music-player-progress-bar">
