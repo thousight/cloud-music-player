@@ -30,7 +30,15 @@ class PlaylistItem extends Component {
   // Add song to playlist when user selects the playlist
   handleOptionAddToPlaylistClick(event, playlistName, songId, songName) {
     document.getElementById(this.state.currentlyOpenedPopover).style.display = "none"; // Hide opened popover
+    event.preventDefault();
     console.log('handleOptionAddToPlaylistClick(): ' + playlistName);
+    console.log(songId);
+    const item = {
+      [songId]: songName
+    };
+    console.log(item);
+    this.props.packages.firebase.database()
+    .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists`).child(playlistName).update(item);
   }
 
   // Alert user about deleting a song
@@ -59,7 +67,6 @@ class PlaylistItem extends Component {
             return (
                 this.props.playlistName !== playlistName
                 && !(songKey in this.props.user.playlists[playlistName])
-                && playlistName !== 'Google Drive Imports'
             ) ?
               <div className="popover-playlist"
                 onClick={e => this.handleOptionAddToPlaylistClick(e, playlistName, songKey, songName)}
