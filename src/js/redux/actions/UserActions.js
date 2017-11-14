@@ -5,7 +5,9 @@ import {
   PLAY_MUSIC,
   PLAY_PLAYLIST,
   STOP_PLAY,
-  START_PLAY
+  START_PLAY,
+  SET_MUTE,
+  SET_UNMUTE,
 } from './actionTypes';
 
 /**
@@ -81,5 +83,18 @@ export const startPlaying = () => {
 export const stopPlaying = () => {
   return dispatch => dispatch({
     type: STOP_PLAY,
+  });
+};
+
+export const setMute = () => {
+  return dispatch => dispatch({
+    type: SET_MUTE,
+  });
+};
+
+
+export const setUnmute = () => {
+  return dispatch => dispatch({
+    type: SET_UNMUTE,
   });
 };

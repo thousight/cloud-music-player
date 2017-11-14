@@ -6,7 +6,7 @@ import ReactHowler from 'react-howler';
 import { toast } from 'react-toastify';
 import ReactDOM from 'react-dom';
 import CircularButton from './CircularButton';
-import { setPlayingMusicId, startPlaying, stopPlaying } from '../redux/actions';
+import { setPlayingMusicId, startPlaying, stopPlaying, setMute, setUnmute } from '../redux/actions';
 
 import repeat from '../../img/repeat.svg';
 import repeatOne from '../../img/repeat_one.svg';
@@ -28,7 +28,7 @@ class MusicPlayer extends Component {
     playingOrder: [],
     currentPlayMode: 'normal',
     volume: 0.3,
-    mute: false,
+
 
   }
 
@@ -91,13 +91,18 @@ class MusicPlayer extends Component {
     console.log(this.state.volume);
   }
 
-  setMute() {
+  settingMute() {
     // Set mute or not
-    this.setState({mute: !this.state.mute})
+    if(this.props.user.isMute) {
+      this.props.setUnmute();
+    }
+    else {
+      this.props.setMute();
+    }
   }
 
   getVolumeIcon() {
-    return this.state.mute ? mute : volume
+    return this.props.user.isMute ? mute : volume
   }
 
   setProgress(percent) {
@@ -128,7 +133,7 @@ class MusicPlayer extends Component {
           html5={true}
           onLoadError={this.onLoadError.bind(this)}
           volume={this.state.volume}
-          mute={this.state.mute}
+          mute={this.props.user.isMute}
           ref={(ref) => (this.player = ref)} />
 
           <div className="music-player-progress-bar">
@@ -162,7 +167,7 @@ class MusicPlayer extends Component {
                 <img className="music-player-volume"
                   alt="Volume button"
                   src={this.getVolumeIcon()}
-                  onClick={this.setMute.bind(this)}/>
+                  onClick={this.settingMute.bind(this)}/>
                   <ProgressBar className="music-player-volume-progress"
                     now={this.state.volume * 100}
                     ref={(input) => { this.slidebar = input }}
@@ -190,6 +195,8 @@ class MusicPlayer extends Component {
             setPlayingMusicId: id => dispatch(setPlayingMusicId(id)),
             startPlaying: () => dispatch(startPlaying()),
             stopPlaying: () => dispatch(stopPlaying()),
+            setMute: () => dispatch(setMute()),
+            setUnmute: () => dispatch(setUnmute()),
           }
         }
 

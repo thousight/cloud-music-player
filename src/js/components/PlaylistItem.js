@@ -35,11 +35,11 @@ class PlaylistItem extends Component {
 
   // Alert user about deleting a song
   // If user confirms, delete the song, else return
-  handleOptionDelete(event, playlistSongs,songKey) {
+  handleOptionDelete(event, playlistName,songKey) {
     event.stopPropagation(); // Prevent calling parent onClick()
     console.log('handleOptionDelete(): ' + songKey);
     this.props.packages.firebase.database()
-    .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists/Google Drive Imports/${songKey}`).remove(() => {console.log('Song removed')});
+    .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists/${playlistName}/${songKey}`).remove(() => {console.log('Song removed')});
   }
 
   // Shows song name with different length based on screen size
@@ -94,7 +94,7 @@ class PlaylistItem extends Component {
                 <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistsPopover(songKey, tempSongName)}>
                   <img onClick={e => this.handleOptionAddClick(e, songKey)} alt="Add icon" src={add} />
                 </OverlayTrigger>
-                <img onClick={e => this.handleOptionDelete(e, this.props.playlistSongs,songKey)} alt="Song icon" src={remove} />
+                <img onClick={e => this.handleOptionDelete(e, this.props.playlistName,songKey)} alt="Song icon" src={remove} />
               </div>
             </div>
           )

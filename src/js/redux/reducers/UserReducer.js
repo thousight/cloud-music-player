@@ -5,7 +5,9 @@ import {
   PLAY_MUSIC,
   PLAY_PLAYLIST,
   START_PLAY,
-  STOP_PLAY
+  STOP_PLAY,
+  SET_MUTE,
+  SET_UNMUTE
 } from '../actions';
 
 const initialState = {
@@ -14,7 +16,8 @@ const initialState = {
   playlists: {},
   currentlyPlayingMusicId: '',
   currentlyPlayingPlaylistName: '',
-  isPlaying: false
+  isPlaying: false,
+  isMute: true,
 }
 
 const UserReducer = (state = initialState, action) => {
@@ -49,12 +52,23 @@ const UserReducer = (state = initialState, action) => {
     case START_PLAY:
       return {
         ...state,
-        isPlaying: true
+        isPlaying: true,
+        isMute: false
       }
     case STOP_PLAY:
       return {
         ...state,
-        isPlaying: false
+        isPlaying: false,
+      }
+    case SET_MUTE:
+      return{
+        ...state,
+        isMute: true
+      }
+    case SET_UNMUTE:
+      return{
+        ...state,
+        isMute: false
       }
     default:
       return state

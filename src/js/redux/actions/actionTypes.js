@@ -8,5 +8,7 @@ export const PLAY_MUSIC = 'PLAY_MUSIC';
 export const PLAY_PLAYLIST = 'PLAY_PLAYLIST';
 export const START_PLAY = 'START_PLAY';
 export const STOP_PLAY = 'STOP_PLAY';
+export const SET_MUTE = 'SET_MUTE';
+export const SET_UNMUTE = 'SET_UNMUTE';
 
 export const SIDEBAR_OPEN = 'SIDEBAR_OPEN';
