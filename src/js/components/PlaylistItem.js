@@ -67,6 +67,7 @@ class PlaylistItem extends Component {
             return (
                 this.props.playlistName !== playlistName
                 && !(songKey in this.props.user.playlists[playlistName])
+                && playlistName !== 'Google Drive Imports'
             ) ?
               <div className="popover-playlist"
                 onClick={e => this.handleOptionAddToPlaylistClick(e, playlistName, songKey, songName)}
