@@ -21,7 +21,7 @@
 }
 
 .sidebar-playlist-title > a {
-  padding: 5px 10px;
+  padding: 5px 15px;
   display: block;
   user-select: none;
   cursor: pointer;
@@ -52,7 +52,7 @@
 
 /*Playlist title icon*/
 .sidebar-playlist-icon {
-  width: 10px;
+  width: 24px;
   height: 24px;
   margin-right: 10px;
 }
@@ -75,7 +75,7 @@
 
 .sidebar-song-item > .sidebar-song-item-playing-icon {
   float: right;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 /*Playlist song options*/
