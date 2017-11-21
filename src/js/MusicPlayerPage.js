@@ -159,12 +159,17 @@ class MusicPlayerPage extends Component {
               <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistsPopover}>
                 <img className="add-current-song-button"
                   src={add}
-                  alt="Add current song button" />
+                alt="Add current song button" />
               </OverlayTrigger>
-             :
+            :
             null
           }
-          <MusicPlayer />
+          {
+            this.props.user.isPlaying ?
+              <MusicPlayer />
+            :
+              null
+          }
         </div>
       </Sidebar>
     );
