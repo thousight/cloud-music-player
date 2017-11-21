@@ -81,6 +81,26 @@
   display: none;
 }
 
+.music-player-progress-bar {
+  background-color: #89caf6;
+  border-radius: 0;
+  box-shadow: none;
+  height: 5px;
+  margin: 0;
+}
+
+.music-player-progress-bar > .rangeslider__handle {
+  visibility: hidden;
+}
+
+.music-player-progress-bar:hover > .rangeslider__handle {
+  visibility: visible;
+}
+
+.music-player-progress-bar > .rangeslider__fill {
+  border-radius: 0;
+}
+
 @media (max-width: 767px) {
   .music-player {
     padding-left: 0;

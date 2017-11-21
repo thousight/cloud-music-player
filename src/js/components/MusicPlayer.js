@@ -30,6 +30,7 @@ class MusicPlayer extends Component {
     playingOrder: [],
     currentPlayMode: 'normal',
     volume: 0.3,
+    progress: 0
   }
 
   componentDidMount() {
@@ -103,9 +104,9 @@ class MusicPlayer extends Component {
     return this.props.user.isMute ? mute : volume
   }
 
-  setProgress(percent) {
+  setProgress(progress) {
     // Set progress of music
-
+    this.setState({progress});
   }
 
   onLoadError() {
@@ -134,9 +135,10 @@ class MusicPlayer extends Component {
           volume={this.state.volume}
           ref={(ref) => (this.player = ref)} />
 
-        <div className="music-player-progress-bar">
-
-        </div>
+        <Slider className="music-player-progress-bar"
+          value={this.state.progress}
+          orientation="horizontal"
+          onChange={this.setProgress.bind(this)}/>
 
         <div className="music-player-buttons-wrapper card">
           <img className="music-player-modes"
