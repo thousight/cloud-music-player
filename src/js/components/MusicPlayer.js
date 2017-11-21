@@ -86,9 +86,7 @@ class MusicPlayer extends Component {
   }
 
   handleVolumeSliderChange(volume) {
-    if (this.props.user.isPlaying) {
-      this.setState({volume});
-    }
+    this.setState({volume: volume.toFixed(2)});
   }
 
   settingMute() {
