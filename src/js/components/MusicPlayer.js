@@ -28,10 +28,11 @@ class MusicPlayer extends Component {
   state = {
     playlist: [],
     playingOrder: [],
-    currentPlayMode: 'singleRepeat',
+    currentPlayMode: 'playlistRepeat',
     volume: 0.3,
     progress: 0
   }
+
 
   componentDidMount() {
     console.log(this.player);
@@ -60,19 +61,116 @@ class MusicPlayer extends Component {
     // Play the next music in playlist based on playing order
     // If this is the last item in playing order
     // play the first one
-
+    if(this.state.currentPlayMode == 'singleRepeat' || this.state.currentPlayMode == 'playlistRepeat') {
+      var firstSongFlag = 0;
+      var firstSongId;
+      var nextSongFlag = 0;
+      var nextSongId;
+      var notEndOfPlaylist = 0;
+      var quit = 0;
+      Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
+        console.log(this.props.user.currentlyPlayingPlaylist[songKey])
+        if(firstSongFlag == 0) {
+          firstSongId = songKey;
+          firstSongFlag = 1;
+        }
+        if(songKey == this.props.user.currentlyPlayingMusicId) {
+          nextSongFlag = 1;
+          console.log(index)
+        }
+        else if(nextSongFlag == 1&& quit == 0) {
+          notEndOfPlaylist = 1;
+          nextSongId = songKey;
+          console.log(index)
+          quit = 1;
+        }
+      })
+      console.log(firstSongId);
+      console.log(nextSongId);
+      if(notEndOfPlaylist == 0) {
+        this.props.setPlayingMusicId(firstSongId);
+        console.log(notEndOfPlaylist)
+      }
+      else {
+        this.props.setPlayingMusicId(nextSongId);
+      }
+    }
+    else if (this.state.currentPlayMode == 'shuffle'){
+      var numOfSongs = 0;
+      var currentIndex;
+      Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
+        if(songKey == this.props.user.currentlyPlayingMusicId) {
+          currentIndex = index;
+        }
+        numOfSongs++;
+      })
+      numOfSongs--;
+      var newIndex = Math.floor(Math.random()*(numOfSongs + 1));
+      while(newIndex == currentIndex) {
+        newIndex = Math.floor(Math.random()*(numOfSongs + 1));
+      }
+      console.log(newIndex);
+      var newId;
+      Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
+        if(newIndex == index){
+          newId = songKey;
+          console.log(this.props.user.currentlyPlayingPlaylist[songKey])
+        }
+      })
+      this.props.setPlayingMusicId(newId);
+    }
   }
 
   playPrevious() {
     // Play the next music in playlist based on playing order
     // If this is the first item in playing order
     // play the last one
-
+    // if (this.state.currentPlayMode == 'shuffle'){
+    //   var numOfSongs = 0;
+    //   var currentIndex;
+    //   Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
+    //     if(songKey == this.props.user.currentlyPlayingMusicId) {
+    //       currentIndex = index;
+    //     }
+    //     numOfSongs++;
+    //   })
+    //   numOfSongs--;
+    //   var newIndex = Math.floor(Math.random()*(numOfSongs + 1));
+    //   while(newIndex == currentIndex) {
+    //     newIndex = Math.floor(Math.random()*(numOfSongs + 1));
+    //   }
+    //   console.log(newIndex);
+    //   var newId;
+    //   Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
+    //     if(newIndex == index){
+    //       newId = songKey;
+    //       console.log(this.props.user.currentlyPlayingPlaylist[songKey])
+    //     }
+    //   })
+    //   this.props.setPlayingMusicId(newId);
+    // }
+    // else if(this.state.currentPlayMode == 'singleRepeat' || this.state.currentPlayMode == 'playlistRepeat') {
+    //   var preMusicId;
+    //   var firstMatch = 0;
+    //   Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
+    //     if(songKey == this.props.user.currentlyPlayingMusicId) {
+    //
+    //     }
+    //   })
+    // }
   }
 
   setPlayMode() {
     // Set play mode
-
+    if(this.state.currentPlayMode == 'playlistRepeat') {
+      this.setState({currentPlayMode: 'shuffle'});
+    }
+    else if(this.state.currentPlayMode == 'shuffle') {
+      this.setState({currentPlayMode: 'singleRepeat'});
+    }
+    else if(this.state.currentPlayMode == 'singleRepeat') {
+      this.setState({currentPlayMode: 'playlistRepeat'});
+    }
   }
 
   getPlayModeIcon() {
@@ -116,8 +214,70 @@ class MusicPlayer extends Component {
       this.errorTimeout = setTimeout(() => {
         let filename = this.props.user.playlists[this.props.user.currentlyPlayingPlaylistName][this.props.user.currentlyPlayingMusicId];
         toast.error(`Unable to fetch ${filename}`, {closeButton: false});
-        this.playNext();
+        // this.playNext();
       }, 1000)
+    }
+  }
+
+  handleOnEnd(){
+    console.log(this.state.currentPlayMode)
+    if(this.state.currentPlayMode == 'playlistRepeat') {
+      var firstSongFlag = 0;
+      var firstSongId;
+      var nextSongFlag = 0;
+      var nextSongId;
+      var notEndOfPlaylist = 0;
+      var quit = 0;
+      Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
+        console.log(this.props.user.currentlyPlayingPlaylist[songKey])
+        if(firstSongFlag == 0) {
+          firstSongId = songKey;
+          firstSongFlag = 1;
+        }
+        if(songKey == this.props.user.currentlyPlayingMusicId) {
+          nextSongFlag = 1;
+          console.log(index)
+        }
+        else if(nextSongFlag == 1&& quit == 0) {
+          notEndOfPlaylist = 1;
+          nextSongId = songKey;
+          console.log(index)
+          quit = 1;
+        }
+      })
+      console.log(firstSongId);
+      console.log(nextSongId);
+      if(notEndOfPlaylist == 0) {
+        this.props.setPlayingMusicId(firstSongId);
+        console.log(notEndOfPlaylist)
+      }
+      else {
+        this.props.setPlayingMusicId(nextSongId);
+      }
+    }
+    else if(this.state.currentPlayMode == 'shuffle') {
+      var numOfSongs = 0;
+      var currentIndex;
+      Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
+        if(songKey == this.props.user.currentlyPlayingMusicId) {
+          currentIndex = index;
+        }
+        numOfSongs++;
+      })
+      numOfSongs--;
+      var newIndex = Math.floor(Math.random()*(numOfSongs + 1));
+      while(newIndex == currentIndex) {
+        newIndex = Math.floor(Math.random()*(numOfSongs + 1));
+      }
+      console.log(newIndex);
+      var newId;
+      Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
+        if(newIndex == index){
+          newId = songKey;
+          console.log(this.props.user.currentlyPlayingPlaylist[songKey])
+        }
+      })
+      this.props.setPlayingMusicId(newId);
     }
   }
 
@@ -134,6 +294,7 @@ class MusicPlayer extends Component {
           mute={this.props.user.isMute}
           volume={this.state.volume}
           loop={this.state.currentPlayMode == 'singleRepeat' ? true : false}
+          onEnd={this.handleOnEnd.bind(this)}
           ref={(ref) => (this.player = ref)} />
 
         <Slider className="music-player-progress-bar"

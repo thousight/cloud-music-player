@@ -7,7 +7,8 @@ import {
   START_PLAY,
   STOP_PLAY,
   SET_MUTE,
-  SET_UNMUTE
+  SET_UNMUTE,
+  SET_PLAYLIST
 } from '../actions';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   currentlyPlayingPlaylistName: '',
   isPlaying: false,
   isMute: true,
+  currentlyPlayingPlaylist: {},
 }
 
 const UserReducer = (state = initialState, action) => {
@@ -69,6 +71,11 @@ const UserReducer = (state = initialState, action) => {
       return{
         ...state,
         isMute: false
+      }
+    case SET_PLAYLIST:
+      return {
+        ...state,
+        currentlyPlayingPlaylist: action.playlist
       }
     default:
       return state
