@@ -35,7 +35,6 @@ class MusicPlayer extends Component {
 
 
   playMusic() {
-    console.log(this.player);
     // Control music play pause
 
     if (this.props.user.isPlaying) {
@@ -64,27 +63,21 @@ class MusicPlayer extends Component {
       var notEndOfPlaylist = 0;
       var quit = 0;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
-        console.log(this.props.user.currentlyPlayingPlaylist[songKey])
         if(firstSongFlag == 0) {
           firstSongId = songKey;
           firstSongFlag = 1;
         }
         if(songKey == this.props.user.currentlyPlayingMusicId) {
           nextSongFlag = 1;
-          console.log(index)
         }
         else if(nextSongFlag == 1&& quit == 0) {
           notEndOfPlaylist = 1;
           nextSongId = songKey;
-          console.log(index)
           quit = 1;
         }
       })
-      console.log(firstSongId);
-      console.log(nextSongId);
       if(notEndOfPlaylist == 0) {
         this.props.setPlayingMusicId(firstSongId);
-        console.log(notEndOfPlaylist)
       }
       else {
         this.props.setPlayingMusicId(nextSongId);
@@ -104,12 +97,10 @@ class MusicPlayer extends Component {
       while(newIndex == currentIndex) {
         newIndex = Math.floor(Math.random()*(numOfSongs + 1));
       }
-      console.log(newIndex);
       var newId;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(newIndex == index){
           newId = songKey;
-          console.log(this.props.user.currentlyPlayingPlaylist[songKey])
         }
       })
       this.props.setPlayingMusicId(newId);
@@ -134,12 +125,10 @@ class MusicPlayer extends Component {
       while(newIndex == currentIndex) {
         newIndex = Math.floor(Math.random()*(numOfSongs + 1));
       }
-      console.log(newIndex);
       var newId;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(newIndex == index){
           newId = songKey;
-          console.log(this.props.user.currentlyPlayingPlaylist[songKey])
         }
       })
       this.props.setPlayingMusicId(newId);
@@ -256,7 +245,6 @@ class MusicPlayer extends Component {
   }
 
   handleOnEnd(){
-    console.log(this.state.currentPlayMode)
     if(this.state.currentPlayMode == 'playlistRepeat') {
       var firstSongFlag = 0;
       var firstSongId;
@@ -265,27 +253,21 @@ class MusicPlayer extends Component {
       var notEndOfPlaylist = 0;
       var quit = 0;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
-        console.log(this.props.user.currentlyPlayingPlaylist[songKey])
         if(firstSongFlag == 0) {
           firstSongId = songKey;
           firstSongFlag = 1;
         }
         if(songKey == this.props.user.currentlyPlayingMusicId) {
           nextSongFlag = 1;
-          console.log(index)
         }
         else if(nextSongFlag == 1&& quit == 0) {
           notEndOfPlaylist = 1;
           nextSongId = songKey;
-          console.log(index)
           quit = 1;
         }
       })
-      console.log(firstSongId);
-      console.log(nextSongId);
       if(notEndOfPlaylist == 0) {
         this.props.setPlayingMusicId(firstSongId);
-        console.log(notEndOfPlaylist)
       }
       else {
         this.props.setPlayingMusicId(nextSongId);
@@ -305,12 +287,10 @@ class MusicPlayer extends Component {
       while(newIndex == currentIndex) {
         newIndex = Math.floor(Math.random()*(numOfSongs + 1));
       }
-      console.log(newIndex);
       var newId;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(newIndex == index){
           newId = songKey;
-          console.log(this.props.user.currentlyPlayingPlaylist[songKey])
         }
       })
       this.props.setPlayingMusicId(newId);

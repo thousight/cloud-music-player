@@ -162,10 +162,7 @@ class SidebarContent extends Component {
         let obj = {};
         let id = '123456'
         obj[id] = ''
-        newLocation.set(obj).then(() => {
-          this.props.packages.firebase.database()
-          .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists/${this.state.playlistName}/id`).remove(() => {console.log('Song removed')});
-        });
+        newLocation.set(obj)
       }
     }
 
