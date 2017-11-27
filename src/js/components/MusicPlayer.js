@@ -30,12 +30,9 @@ class MusicPlayer extends Component {
     playingOrder: [],
     currentPlayMode: 'normal',
     volume: 0.3,
-    progress: 0
-  }
-
-  componentDidMount() {
-    console.log(this.player);
-
+    progress: 0,
+    currentTime: 0,
+    durationTime: 0
   }
 
   playMusic() {
@@ -99,14 +96,38 @@ class MusicPlayer extends Component {
       this.props.setMute();
     }
   }
-
+  handleSeek() {
+    if (this.player != null) {
+      console.log(this.player.seek());
+      this.setState({progress: this.player.seek()})
+    }
+  }
   getVolumeIcon() {
     return this.props.user.isMute ? mute : volume
   }
+  updateProgress() {
+    if (this.state.progress != 100) {
+      this.setState({
+        progress: (this.player.seek() * 100 / this.player.duration()).toFixed()
+      });
+      console.log(this.state.progress);
+      requestAnimationFrame(this.updateProgress.bind(this));
+    }
+    else {
+      this.props.stopPlaying();
+      this.setState({
+        progress: 0
+      });
+    }
+  }
 
-  setProgress(progress) {
+
+
+  setProgress(position) {
     // Set progress of music
-    this.setState({progress});
+    this.setState({progress: position});
+    this.player.seek((this.player.duration() / 100 * position).toFixed());
+
   }
 
   onLoadError() {
@@ -120,7 +141,9 @@ class MusicPlayer extends Component {
       }, 1000)
     }
   }
-
+  componentDidMount() {
+    requestAnimationFrame(this.updateProgress.bind(this));
+  }
   render() {
 
     return (
@@ -135,70 +158,72 @@ class MusicPlayer extends Component {
           volume={this.state.volume}
           ref={(ref) => (this.player = ref)} />
 
-        <Slider className="music-player-progress-bar"
-          value={this.state.progress}
-          orientation="horizontal"
-          onChange={this.setProgress.bind(this)}/>
-
-        <div className="music-player-buttons-wrapper card">
-          <img className="music-player-modes"
-            alt="Play modes"
-            src={this.getPlayModeIcon()}
-            onClick={this.setPlayMode.bind(this)}/>
-
-          <CircularButton
-            flipIcon
-            onClick={this.playPrevious.bind(this)}
-            icon={next}
+          <Slider className="music-player-progress-bar"
+            value={this.state.progress}
+            orientation="horizontal"
+            onChange={this.setProgress.bind(this)}
           />
 
-          <CircularButton
-            lg
-            onClick={this.playMusic.bind(this)}
-            icon={this.getPlayIcon()}
-          />
 
-          <CircularButton
-            onClick={this.playNext.bind(this)}
-            icon={next}
-          />
+          <div className="music-player-buttons-wrapper card">
+            <img className="music-player-modes"
+              alt="Play modes"
+              src={this.getPlayModeIcon()}
+              onClick={this.setPlayMode.bind(this)}/>
 
-          <div className="music-player-volume-wrapper">
-            <img className="music-player-volume"
-              alt="Volume button"
-              src={this.getVolumeIcon()}
-              onClick={this.settingMute.bind(this)}/>
+              <CircularButton
+                flipIcon
+                onClick={this.playPrevious.bind(this)}
+                icon={next}
+              />
 
-            <Slider className="music-player-volume-slider"
-              value={this.state.volume}
-              min={0}
-              max={1}
-              step={0.01}
-              orientation="horizontal"
-              onChange={this.handleVolumeSliderChange.bind(this)}/>
+              <CircularButton
+                lg
+                onClick={this.playMusic.bind(this)}
+                icon={this.getPlayIcon()}
+              />
 
-          </div>
-        </div>
-      </div>
-    )
-  }
-}
+              <CircularButton
+                onClick={this.playNext.bind(this)}
+                icon={next}
+              />
 
-const mapStateToProps = state => {
-  return {
-    user: state.user,
-    packages: state.packages,
-  }
-}
+              <div className="music-player-volume-wrapper">
+                <img className="music-player-volume"
+                  alt="Volume button"
+                  src={this.getVolumeIcon()}
+                  onClick={this.settingMute.bind(this)}/>
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setPlayingMusicId: id => dispatch(setPlayingMusicId(id)),
-    startPlaying: () => dispatch(startPlaying()),
-    stopPlaying: () => dispatch(stopPlaying()),
-    setMute: () => dispatch(setMute()),
-    setUnmute: () => dispatch(setUnmute()),
-  }
-}
+                  <Slider className="music-player-volume-slider"
+                    value={this.state.volume}
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    orientation="horizontal"
+                    onChange={this.handleVolumeSliderChange.bind(this)}/>
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicPlayer));
+                  </div>
+                </div>
+              </div>
+            )
+          }
+        }
+
+        const mapStateToProps = state => {
+          return {
+            user: state.user,
+            packages: state.packages,
+          }
+        }
+
+        const mapDispatchToProps = dispatch => {
+          return {
+            setPlayingMusicId: id => dispatch(setPlayingMusicId(id)),
+            startPlaying: () => dispatch(startPlaying()),
+            stopPlaying: () => dispatch(stopPlaying()),
+            setMute: () => dispatch(setMute()),
+            setUnmute: () => dispatch(setUnmute()),
+          }
+        }
+
+        export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicPlayer));
