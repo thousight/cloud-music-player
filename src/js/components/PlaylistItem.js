@@ -97,7 +97,7 @@ class PlaylistItem extends Component {
         {/* Listing individual songs */}
         {Object.keys(this.props.playlistSongs).map((songKey, index) => {
           let tempSongName = this.props.playlistSongs[songKey];
-
+          if(songKey != '123456'){
           return (
             <div className="sidebar-song-item card" key={index} onClick={() => this.handleMusicOnClick(songKey)}>
               <img alt="Song icon"
@@ -113,7 +113,7 @@ class PlaylistItem extends Component {
                 <img onClick={e => this.handleOptionDelete(e, this.props.playlistName,songKey)} alt="Song icon" src={remove} />
               </div>
             </div>
-          )
+          )}
         })}
       </Panel>
     );
