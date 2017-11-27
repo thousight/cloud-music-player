@@ -28,7 +28,7 @@ class MusicPlayer extends Component {
   state = {
     playlist: [],
     playingOrder: [],
-    currentPlayMode: 'normal',
+    currentPlayMode: 'singleRepeat',
     volume: 0.3,
     progress: 0,
     currentTime: 0,
@@ -156,6 +156,7 @@ class MusicPlayer extends Component {
           onLoadError={this.onLoadError.bind(this)}
           mute={this.props.user.isMute}
           volume={this.state.volume}
+          loop={this.state.currentPlayMode == 'singleRepeat' ? true : false}
           ref={(ref) => (this.player = ref)} />
 
           <Slider className="music-player-progress-bar"
