@@ -157,6 +157,13 @@ class SidebarContent extends Component {
       if (this.state.playlistName.length > 0 && this.state.playlistNameError.length === 0) {
         this.setState({playlistName: '', submitButtonBackground: '#888888'});
         document.getElementById('NEW_PLAYLIST_POPOVER').style.display = "none";
+        let newLocation = this.props.packages.firebase.database()
+        .ref(`/users/${this.props.packages.firebase.auth().currentUser.uid}/playlists/${this.state.playlistName}`);
+        //let obj = {};
+
+      //  newLocation.set(obj).then(() => {
+        //  this.props.history.push('/player');
+      //  })
       }
     }
 
