@@ -165,7 +165,7 @@ class MusicPlayerPage extends Component {
             null
           }
           {
-            this.props.user.isPlaying ?
+            this.props.user.isPlaying || this.props.user.currentlyPlayingMusicId?
               <MusicPlayer />
             :
               null

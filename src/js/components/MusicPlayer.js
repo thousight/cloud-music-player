@@ -31,12 +31,8 @@ class MusicPlayer extends Component {
     progress: 0
   }
 
-
-
-
   playMusic() {
     // Control music play pause
-
     if (this.props.user.isPlaying) {
       this.player.pause();
       this.props.stopPlaying();
