@@ -10,5 +10,6 @@ export const START_PLAY = 'START_PLAY';
 export const STOP_PLAY = 'STOP_PLAY';
 export const SET_MUTE = 'SET_MUTE';
 export const SET_UNMUTE = 'SET_UNMUTE';
+export const SET_PLAYLIST = 'SET_PLAYLIST';
 
 export const SIDEBAR_OPEN = 'SIDEBAR_OPEN';

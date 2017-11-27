@@ -3,7 +3,7 @@ import { Panel, OverlayTrigger, Popover } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import { setPlayingMusicId, setPlayingPlaylist, startPlaying } from '../redux/actions';
+import { setPlayingMusicId, setPlayingPlaylist, startPlaying, setCurrentPlaylist } from '../redux/actions';
 
 import add from '../../img/add-option.svg';
 import remove from '../../img/clear-option.svg';
@@ -20,6 +20,14 @@ class PlaylistItem extends Component {
     this.props.setPlayingMusicId(songKey);
     this.props.setPlayingPlaylist(this.props.playlistName);
     this.props.startPlaying();
+    this.props.setCurrentPlaylist(this.props.playlistSongs);
+
+    console.log(this.props.playlistSongs)
+    // Object.keys(this.props.playlistSongs).map((key, index) => {
+    //   if(key == songKey) {
+    //     console.log(index)
+    //   }
+    // })
   }
 
   handleOptionAddClick(event, songKey) {
@@ -124,6 +132,7 @@ const mapDispatchToProps = dispatch => {
     setPlayingMusicId: musicId => dispatch(setPlayingMusicId(musicId)),
     setPlayingPlaylist: playlistName => dispatch(setPlayingPlaylist(playlistName)),
     startPlaying: () => dispatch(startPlaying()),
+    setCurrentPlaylist: playlist => dispatch(setCurrentPlaylist(playlist)),
   }
 }
 

@@ -8,6 +8,7 @@ import {
   START_PLAY,
   SET_MUTE,
   SET_UNMUTE,
+  SET_PLAYLIST
 } from './actionTypes';
 
 /**
@@ -96,5 +97,12 @@ export const setMute = () => {
 export const setUnmute = () => {
   return dispatch => dispatch({
     type: SET_UNMUTE,
+  });
+};
+
+export const setCurrentPlaylist = playlist => {
+  return dispatch => dispatch({
+    type: SET_PLAYLIST,
+    playlist
   });
 };
