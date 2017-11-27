@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { ProgressBar } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import ReactHowler from 'react-howler';
@@ -106,19 +104,19 @@ class MusicPlayer extends Component {
     return this.props.user.isMute ? mute : volume
   }
   updateProgress() {
-    if (this.state.progress != 100) {
+    if (this.state.progress != 100 && this.player != null) {
       this.setState({
         progress: (this.player.seek() * 100 / this.player.duration()).toFixed()
       });
       console.log(this.state.progress);
-      requestAnimationFrame(this.updateProgress.bind(this));
+
     }
     else {
-      this.props.stopPlaying();
       this.setState({
         progress: 0
       });
     }
+    requestAnimationFrame(this.updateProgress.bind(this));
   }
 
 
@@ -156,7 +154,7 @@ class MusicPlayer extends Component {
           onLoadError={this.onLoadError.bind(this)}
           mute={this.props.user.isMute}
           volume={this.state.volume}
-          loop={this.state.currentPlayMode == 'singleRepeat' ? true : false}
+          loop={this.state.currentPlayMode === 'singleRepeat' ? true : false}
           ref={(ref) => (this.player = ref)} />
 
           <Slider className="music-player-progress-bar"
@@ -213,7 +211,7 @@ class MusicPlayer extends Component {
         const mapStateToProps = state => {
           return {
             user: state.user,
-            packages: state.packages,
+            packages: state.packages
           }
         }
 
