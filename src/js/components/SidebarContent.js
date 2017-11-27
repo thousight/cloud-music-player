@@ -159,11 +159,13 @@ class SidebarContent extends Component {
         document.getElementById('NEW_PLAYLIST_POPOVER').style.display = "none";
         let newLocation = this.props.packages.firebase.database()
         .ref(`/users/${this.props.packages.firebase.auth().currentUser.uid}/playlists/${this.state.playlistName}`);
-        //let obj = {};
-
-      //  newLocation.set(obj).then(() => {
-        //  this.props.history.push('/player');
-      //  })
+        let obj = {};
+        let id = '123456'
+        obj[id] = ''
+        newLocation.set(obj).then(() => {
+          this.props.packages.firebase.database()
+          .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists/${this.state.playlistName}/id`).remove(() => {console.log('Song removed')});
+        });
       }
     }
 
