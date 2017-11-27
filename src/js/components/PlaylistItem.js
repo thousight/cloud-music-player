@@ -21,13 +21,6 @@ class PlaylistItem extends Component {
     this.props.setPlayingPlaylist(this.props.playlistName);
     this.props.startPlaying();
     this.props.setCurrentPlaylist(this.props.playlistSongs);
-
-    console.log(this.props.playlistSongs)
-    // Object.keys(this.props.playlistSongs).map((key, index) => {
-    //   if(key == songKey) {
-    //     console.log(index)
-    //   }
-    // })
   }
 
   handleOptionAddClick(event, songKey) {
