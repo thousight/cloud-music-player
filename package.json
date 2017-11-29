@@ -35,5 +35,10 @@
   "description": "Music player based on cloud drive music files for CS 30700",
   "main": "index.js",
   "repository": "https://github.com/thousight/cloud-music-player.git",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "jest": "^21.2.1"
+  }
 }

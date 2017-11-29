@@ -13,6 +13,14 @@ import { setSidebarOpenState, setPlaylists } from './redux/actions';
 import singleNodeIcon from '../img/music_node.svg';
 import add from '../img/add-option.svg';
 
+
+window.matchMedia = window.matchMedia || function() {
+  return {
+    matches : false,
+    addListener : function() {},
+    removeListener: function() {}
+  };
+};
 const mql = window.matchMedia(`(min-width: 768px)`);
 
 class MusicPlayerPage extends Component {

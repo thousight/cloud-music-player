@@ -90,23 +90,24 @@ class PlaylistItem extends Component {
         {/* Listing individual songs */}
         {Object.keys(this.props.playlistSongs).map((songKey, index) => {
           let tempSongName = this.props.playlistSongs[songKey];
-          if(songKey != '123456'){
-          return (
-            <div className="sidebar-song-item card" key={index} onClick={() => this.handleMusicOnClick(songKey)}>
-              <img alt="Song icon"
-                src={(
-                  songKey === this.props.user.currentlyPlayingMusicId
-                  && this.props.playlistName === this.props.user.currentlyPlayingPlaylistName
-                ) ? playingBars : singleNodeIcon} />
-              <span>{this.getSongNameString(tempSongName)}</span>
-              <div className="song-item-options">
-                <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistsPopover(songKey, tempSongName)}>
-                  <img onClick={e => this.handleOptionAddClick(e, songKey)} alt="Add icon" src={add} />
-                </OverlayTrigger>
-                <img onClick={e => this.handleOptionDelete(e, this.props.playlistName,songKey)} alt="Song icon" src={remove} />
+          if (songKey !== '123456') {
+            return (
+              <div className="sidebar-song-item card" key={index} onClick={() => this.handleMusicOnClick(songKey)}>
+                <img alt="Song icon"
+                  src={(
+                    songKey === this.props.user.currentlyPlayingMusicId
+                    && this.props.playlistName === this.props.user.currentlyPlayingPlaylistName
+                  ) ? playingBars : singleNodeIcon} />
+                <span>{this.getSongNameString(tempSongName)}</span>
+                <div className="song-item-options">
+                  <OverlayTrigger trigger="click" rootClose placement="top" overlay={playlistsPopover(songKey, tempSongName)}>
+                    <img onClick={e => this.handleOptionAddClick(e, songKey)} alt="Add icon" src={add} />
+                  </OverlayTrigger>
+                  <img onClick={e => this.handleOptionDelete(e, this.props.playlistName,songKey)} alt="Song icon" src={remove} />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          return null;
         })}
       </Panel>
     );

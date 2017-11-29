@@ -52,12 +52,12 @@ class MusicPlayer extends Component {
     // If this is the last item in playing order
     // play the first one
     if(this.state.currentPlayMode === 'singleRepeat' || this.state.currentPlayMode === 'playlistRepeat') {
-      var firstSongFlag = 0;
-      var firstSongId;
-      var nextSongFlag = 0;
-      var nextSongId;
-      var notEndOfPlaylist = 0;
-      var quit = 0;
+      let firstSongFlag = 0;
+      let firstSongId;
+      let nextSongFlag = 0;
+      let nextSongId;
+      let notEndOfPlaylist = 0;
+      let quit = 0;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(firstSongFlag === 0) {
           firstSongId = songKey;
@@ -71,6 +71,7 @@ class MusicPlayer extends Component {
           nextSongId = songKey;
           quit = 1;
         }
+        return null;
       })
       if(notEndOfPlaylist === 0) {
         this.props.setPlayingMusicId(firstSongId);
@@ -80,24 +81,25 @@ class MusicPlayer extends Component {
       }
     }
     else if (this.state.currentPlayMode === 'shuffle'){
-      var numOfSongs = 0;
-      var currentIndex;
+      let numOfSongs = 0;
+      let currentIndex;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(songKey === this.props.user.currentlyPlayingMusicId) {
           currentIndex = index;
         }
-        numOfSongs++;
+        return numOfSongs++;
       })
       numOfSongs--;
-      var newIndex = Math.floor(Math.random()*(numOfSongs + 1));
+      let newIndex = Math.floor(Math.random()*(numOfSongs + 1));
       while(newIndex === currentIndex) {
         newIndex = Math.floor(Math.random()*(numOfSongs + 1));
       }
-      var newId;
+      let newId;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(newIndex === index){
           newId = songKey;
         }
+        return null;
       })
       this.props.setPlayingMusicId(newId);
     }
@@ -108,33 +110,32 @@ class MusicPlayer extends Component {
     // If this is the first item in playing order
     // play the last one
     if (this.state.currentPlayMode === 'shuffle'){
-      var numOfSongs = 0;
-      var currentIndex;
+      let numOfSongs = 0;
+      let currentIndex;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(songKey === this.props.user.currentlyPlayingMusicId) {
           currentIndex = index;
         }
-        numOfSongs++;
+        return numOfSongs++;
       })
       numOfSongs--;
-      var newIndex = Math.floor(Math.random()*(numOfSongs + 1));
+      let newIndex = Math.floor(Math.random()*(numOfSongs + 1));
       while(newIndex === currentIndex) {
         newIndex = Math.floor(Math.random()*(numOfSongs + 1));
       }
-      var newId;
+      let newId;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(newIndex === index){
           newId = songKey;
         }
+        return null;
       })
       this.props.setPlayingMusicId(newId);
     }
     else if(this.state.currentPlayMode === 'singleRepeat' || this.state.currentPlayMode === 'playlistRepeat') {
-      var currentMusicId;
-      var targetId;
-      var firstMatch = 0;
-      var lastMusicId;
-      var quit = 0;
+      let currentMusicId;
+      let targetId;
+      let firstMatch = 0;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(songKey !== this.props.user.currentlyPlayingMusicId) {
           currentMusicId = songKey;
@@ -147,6 +148,7 @@ class MusicPlayer extends Component {
             targetId = currentMusicId;
           }
         }
+        return null;
       })
       if(firstMatch === 1){
         this.props.setPlayingMusicId(currentMusicId);
@@ -245,12 +247,12 @@ class MusicPlayer extends Component {
 
   handleOnEnd(){
     if(this.state.currentPlayMode === 'playlistRepeat') {
-      var firstSongFlag = 0;
-      var firstSongId;
-      var nextSongFlag = 0;
-      var nextSongId;
-      var notEndOfPlaylist = 0;
-      var quit = 0;
+      let firstSongFlag = 0;
+      let firstSongId;
+      let nextSongFlag = 0;
+      let nextSongId;
+      let notEndOfPlaylist = 0;
+      let quit = 0;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(firstSongFlag === 0) {
           firstSongId = songKey;
@@ -264,6 +266,7 @@ class MusicPlayer extends Component {
           nextSongId = songKey;
           quit = 1;
         }
+        return null;
       })
       if(notEndOfPlaylist === 0) {
         this.props.setPlayingMusicId(firstSongId);
@@ -273,24 +276,25 @@ class MusicPlayer extends Component {
       }
     }
     else if(this.state.currentPlayMode === 'shuffle') {
-      var numOfSongs = 0;
-      var currentIndex;
+      let numOfSongs = 0;
+      let currentIndex;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(songKey === this.props.user.currentlyPlayingMusicId) {
           currentIndex = index;
         }
-        numOfSongs++;
+        return numOfSongs++;
       })
       numOfSongs--;
-      var newIndex = Math.floor(Math.random()*(numOfSongs + 1));
+      let newIndex = Math.floor(Math.random()*(numOfSongs + 1));
       while(newIndex === currentIndex) {
         newIndex = Math.floor(Math.random()*(numOfSongs + 1));
       }
-      var newId;
+      let newId;
       Object.keys(this.props.user.currentlyPlayingPlaylist).map((songKey, index) => {
         if(newIndex === index){
           newId = songKey;
         }
+        return null;
       })
       this.props.setPlayingMusicId(newId);
     }
@@ -312,7 +316,7 @@ class MusicPlayer extends Component {
           onLoadError={this.onLoadError.bind(this)}
           mute={this.props.user.isMute}
           volume={this.state.volume}
-          loop={this.state.currentPlayMode == 'singleRepeat' ? true : false}
+          loop={this.state.currentPlayMode === 'singleRepeat' ? true : false}
           onEnd={this.handleOnEnd.bind(this)}
           ref={(ref) => (this.player = ref)} />
 
