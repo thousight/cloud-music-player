@@ -48,8 +48,8 @@ class SidebarContent extends Component {
 
         this.props.packages.firebase.database()
         .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists/${
-            (tempPlaylistName in this.props.user.playlists) ? (tempPlaylistName += ' from share') : tempPlaylistName
-          }`)
+          (tempPlaylistName in this.props.user.playlists) ? (tempPlaylistName += ' from share') : tempPlaylistName
+        }`)
         .set(tempPlaylist)
         .then(() => {
           toast.success(`${tempPlaylistName} has added to your playlist`, {closeButton: false});
@@ -184,18 +184,18 @@ class SidebarContent extends Component {
               borderBottomColor: this.state.playlistNameError.length > 0 ? '#E53935' : '#36A9F7',
               color: this.state.playlistNameError.length > 0 ? '#E53935' : '#36A9F7'
             }}/>
-            {
-              this.state.playlistNameError.length > 0 ?
+          {
+            this.state.playlistNameError.length > 0 ?
               <p className="new-playlist-input-error">{this.state.playlistNameError}</p>
-              :
+            :
               null
-            }
-            <button className="new-playlist-input-confirm"
-              style={{backgroundColor: this.state.submitButtonBackground}}
-              onClick={this.handlePlaylistNameConfirm.bind(this)}>
-              Confirm
-            </button>
-          </Popover>
+          }
+          <button className="new-playlist-input-confirm"
+            style={{backgroundColor: this.state.submitButtonBackground}}
+            onClick={this.handlePlaylistNameConfirm.bind(this)}>
+            Confirm
+          </button>
+        </Popover>
         );
 
         return (
@@ -229,34 +229,34 @@ class SidebarContent extends Component {
                             alt="Playlist icon"
                             src={
                               this.props.user.currentlyPlayingPlaylistName === key ?
-                              playingBars
+                                playingBars
                               :
                               (key === 'Google Drive Imports' ? driveIcon : playlistIcon)
                             } />
 
-                            <span>{this.getPlaylistNameString(key)}</span>
+                          <span>{this.getPlaylistNameString(key)}</span>
 
-                            <img className="sidebar-playlist-share"
-                              alt="Share icon"
-                              src={share}
-                              onClick={e => this.handlePlaylistShare(e, key, this.props.user.playlists[key])} />
-                            </div>
-                          }/>
-                        )})
-                        :
-                        <div />}
-                      </Accordion>
-                    </div>
-                  );
-                }
-              }
+                          <img className="sidebar-playlist-share"
+                            alt="Share icon"
+                            src={share}
+                            onClick={e => this.handlePlaylistShare(e, key, this.props.user.playlists[key])} />
+                        </div>
+                      }/>
+                  )})
+              :
+              <div />}
+            </Accordion>
+          </div>
+    );
+  }
+}
 
-              const mapStateToProps = state => {
-                return {
-                  user: state.user,
-                  packages: state.packages,
-                  settings: state.settings
-                }
-              }
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    packages: state.packages,
+    settings: state.settings
+  }
+}
 
-              export default withRouter(connect(mapStateToProps)(SidebarContent));
+export default withRouter(connect(mapStateToProps)(SidebarContent));

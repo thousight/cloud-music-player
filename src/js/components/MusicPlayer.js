@@ -303,8 +303,8 @@ class MusicPlayer extends Component {
   componentDidMount() {
     requestAnimationFrame(this.updateProgress.bind(this));
   }
-  render() {
 
+  render() {
     return (
       <div className="music-player">
         {/* Music Player */}
@@ -320,72 +320,68 @@ class MusicPlayer extends Component {
           onEnd={this.handleOnEnd.bind(this)}
           ref={(ref) => (this.player = ref)} />
 
-          <Slider className="music-player-progress-bar"
-            value={this.state.progress}
-            orientation="horizontal"
-            onChange={this.setProgress.bind(this)}
-          />
+        <Slider className="music-player-progress-bar"
+          value={this.state.progress}
+          orientation="horizontal"
+          onChange={this.setProgress.bind(this)} />
 
 
-          <div className="music-player-buttons-wrapper card">
-            <img className="music-player-modes"
-              alt="Play modes"
-              src={this.getPlayModeIcon()}
-              onClick={this.setPlayMode.bind(this)}/>
+        <div className="music-player-buttons-wrapper card">
+          <img className="music-player-modes"
+            alt="Play modes"
+            src={this.getPlayModeIcon()}
+            onClick={this.setPlayMode.bind(this)}/>
 
-              <CircularButton
-                flipIcon
-                onClick={this.playPrevious.bind(this)}
-                icon={next}
-              />
+          <CircularButton
+            flipIcon
+            onClick={this.playPrevious.bind(this)}
+            icon={next} />
 
-              <CircularButton
-                lg
-                onClick={this.playMusic.bind(this)}
-                icon={this.getPlayIcon()}
-              />
+          <CircularButton
+            lg
+            onClick={this.playMusic.bind(this)}
+            icon={this.getPlayIcon()} />
 
-              <CircularButton
-                onClick={this.playNext.bind(this)}
-                icon={next}
-              />
+          <CircularButton
+            onClick={this.playNext.bind(this)}
+            icon={next} />
 
-              <div className="music-player-volume-wrapper">
-                <img className="music-player-volume"
-                  alt="Volume button"
-                  src={this.getVolumeIcon()}
-                  onClick={this.settingMute.bind(this)}/>
+          <div className="music-player-volume-wrapper">
+            <img className="music-player-volume"
+              alt="Volume button"
+              src={this.getVolumeIcon()}
+              onClick={this.settingMute.bind(this)}/>
 
-                  <Slider className="music-player-volume-slider"
-                    value={this.state.volume}
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    orientation="horizontal"
-                    onChange={this.handleVolumeSliderChange.bind(this)}/>
+            <Slider className="music-player-volume-slider"
+              value={this.state.volume}
+              min={0}
+              max={1}
+              step={0.01}
+              orientation="horizontal"
+              onChange={this.handleVolumeSliderChange.bind(this)} />
 
-                  </div>
-                </div>
-              </div>
-            )
-          }
-        }
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
 
-        const mapStateToProps = state => {
-          return {
-            user: state.user,
-            packages: state.packages
-          }
-        }
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    packages: state.packages
+  }
+}
 
-        const mapDispatchToProps = dispatch => {
-          return {
-            setPlayingMusicId: id => dispatch(setPlayingMusicId(id)),
-            startPlaying: () => dispatch(startPlaying()),
-            stopPlaying: () => dispatch(stopPlaying()),
-            setMute: () => dispatch(setMute()),
-            setUnmute: () => dispatch(setUnmute()),
-          }
-        }
+const mapDispatchToProps = dispatch => {
+  return {
+    setPlayingMusicId: id => dispatch(setPlayingMusicId(id)),
+    startPlaying: () => dispatch(startPlaying()),
+    stopPlaying: () => dispatch(stopPlaying()),
+    setMute: () => dispatch(setMute()),
+    setUnmute: () => dispatch(setUnmute()),
+  }
+}
 
-        export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicPlayer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicPlayer));

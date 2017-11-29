@@ -46,8 +46,10 @@ class MusicPlayerPage extends Component {
 
   componentDidMount() {
     let sidebarOverlay = document.getElementsByClassName('playlists-sidebar-overlay').item(0);
-    sidebarOverlay.onclick = () => {
-      this.props.setSidebarOpenState(false);
+    if (sidebarOverlay) {
+      sidebarOverlay.onclick = () => {
+        this.props.setSidebarOpenState(false);
+      }
     }
   }
 

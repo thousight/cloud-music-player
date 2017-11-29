@@ -38,7 +38,8 @@
   "license": "MIT",
   "devDependencies": {
     "enzyme": "^3.2.0",
-    "enzyme-adapter-react-16": "^1.1.0",
-    "jest": "^21.2.1"
+    "enzyme-adapter-react-15": "^1.0.5",
+    "jest": "^21.2.1",
+    "react-test-renderer": "15.6.1"
   }
 }
