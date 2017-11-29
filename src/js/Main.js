@@ -11,7 +11,7 @@ import MusicPlayerPage from './MusicPlayerPage';
 import NavigationBar from './components/NavigationBar';
 import { userLogin, setFirebase, setGAPI, setPlaylists } from './redux/actions';
 
-class App extends Component {
+class Main extends Component {
 
   componentWillMount() {
     const gapiConfig = {
@@ -74,7 +74,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <div className="App">
         <NavigationBar />
@@ -105,4 +104,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(null, mapDispatchToProps)(Main));
