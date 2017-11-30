@@ -84,6 +84,18 @@ it('App renders without crashing', () => {
 });
 
 /*
+  User Story #20
+  As a user, I would like to be able to see the song
+  image in the player interface.
+ */
+describe('User Story #20', () => {
+
+  it('changes song image src', () => {
+
+  })
+})
+
+/*
   User Story #21
   As a user, I would like to share my music and playlist
   to social media like facebook, twitter, etc.
@@ -122,7 +134,44 @@ describe('User Story #21', () => {
  */
 describe('User Story #24', () => {
 
-  it('show playlists on the left when clicking toggle', () => {
+  it('shows playlists on the left when clicking toggle', () => {
+
+  })
+})
+
+/*
+  User Story #25
+  As a user, I would like to be able to be prompted about
+  file not existing if the song I play from playlist no
+  longer exists
+ */
+describe('User Story #25', () => {
+
+  it('shows toast', () => {
+
+  })
+})
+
+/*
+  User Story #26
+  As a user, I would like to be able to have a button in
+  the music panel to add the currently playing song to
+  a different playlist
+ */
+describe('User Story #26', () => {
+
+  it('adds song to playlist', () => {
+
+  })
+})
+
+/*
+  User Story #27
+  As a user, I would like to be able to show options for each song
+ */
+describe('User Story #27', () => {
+
+  it('shows options on hover', () => {
 
   })
 })
