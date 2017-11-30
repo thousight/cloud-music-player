@@ -7,13 +7,14 @@ import { mount, shallow } from 'enzyme';
 
 import App from './App';
 import Main from './js/Main';
-import SidebarContent from './js/components/SidebarContent';
+import { Sidebar } from './js/components/SidebarContent';
 import PlaylistItem from './js/components/PlaylistItem';
 
 import rootReducer from './js/redux/reducers/index';
 
 // Test Data
 const typicalUser = {
+  name: 'Anoop Santhosh',
   playlists: {
     "Favorites" : {
       "0B3-82hcS8hjnREw3VEhXSXpGcGs" : "回忆的沙漏",
@@ -48,7 +49,19 @@ const typicalUser = {
     }
   }
 }
-
+const typicalSettings = {
+  isSidebarOpen: true
+}
+const typicalHistory = {
+  location: {
+    search: ''
+  }
+}
+const searchHistory = {
+  location: {
+    search: 'sharePlaylist=LOL&data={"123456":"","0B3-82hcS8hjnREw3VEhXSXpGcGs":"回忆的沙漏","0B3-82hcS8hjnSWd6M2RXT2xRUnM":"如果来生还能遇见你","0B3-82hcS8hjnZTRYUFNqanluOFU":"I Loved You"}'
+  }
+}
 
 // Test Cases
 
@@ -66,19 +79,17 @@ it('App renders without crashing', () => {
   to social media like facebook, twitter, etc.
  */
 describe('User Story #21', () => {
-  const wrapper = mount(
+  let wrapper = mount(
     <Provider store={createStore(rootReducer)}>
       <MemoryRouter initialEntries={[ '/player' ]}>
-        {/* <PlaylistItem user={typicalUser} playlistSongs={typicalUser.playlists['LOL']} /> */}
-        <SidebarContent user={typicalUser} />
+        <Sidebar user={typicalUser} settings={typicalSettings} history={typicalHistory} />
       </MemoryRouter>
     </Provider>
   );
-  const playlistItem = wrapper.find(PlaylistItem);
-  console.log(playlistItem);
+  let shareButton = wrapper.find('#PlaylistItem-LOL[playlistName="LOL"][eventKey=1]').get(3).props.header.props.children[2];
   it('generates sharing string when click', () => {
-    // playlistItem.simulate('mouseEnter');
-    // console.log(playlistItem.find('img').get(0));
+    shallow(shareButton).simulate('click');
+    // console.log(playlistItem.find('.sidebar-playlist-share'));
   })
 })
 

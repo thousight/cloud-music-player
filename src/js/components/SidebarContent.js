@@ -13,7 +13,7 @@ import playlistIcon from '../../img/playlist_play.svg';
 import playingBars from '../../img/bars.svg';
 import share from '../../img/share.svg';
 
-class SidebarContent extends Component {
+export class Sidebar extends Component {
 
   state = {
     playlistName: '',
@@ -59,7 +59,9 @@ class SidebarContent extends Component {
     }
 
     handlePlaylistShare(event, playlistName, playlistSongs) {
-      event.stopPropagation();
+      if (event) {
+        event.stopPropagation();
+      }
       let playlistArray = Object.keys(playlistSongs);
       let copyResult = this.copyUrl(playlistName, playlistSongs);
 
@@ -96,9 +98,9 @@ class SidebarContent extends Component {
         })
       }
 
-      copyUrl(playlistName, playlistSongs) {
-        // Generated URL based on environment
-        let url = `${process.env.NODE_ENV === 'development' ?
+  copyUrl(playlistName, playlistSongs) {
+      // Generated URL based on environment
+      let url = `${process.env.NODE_ENV === 'development' ?
         'http://localhost:3000'
         :
         'http://cloud-music-player.herokuapp.com'
@@ -219,6 +221,7 @@ class SidebarContent extends Component {
                 }).map((key, index) => {
                   return (
                     <PlaylistItem
+                      id={'PlaylistItem-' + key}
                       key={index}
                       playlistName={key}
                       playlistSongs={this.props.user.playlists[key]}
@@ -259,4 +262,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(SidebarContent));
+export default withRouter(connect(mapStateToProps)(Sidebar));
