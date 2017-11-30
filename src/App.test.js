@@ -62,6 +62,11 @@ const shareHistory = {
     search: 'sharePlaylist=LOL&data={"123456":"","0B3-82hcS8hjnREw3VEhXSXpGcGs":"回忆的沙漏","0B3-82hcS8hjnSWd6M2RXT2xRUnM":"如果来生还能遇见你","0B3-82hcS8hjnZTRYUFNqanluOFU":"I Loved You"}'
   }
 }
+const newList = {
+  location: {
+    search: 'newList=Favorites&data={"123456":"","0B3-82hcS8hjnREw3VEhXSXpGcGs":"回忆的沙漏","0B3-82hcS8hjnSWd6M2RXT2xRUnM":"如果来生还能遇见你","0B3-82hcS8hjnWFpGcUVWMzRpS00":"So Much Better (Avicii Remix)","0B3-82hcS8hjnZTRYUFNqanluOFU":"I Loved You","0B3-82hcS8hjnbFFLMUxhZE11ZFk":"What Would I Change It To", "1pLnbjXsBwyTAU7JxIjeqHHCd-AmBoWlc":"Despacito (Remix)"}'
+  }
+}
 const mockPackages = {
   gapi: {
     client: {
@@ -82,7 +87,29 @@ it('App renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<App />, div);
 });
+/*
+  User Story #15
+  As a user, I would like to be able to
+  create a separate favorite playlist.
+ */
+ describe('User Story #15', () => {
 
+   it('creates a new play list', () => {
+    
+
+   })
+ })
+ /*
+   User Story #16
+   As a user, I would like to be able to delete songs from playlist
+*/
+describe('User Story #16', () => {
+
+  it('deletes a song', () => {
+
+
+  })
+})
 /*
   User Story #20
   As a user, I would like to be able to see the song
@@ -175,3 +202,14 @@ describe('User Story #27', () => {
 
   })
 })
+/*
+  User Story #28
+  As a user, I would like to be able to add the selected song
+ to a different playlist on the hover menu
+ */
+ describe('User Story #28', () => {
+
+   it('adds the selected song to a different playlis', () => {
+
+   })
+ })
