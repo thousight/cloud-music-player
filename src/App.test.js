@@ -62,6 +62,16 @@ const searchHistory = {
     search: 'sharePlaylist=LOL&data={"123456":"","0B3-82hcS8hjnREw3VEhXSXpGcGs":"回忆的沙漏","0B3-82hcS8hjnSWd6M2RXT2xRUnM":"如果来生还能遇见你","0B3-82hcS8hjnZTRYUFNqanluOFU":"I Loved You"}'
   }
 }
+const mockPackages = {
+  gapi: {
+    client: {
+      request: () => {
+        return new Promise((resolve, failure) => resolve({}));
+      }
+    }
+  },
+  firebase: {}
+}
 
 // Test Cases
 
@@ -82,14 +92,13 @@ describe('User Story #21', () => {
   let wrapper = mount(
     <Provider store={createStore(rootReducer)}>
       <MemoryRouter initialEntries={[ '/player' ]}>
-        <Sidebar user={typicalUser} settings={typicalSettings} history={typicalHistory} />
+        <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
       </MemoryRouter>
     </Provider>
   );
   let shareButton = wrapper.find('#PlaylistItem-LOL[playlistName="LOL"][eventKey=1]').get(3).props.header.props.children[2];
   it('generates sharing string when click', () => {
-    shallow(shareButton).simulate('click');
-    // console.log(playlistItem.find('.sidebar-playlist-share'));
+    expect(shallow(shareButton).simulate('click'));
   })
 })
 
