@@ -23,7 +23,7 @@ window.matchMedia = window.matchMedia || function() {
 };
 const mql = window.matchMedia(`(min-width: 768px)`);
 
-class MusicPlayerPage extends Component {
+export class PlayerPage extends Component {
 
   constructor(props) {
     super(props);
@@ -201,4 +201,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicPlayerPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlayerPage));

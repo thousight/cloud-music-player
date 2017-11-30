@@ -6,7 +6,7 @@ import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
 import { userLogout, setSidebarOpenState, setPlayingMusicId, setPlaylists } from '../redux/actions';
 import logo from '../../img/logo.svg';
 
-class NavigationBar extends Component {
+export class NavBar extends Component {
 
   signOut() {
     this.props.userLogout();
@@ -16,7 +16,7 @@ class NavigationBar extends Component {
   }
 
   handleToggleClick() {
-    this.props.setSidebarOpenState(!this.props.settings.isSidebarOpen);
+    this.props.setSidebarOpenState(true);
   }
 
   render() {
@@ -61,4 +61,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavigationBar));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));

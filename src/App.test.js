@@ -4,9 +4,12 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { MemoryRouter } from 'react-router';
 import { mount, shallow } from 'enzyme';
+import { Navbar } from 'react-bootstrap';
 
 import App from './App';
 import Main from './js/Main';
+import { PlayerPage } from './js/MusicPlayerPage';
+import { NavBar } from './js/components/NavigationBar';
 import { Sidebar } from './js/components/SidebarContent';
 import PlaylistItem from './js/components/PlaylistItem';
 
@@ -15,6 +18,7 @@ import rootReducer from './js/redux/reducers/index';
 // Test Data
 const typicalUser = {
   name: 'Anoop Santhosh',
+  currentlyPlayingMusicId: '0B3-82hcS8hjnSDIzRGF4TDdHUEE',
   playlists: {
     "Favorites" : {
       "0B3-82hcS8hjnREw3VEhXSXpGcGs" : "回忆的沙漏",
@@ -73,9 +77,30 @@ const mockPackages = {
       request: () => {
         return new Promise((resolve, failure) => resolve({}));
       }
+    },
+    auth2: {
+      getAuthInstance: () => {
+        return {
+          currentUser: {
+            get: () => {
+              return {
+                getAuthResponse: () => {
+                  return {
+                    access_token: 'XXXXXX'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   firebase: {}
+}
+const mockImage = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAsICAoIBwsKCQoNDAsNERwSEQ8PESIZGhQcKSQrKigkJyctMkA3LTA9MCcnOEw5PUNFSElIKzZPVU5GVEBHSEX/2wBDAQwNDREPESESEiFFLicuRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUX/wAARCAV4BXgDAREAAhEBAxEB/8QAHAAAAwEBAQEBAQAAAAAAAAAAAAECAwQFBgcI/8QAVRAAAQMDAwIEBAMGAwQECA0FAQACEQMhMQQSQVFhBRMicQYygZFCobEHFCNSwdFi4fAVM3LxFiRDshc0NlN0gpLSJTVEVFVjZHODk6KjwsMmRYSU/8QAGQEBAAMBAQAAAAAAAAAAAAAAAAECAwQF/8QAKhEBAQACAgICAQQCAwADAAAAAAECEQMhEjEiQVEEEzJhF...';
+const mockClosedSidebar = {
+  isSidebarOpen: false
 }
 
 // Test Cases
@@ -95,7 +120,7 @@ it('App renders without crashing', () => {
  describe('User Story #15', () => {
 
    it('creates a new play list', () => {
-    
+
 
    })
  })
@@ -118,7 +143,11 @@ describe('User Story #16', () => {
 describe('User Story #20', () => {
 
   it('changes song image src', () => {
+    let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
 
+    wrapper.setState({cover: mockImage});
+
+    expect(wrapper.find('.player-page-cover').get(0).props.src).toEqual(mockImage);
   })
 })
 
@@ -128,6 +157,7 @@ describe('User Story #20', () => {
   to social media like facebook, twitter, etc.
  */
 describe('User Story #21', () => {
+
   it('generates sharing string when click', () => {
     let wrapper = mount(
       <Provider store={createStore(rootReducer)}>
@@ -137,12 +167,15 @@ describe('User Story #21', () => {
       </Provider>
     );
     let shareButton = wrapper.find('#PlaylistItem-LOL[playlistName="LOL"][eventKey=1]').get(3).props.header.props.children[2];
+
     expect(shallow(shareButton).simulate('click'));
   })
+
   it('adds playlist through url', () => {
     let wrapper = mount(
       <Provider store={createStore(rootReducer)}>
         <MemoryRouter initialEntries={[ '/player' ]}>
+          {/* shareHistory below inputs the mock url */}
           <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
         </MemoryRouter>
       </Provider>
@@ -162,7 +195,15 @@ describe('User Story #21', () => {
 describe('User Story #24', () => {
 
   it('shows playlists on the left when clicking toggle', () => {
+    // Mock sidebar toggle onclick function
+    let setSidebarOpenState = (state, wrapper) => {
+      wrapper.setProps({settings: {isSidebarOpen: state}})
+    }
+    let wrapper = shallow(<NavBar user={typicalUser} settings={mockClosedSidebar} history={typicalHistory} setSidebarOpenState={() => setSidebarOpenState(true, wrapper)} />);
 
+    expect(wrapper.instance().props.settings.isSidebarOpen).toEqual(false);
+    wrapper.find(Navbar.Toggle).simulate('click');
+    expect(wrapper.instance().props.settings.isSidebarOpen).toEqual(true);
   })
 })
 
