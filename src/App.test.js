@@ -57,7 +57,7 @@ const typicalHistory = {
     search: ''
   }
 }
-const searchHistory = {
+const shareHistory = {
   location: {
     search: 'sharePlaylist=LOL&data={"123456":"","0B3-82hcS8hjnREw3VEhXSXpGcGs":"回忆的沙漏","0B3-82hcS8hjnSWd6M2RXT2xRUnM":"如果来生还能遇见你","0B3-82hcS8hjnZTRYUFNqanluOFU":"I Loved You"}'
   }
@@ -89,16 +89,28 @@ it('App renders without crashing', () => {
   to social media like facebook, twitter, etc.
  */
 describe('User Story #21', () => {
-  let wrapper = mount(
-    <Provider store={createStore(rootReducer)}>
-      <MemoryRouter initialEntries={[ '/player' ]}>
-        <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
-      </MemoryRouter>
-    </Provider>
-  );
-  let shareButton = wrapper.find('#PlaylistItem-LOL[playlistName="LOL"][eventKey=1]').get(3).props.header.props.children[2];
   it('generates sharing string when click', () => {
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+        </MemoryRouter>
+      </Provider>
+    );
+    let shareButton = wrapper.find('#PlaylistItem-LOL[playlistName="LOL"][eventKey=1]').get(3).props.header.props.children[2];
     expect(shallow(shareButton).simulate('click'));
+  })
+  it('adds playlist through url', () => {
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
+    expect(wrapper.find(Sidebar).instance().receivedSharingPlaylist).toEqual(typicalUser.playlists.LOL);
   })
 })
 
