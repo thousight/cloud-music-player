@@ -1,12 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { findDOMNode } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { MemoryRouter } from 'react-router';
 import { mount, shallow } from 'enzyme';
 import { Navbar, OverlayTrigger, Popover } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
-
 
 import App from './App';
 import { Main } from './js/Main';
@@ -21,7 +20,7 @@ import rootReducer from './js/redux/reducers/index';
 // Test Data
 const typicalUser = {
   name: 'Anoop Santhosh',
-  currentlyPlayingMusicId: '1pLnbjXsBwyTAU7JxIjeqHHCd-AmBoWlc',
+  currentlyPlayingMusicId: '0B3-82hcS8hjnc09hVkFENEYtTTQ',
   playlists: {
     "Favorites" : {
       "0B3-82hcS8hjnREw3VEhXSXpGcGs" : "回忆的沙漏",
@@ -107,6 +106,7 @@ const mockImage = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAsICA
 const mockClosedSidebar = {
   isSidebarOpen: false
 }
+
 // Test Cases
 
 /*
@@ -120,8 +120,8 @@ it('App renders without crashing', () => {
 
 /*
 User Story #12
- As a user, I would like to pause and resume a song as long as the application is not closed.
- */
+As a user, I would like to pause and resume a song as long as the application is not closed.
+*/
 describe('User Story #12', () => {
 
   it('pause the song', () => {
@@ -161,12 +161,12 @@ describe('User Story #14', () => {
     let wrapper = mount(
       <Provider store={createStore(rootReducer)}>
         <MemoryRouter initialEntries={[ '/player' ]}>
-        <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
-      </MemoryRouter>
-    </Provider>
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+        </MemoryRouter>
+      </Provider>
   );
 
-  })
+})
 })
 
 
@@ -182,16 +182,15 @@ describe('User Story #15', () => {
     let wrapper = mount(
       <Provider store={createStore(rootReducer)}>
         <MemoryRouter initialEntries={[ '/player' ]}>
-        {/* shareHistory below inputs the mock url */}
-        <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
-      </MemoryRouter>
-    </Provider>
+          {/* shareHistory below inputs the mock url */}
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
+        </MemoryRouter>
+      </Provider>
   );
 
   expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
 
-
-})
+  })
 })
 /*
 User Story #16
@@ -203,9 +202,9 @@ describe('User Story #16', () => {
     let wrapper = mount(
       <Provider store={createStore(rootReducer)}>
         <MemoryRouter initialEntries={[ '/player' ]}>
-        <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
-      </MemoryRouter>
-    </Provider>
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+        </MemoryRouter>
+      </Provider>
   );
 
   })
@@ -241,60 +240,60 @@ describe('User Story #18', () => {
       packages={mockPackages}
       history={typicalHistory} />);
 
-    console.log(wrapper.instance())
+      // console.log(wrapper.instance())
 
   })
 })
 
-/*
-User Story #20
-As a user, I would like to be able to see the song
-image in the player interface.
-*/
-describe('User Story #20', () => {
+  /*
+  User Story #20
+  As a user, I would like to be able to see the song
+  image in the player interface.
+  */
+  describe('User Story #20', () => {
 
-  it('changes song image src', () => {
-    let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
+    it('changes song image src', () => {
+      let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
 
-    wrapper.setState({cover: mockImage});
+      wrapper.setState({cover: mockImage});
 
-    expect(wrapper.find('.player-page-cover').get(0).props.src).toEqual(mockImage);
-  })
+      expect(wrapper.find('.player-page-cover').get(0).props.src).toEqual(mockImage);
+    })
 })
 
-/*
-User Story #21
-As a user, I would like to share my music and playlist
-to social media like facebook, twitter, etc.
-*/
-describe('User Story #21', () => {
+  /*
+  User Story #21
+  As a user, I would like to share my music and playlist
+  to social media like facebook, twitter, etc.
+  */
+  describe('User Story #21', () => {
 
-  it('generates sharing string when click', () => {
-    let wrapper = mount(
-      <Provider store={createStore(rootReducer)}>
-        <MemoryRouter initialEntries={[ '/player' ]}>
-        <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
-      </MemoryRouter>
-    </Provider>
-  );
-  let shareButton = wrapper.find('#PlaylistItem-LOL[playlistName="LOL"][eventKey=1]').get(3).props.header.props.children[2];
+    it('generates sharing string when click', () => {
+      let wrapper = mount(
+        <Provider store={createStore(rootReducer)}>
+          <MemoryRouter initialEntries={[ '/player' ]}>
+            <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+          </MemoryRouter>
+        </Provider>
+      );
+      let shareButton = wrapper.find('#PlaylistItem-LOL[playlistName="LOL"][eventKey=1]').get(3).props.header.props.children[2];
 
-  expect(shallow(shareButton).simulate('click'));
-})
+      expect(shallow(shareButton).simulate('click'));
+    })
 
-it('adds playlist through url', () => {
-  let wrapper = mount(
-    <Provider store={createStore(rootReducer)}>
-      <MemoryRouter initialEntries={[ '/player' ]}>
-      {/* shareHistory below inputs the mock url */}
-      <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
-    </MemoryRouter>
-  </Provider>
-);
+    it('adds playlist through url', () => {
+      let wrapper = mount(
+        <Provider store={createStore(rootReducer)}>
+          <MemoryRouter initialEntries={[ '/player' ]}>
+            {/* shareHistory below inputs the mock url */}
+            <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
+          </MemoryRouter>
+        </Provider>
+      );
 
-expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
-expect(wrapper.find(Sidebar).instance().receivedSharingPlaylist).toEqual(typicalUser.playlists.LOL);
-})
+      expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
+      expect(wrapper.find(Sidebar).instance().receivedSharingPlaylist).toEqual(typicalUser.playlists.LOL);
+    })
 })
 
 /*
@@ -335,7 +334,7 @@ describe('User Story #25', () => {
       </Provider>
     );
     toast.error('error');
-    expect(wrapper.find('.toastify'));
+    expect(wrapper.find('.toastify')).toBeDefined();
   })
 })
 
@@ -348,17 +347,20 @@ a different playlist
 describe('User Story #26', () => {
 
   it('adds current song to other playlist', () => {
-    // let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
     let wrapper = mount(
       <Provider store={createStore(rootReducer)}>
         <MemoryRouter initialEntries={[ '/player' ]}>
-          <App location={typicalHistory.location} user={typicalUser} />
+          {/* <Main location={typicalHistory.location} user={typicalUser} /> */}
+          <PlayerPage location={typicalHistory.location} user={typicalUser} packages={mockPackages} settings={typicalSettings} />
         </MemoryRouter>
       </Provider>
     );
-    // wrapper.find(OverlayTrigger).simulate('click');
 
-    console.log(wrapper.find('OverlayTrigger'));
+    wrapper.find('.add-current-song-button').simulate('click');
+    expect(document.getElementById('ADD_CURRENT_SONG_POPOVER').getElementsByClassName('popover-playlist')).toBeDefined();
+    // wrapper.find('.popover-playlist').simulate('click');
+    console.log(document.getElementById('ADD_CURRENT_SONG_POPOVER').getElementsByClassName('popover-playlist')['0']);
+    // console.log(document.getElementById('ADD_CURRENT_SONG_POPOVER').getElementsByClassName('popover-playlist'));
   })
 })
 

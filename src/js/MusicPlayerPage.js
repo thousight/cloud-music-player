@@ -137,13 +137,13 @@ export class PlayerPage extends Component {
             ) ?
               <div className="popover-playlist"
                 onClick={e => this.handleOptionAddToPlaylistClick(playlistName)}
-              key={index}>
-              {playlistName}
-            </div>
-           :
-           null ;
-        })
-      : null}
+                key={index}>
+                {playlistName}
+              </div>
+            :
+            null ;
+          })
+        : null}
       </Popover>
     );
 
