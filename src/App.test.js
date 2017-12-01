@@ -203,7 +203,7 @@ describe('User Story #14', () => {
     </Provider>
   );
 
-})
+  })
 })
 
 
@@ -225,7 +225,7 @@ describe('User Story #15', () => {
     </Provider>
   );
 
-  expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
+    expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
 
 })
 })
@@ -275,7 +275,8 @@ describe('User Story #18', () => {
     let wrapper = shallow(<PlayerPage user={typicalUser}
       settings={typicalSettings}
       packages={mockPackages}
-      history={typicalHistory} />);
+      history={typicalHistory} />
+    );
 
       // console.log(wrapper.instance())
 
@@ -287,23 +288,23 @@ describe('User Story #18', () => {
   As a user, I would like to be able to see the song
   image in the player interface.
   */
-  describe('User Story #20', () => {
+describe('User Story #20', () => {
 
-    it('changes song image src', () => {
-      let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
+  it('changes song image src', () => {
+    let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
 
-      wrapper.setState({cover: mockImage});
+    wrapper.setState({cover: mockImage});
 
       expect(wrapper.find('.player-page-cover').get(0).props.src).toEqual(mockImage);
     })
   })
 
-  /*
-  User Story #21
-  As a user, I would like to share my music and playlist
-  to social media like facebook, twitter, etc.
-  */
-  describe('User Story #21', () => {
+/*
+User Story #21
+As a user, I would like to share my music and playlist
+to social media like facebook, twitter, etc.
+*/
+describe('User Story #21', () => {
 
     it('generates sharing string when click', () => {
       let wrapper = mount(
@@ -407,9 +408,19 @@ As a user, I would like to be able to show options for each song
 describe('User Story #27', () => {
 
   it('shows options on hover', () => {
-
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+        </MemoryRouter>
+      </Provider>
+    );
+    let sidebar = wrapper.find(Sidebar);
+    shallow(sidebar.find('.sidebar-song-item.card').get(0)).simulate('mouseEnter');
+    expect(sidebar.find('.song-item-options')).toBeDefined();
   })
 })
+
 /*
 User Story #28
 As a user, I would like to be able to add the selected song
@@ -418,9 +429,23 @@ to a different playlist on the hover menu
 describe('User Story #28', () => {
 
   it('adds the selected song to a different playlis', () => {
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+        </MemoryRouter>
+      </Provider>
+    );
+    let sidebar = wrapper.find(Sidebar);
+    let songItem = shallow(sidebar.find('.sidebar-song-item.card').get(0));
+    songItem.simulate('mouseEnter');
 
+    songItem.find(OverlayTrigger).simulate('click');
+    shallow(document.getElementsByClassName('popover-playlist')['0'][Object.keys(document.getElementsByClassName('popover-playlist')['0'])]._currentElement).simulate('click');
+    expect(typicalUser.playlists['Favorites'].hasOwnProperty(typicalUser.currentlyPlayingMusicId)).toBeDefined();
   })
 })
+
 /*
 User Story #30
 As a user, I would like to be able to change the progress of a song by dragging the progress bar
