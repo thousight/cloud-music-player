@@ -371,7 +371,6 @@ describe('User Story #26', () => {
     let wrapper = mount(
       <Provider store={createStore(rootReducer)}>
         <MemoryRouter initialEntries={[ '/player' ]}>
-          {/* <Main location={typicalHistory.location} user={typicalUser} /> */}
           <PlayerPage location={typicalHistory.location} user={typicalUser} packages={mockPackages} settings={typicalSettings} />
         </MemoryRouter>
       </Provider>
@@ -412,7 +411,20 @@ to a different playlist on the hover menu
 describe('User Story #28', () => {
 
   it('adds the selected song to a different playlis', () => {
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+        </MemoryRouter>
+      </Provider>
+    );
+    let sidebar = wrapper.find(Sidebar);
+    let songItem = shallow(sidebar.find('.sidebar-song-item.card').get(0));
+    songItem.simulate('mouseEnter');
 
+    songItem.find(OverlayTrigger).simulate('click');
+    shallow(document.getElementsByClassName('popover-playlist')['0'][Object.keys(document.getElementsByClassName('popover-playlist')['0'])]._currentElement).simulate('click');
+    expect(typicalUser.playlists['Favorites'].hasOwnProperty(typicalUser.currentlyPlayingMusicId)).toBeDefined();
   })
 })
 
