@@ -11,7 +11,7 @@ import MusicPlayerPage from './MusicPlayerPage';
 import NavigationBar from './components/NavigationBar';
 import { userLogin, setFirebase, setGAPI, setPlaylists } from './redux/actions';
 
-class Main extends Component {
+export class Main extends Component {
 
   componentWillMount() {
     const gapiConfig = {

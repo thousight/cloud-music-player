@@ -5,9 +5,10 @@ import { createStore } from 'redux';
 import { MemoryRouter } from 'react-router';
 import { mount, shallow } from 'enzyme';
 import { Navbar } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 import App from './App';
-import Main from './js/Main';
+import { Main } from './js/Main';
 import { PlayerPage } from './js/MusicPlayerPage';
 import { NavBar } from './js/components/NavigationBar';
 import { Sidebar } from './js/components/SidebarContent';
@@ -26,7 +27,8 @@ const typicalUser = {
       "0B3-82hcS8hjnWFpGcUVWMzRpS00" : "So Much Better (Avicii Remix)",
       "0B3-82hcS8hjnZTRYUFNqanluOFU" : "I Loved You",
       "0B3-82hcS8hjnbFFLMUxhZE11ZFk" : "What Would I Change It To",
-      "1pLnbjXsBwyTAU7JxIjeqHHCd-AmBoWlc" : "Despacito (Remix)"
+      "1pLnbjXsBwyTAU7JxIjeqHHCd-AmBoWlc" : "Despacito (Remix)",
+      "Error": "error"
     },
     "Favorites from share" : {
       "0B3-82hcS8hjnREw3VEhXSXpGcGs" : "回忆的沙漏",
@@ -58,7 +60,8 @@ const typicalSettings = {
 }
 const typicalHistory = {
   location: {
-    search: ''
+    search: '',
+    pathname: '/player'
   }
 }
 const shareHistory = {
@@ -225,8 +228,16 @@ describe('User Story #24', () => {
  */
 describe('User Story #25', () => {
 
-  it('shows toast', () => {
-
+  it('shows toast when fail loading song', () => {
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <Main location={typicalHistory.location} user={typicalUser} />
+        </MemoryRouter>
+      </Provider>
+    );
+    toast.error('error');
+    console.log(wrapper.find('.toastify'));
   })
 })
 
@@ -238,7 +249,7 @@ describe('User Story #25', () => {
  */
 describe('User Story #26', () => {
 
-  it('adds song to playlist', () => {
+  it('adds current song to other playlist', () => {
 
   })
 })
