@@ -116,6 +116,21 @@ it('App renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<App />, div);
 });
+
+
+/*
+User Story #12
+ As a user, I would like to pause and resume a song as long as the application is not closed.
+ */
+describe('User Story #12', () => {
+
+  it('pause the song', () => {
+
+
+  })
+})
+
+
 /*
 User Story #13
 As a user, I would like to adjust the volume of the playing song.
@@ -135,6 +150,27 @@ describe('User Story #13', () => {
 
   })
 })
+
+/*
+User Story #14
+As a user, I would like to have a button to mute the sound on click.
+*/
+describe('User Story #14', () => {
+
+  it('mute the song', () => {
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+        <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+      </MemoryRouter>
+    </Provider>
+  );
+
+  })
+})
+
+
+
 /*
 User Story #15
 As a user, I would like to be able to
@@ -164,7 +200,13 @@ As a user, I would like to be able to delete songs from playlist
 describe('User Story #16', () => {
 
   it('deletes a song', () => {
-
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+        <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+      </MemoryRouter>
+    </Provider>
+  );
 
   })
 })
@@ -186,6 +228,24 @@ describe('User Story #17', () => {
 
   })
 })
+
+/*
+User Story #18
+As a user, I would like to be able to switch songs in the playlist by clicking “left arrow” and “right arrow” buttons beside the “play” button.
+*/
+describe('User Story #18', () => {
+
+  it('go to the next song', () => {
+    let wrapper = shallow(<PlayerPage user={typicalUser}
+      settings={typicalSettings}
+      packages={mockPackages}
+      history={typicalHistory} />);
+
+    console.log(wrapper.instance())
+
+  })
+})
+
 /*
 User Story #20
 As a user, I would like to be able to see the song
