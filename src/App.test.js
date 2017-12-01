@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { MemoryRouter } from 'react-router';
 import { mount, shallow } from 'enzyme';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, OverlayTrigger, Popover } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
 import App from './App';
@@ -19,7 +19,7 @@ import rootReducer from './js/redux/reducers/index';
 // Test Data
 const typicalUser = {
   name: 'Anoop Santhosh',
-  currentlyPlayingMusicId: '0B3-82hcS8hjnSDIzRGF4TDdHUEE',
+  currentlyPlayingMusicId: '1pLnbjXsBwyTAU7JxIjeqHHCd-AmBoWlc',
   playlists: {
     "Favorites" : {
       "0B3-82hcS8hjnREw3VEhXSXpGcGs" : "回忆的沙漏",
@@ -133,7 +133,7 @@ it('App renders without crashing', () => {
      );
 
      expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
-    
+
 
    })
  })
@@ -237,7 +237,7 @@ describe('User Story #25', () => {
       </Provider>
     );
     toast.error('error');
-    console.log(wrapper.find('.toastify'));
+    expect(wrapper.find('.toastify'));
   })
 })
 
@@ -250,7 +250,17 @@ describe('User Story #25', () => {
 describe('User Story #26', () => {
 
   it('adds current song to other playlist', () => {
+    // let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <App location={typicalHistory.location} user={typicalUser} />
+        </MemoryRouter>
+      </Provider>
+    );
+    // wrapper.find(OverlayTrigger).simulate('click');
 
+    console.log(wrapper.find('OverlayTrigger'));
   })
 })
 
