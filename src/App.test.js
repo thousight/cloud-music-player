@@ -261,6 +261,8 @@ describe('User Story #17', () => {
     let playmodeButton = wrapper.find('.music-player-modes').get(0);
     shallow(playmodeButton).simulate('click');
     expect(wrapper.instance().state.currentPlayMode).toBe('shuffle');
+    shallow(playmodeButton).simulate('click');
+    expect(wrapper.instance().state.currentPlayMode).toBe('singleRepeat');
 
   })
 })
