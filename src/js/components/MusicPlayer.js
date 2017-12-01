@@ -17,7 +17,7 @@ import pause from '../../img/pause.svg';
 import volume from '../../img/volume.svg';
 import mute from '../../img/mute.svg';
 
-class MusicPlayer extends Component {
+export class MusicPlayer extends Component {
 
   playModes = ['singleRepeat', 'playlistRepeat', 'shuffle'];
 
