@@ -32,8 +32,6 @@ class PlaylistItem extends Component {
   handleOptionAddToPlaylistClick(event, playlistName, songId, songName) {
     document.getElementById(this.state.currentlyOpenedPopover).style.display = "none"; // Hide opened popover
     event.preventDefault();
-    console.log('handleOptionAddToPlaylistClick(): ' + playlistName);
-    console.log(songId);
     const item = {
       [songId]: songName
     };
@@ -46,9 +44,18 @@ class PlaylistItem extends Component {
   // If user confirms, delete the song, else return
   handleOptionDelete(event, playlistName,songKey) {
     event.stopPropagation(); // Prevent calling parent onClick()
-    console.log('handleOptionDelete(): ' + songKey);
     this.props.packages.firebase.database()
-    .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists/${playlistName}/${songKey}`).remove(() => {console.log('Song removed')});
+    .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists/${playlistName}/${songKey}`)
+    .remove(() => {
+      // Kill the place holder to kill the playlist when the placeholder is the only item
+      let playlist = this.props.user.playlists[playlistName];
+      if (Object.keys(playlist).length === 1 && playlist['123456'] !== null) {
+        this.props.packages.firebase.database()
+        .ref(`/users/${this.props.packages.firebase.auth().getUid()}/playlists/${playlistName}/123456`)
+        .remove();
+      }
+    });
+
   }
 
   // Shows song name with different length based on screen size
