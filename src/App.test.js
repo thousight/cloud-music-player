@@ -120,7 +120,17 @@ it('App renders without crashing', () => {
  describe('User Story #15', () => {
 
    it('creates a new play list', () => {
+     let wrapper = mount(
+       <Provider store={createStore(rootReducer)}>
+         <MemoryRouter initialEntries={[ '/player' ]}>
+           {/* shareHistory below inputs the mock url */}
+           <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
+         </MemoryRouter>
+       </Provider>
+     );
 
+     expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
+    
 
    })
  })
