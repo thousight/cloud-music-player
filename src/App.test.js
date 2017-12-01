@@ -183,10 +183,10 @@ describe('User Story #14', () => {
         <MemoryRouter initialEntries={[ '/player' ]}>
           <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
         </MemoryRouter>
-      </Provider>
-  );
+    </Provider>
+    );
 
-})
+  })
 })
 
 
@@ -206,9 +206,9 @@ describe('User Story #15', () => {
           <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
         </MemoryRouter>
       </Provider>
-  );
+    );
 
-  expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
+    expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
 
   })
 })
@@ -225,7 +225,7 @@ describe('User Story #16', () => {
           <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
         </MemoryRouter>
       </Provider>
-  );
+    );
 
   })
 })
@@ -258,7 +258,8 @@ describe('User Story #18', () => {
     let wrapper = shallow(<PlayerPage user={typicalUser}
       settings={typicalSettings}
       packages={mockPackages}
-      history={typicalHistory} />);
+      history={typicalHistory} />
+    );
 
       // console.log(wrapper.instance())
 
@@ -270,50 +271,50 @@ describe('User Story #18', () => {
   As a user, I would like to be able to see the song
   image in the player interface.
   */
-  describe('User Story #20', () => {
+describe('User Story #20', () => {
 
-    it('changes song image src', () => {
-      let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
+  it('changes song image src', () => {
+    let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
 
-      wrapper.setState({cover: mockImage});
+    wrapper.setState({cover: mockImage});
 
-      expect(wrapper.find('.player-page-cover').get(0).props.src).toEqual(mockImage);
-    })
+    expect(wrapper.find('.player-page-cover').get(0).props.src).toEqual(mockImage);
+  })
 })
 
-  /*
-  User Story #21
-  As a user, I would like to share my music and playlist
-  to social media like facebook, twitter, etc.
-  */
-  describe('User Story #21', () => {
+/*
+User Story #21
+As a user, I would like to share my music and playlist
+to social media like facebook, twitter, etc.
+*/
+describe('User Story #21', () => {
 
-    it('generates sharing string when click', () => {
-      let wrapper = mount(
-        <Provider store={createStore(rootReducer)}>
-          <MemoryRouter initialEntries={[ '/player' ]}>
-            <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
-          </MemoryRouter>
-        </Provider>
-      );
-      let shareButton = wrapper.find('#PlaylistItem-LOL[playlistName="LOL"][eventKey=1]').get(3).props.header.props.children[2];
+  it('generates sharing string when click', () => {
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+        </MemoryRouter>
+      </Provider>
+    );
+    let shareButton = wrapper.find('#PlaylistItem-LOL[playlistName="LOL"][eventKey=1]').get(3).props.header.props.children[2];
 
-      expect(shallow(shareButton).simulate('click'));
-    })
+    expect(shallow(shareButton).simulate('click'));
+  })
 
-    it('adds playlist through url', () => {
-      let wrapper = mount(
-        <Provider store={createStore(rootReducer)}>
-          <MemoryRouter initialEntries={[ '/player' ]}>
-            {/* shareHistory below inputs the mock url */}
-            <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
-          </MemoryRouter>
-        </Provider>
-      );
+  it('adds playlist through url', () => {
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          {/* shareHistory below inputs the mock url */}
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={shareHistory} />
+        </MemoryRouter>
+      </Provider>
+    );
 
-      expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
-      expect(wrapper.find(Sidebar).instance().receivedSharingPlaylist).toEqual(typicalUser.playlists.LOL);
-    })
+    expect(wrapper.find(Sidebar).instance().receivedSharingPlaylistName).toEqual('LOL');
+    expect(wrapper.find(Sidebar).instance().receivedSharingPlaylist).toEqual(typicalUser.playlists.LOL);
+  })
 })
 
 /*
@@ -390,9 +391,19 @@ As a user, I would like to be able to show options for each song
 describe('User Story #27', () => {
 
   it('shows options on hover', () => {
-
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <Sidebar user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />
+        </MemoryRouter>
+      </Provider>
+    );
+    let sidebar = wrapper.find(Sidebar);
+    shallow(sidebar.find('.sidebar-song-item.card').get(0)).simulate('mouseEnter');
+    expect(sidebar.find('.song-item-options')).toBeDefined();
   })
 })
+
 /*
 User Story #28
 As a user, I would like to be able to add the selected song
@@ -404,6 +415,7 @@ describe('User Story #28', () => {
 
   })
 })
+
 /*
 User Story #30
 As a user, I would like to be able to change the progress of a song by dragging the progress bar
