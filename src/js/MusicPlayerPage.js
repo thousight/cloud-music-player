@@ -129,14 +129,14 @@ export class PlayerPage extends Component {
       <Popover title="Add to" id="ADD_CURRENT_SONG_POPOVER">
         {this.props.user.playlists ?
           Object.keys(this.props.user.playlists).map((playlistName, index) => {
-          // Filter out current playlist or playlists that contain the song
-          return (
+            // Filter out current playlist or playlists that contain the song
+            return (
               this.props.playlistName !== playlistName
               && !(this.props.user.currentlyPlayingMusicId in this.props.user.playlists[playlistName])
               && playlistName !== 'Google Drive Imports'
-          ) ?
-            <div className="popover-playlist"
-              onClick={e => this.handleOptionAddToPlaylistClick(playlistName)}
+            ) ?
+              <div className="popover-playlist"
+                onClick={e => this.handleOptionAddToPlaylistClick(playlistName)}
               key={index}>
               {playlistName}
             </div>

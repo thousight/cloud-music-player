@@ -4,11 +4,12 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { MemoryRouter } from 'react-router';
 import { mount, shallow } from 'enzyme';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, OverlayTrigger, Popover } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 import App from './App';
-import Main from './js/Main';
+import { Main } from './js/Main';
 import { PlayerPage } from './js/MusicPlayerPage';
 import { NavBar } from './js/components/NavigationBar';
 import { Sidebar } from './js/components/SidebarContent';
@@ -20,7 +21,7 @@ import rootReducer from './js/redux/reducers/index';
 // Test Data
 const typicalUser = {
   name: 'Anoop Santhosh',
-  currentlyPlayingMusicId: '0B3-82hcS8hjnSDIzRGF4TDdHUEE',
+  currentlyPlayingMusicId: '1pLnbjXsBwyTAU7JxIjeqHHCd-AmBoWlc',
   playlists: {
     "Favorites" : {
       "0B3-82hcS8hjnREw3VEhXSXpGcGs" : "回忆的沙漏",
@@ -28,7 +29,8 @@ const typicalUser = {
       "0B3-82hcS8hjnWFpGcUVWMzRpS00" : "So Much Better (Avicii Remix)",
       "0B3-82hcS8hjnZTRYUFNqanluOFU" : "I Loved You",
       "0B3-82hcS8hjnbFFLMUxhZE11ZFk" : "What Would I Change It To",
-      "1pLnbjXsBwyTAU7JxIjeqHHCd-AmBoWlc" : "Despacito (Remix)"
+      "1pLnbjXsBwyTAU7JxIjeqHHCd-AmBoWlc" : "Despacito (Remix)",
+      "Error": "error"
     },
     "Favorites from share" : {
       "0B3-82hcS8hjnREw3VEhXSXpGcGs" : "回忆的沙漏",
@@ -60,7 +62,8 @@ const typicalSettings = {
 }
 const typicalHistory = {
   location: {
-    search: ''
+    search: '',
+    pathname: '/player'
   }
 }
 const shareHistory = {
@@ -263,8 +266,16 @@ longer exists
 */
 describe('User Story #25', () => {
 
-  it('shows toast', () => {
-
+  it('shows toast when fail loading song', () => {
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <Main location={typicalHistory.location} user={typicalUser} />
+        </MemoryRouter>
+      </Provider>
+    );
+    toast.error('error');
+    expect(wrapper.find('.toastify'));
   })
 })
 
@@ -276,8 +287,18 @@ a different playlist
 */
 describe('User Story #26', () => {
 
-  it('adds song to playlist', () => {
+  it('adds current song to other playlist', () => {
+    // let wrapper = shallow(<PlayerPage user={typicalUser} settings={typicalSettings} packages={mockPackages} history={typicalHistory} />);
+    let wrapper = mount(
+      <Provider store={createStore(rootReducer)}>
+        <MemoryRouter initialEntries={[ '/player' ]}>
+          <App location={typicalHistory.location} user={typicalUser} />
+        </MemoryRouter>
+      </Provider>
+    );
+    // wrapper.find(OverlayTrigger).simulate('click');
 
+    console.log(wrapper.find('OverlayTrigger'));
   })
 })
 
