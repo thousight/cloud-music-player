@@ -3,7 +3,7 @@ import ReactDOM, { findDOMNode } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { MemoryRouter } from 'react-router';
-import { mount, shallow } from 'enzyme';
+import { mount, shallow, render } from 'enzyme';
 import { Navbar, OverlayTrigger, Popover } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -21,6 +21,7 @@ import rootReducer from './js/redux/reducers/index';
 const typicalUser = {
   name: 'Anoop Santhosh',
   currentlyPlayingMusicId: '0B3-82hcS8hjnc09hVkFENEYtTTQ',
+  currentlyPlayingPlaylistName: 'Google Drive Imports',
   playlists: {
     "Favorites" : {
       "0B3-82hcS8hjnREw3VEhXSXpGcGs" : "回忆的沙漏",
@@ -100,7 +101,26 @@ const mockPackages = {
       }
     }
   },
-  firebase: {}
+  firebase: {
+    database: () => {
+      return {
+        ref: () => {
+          return {
+            set: () => {
+              return new Promise((resolve, failure) => resolve({}));
+            }
+          }
+        }
+      }
+    },
+    auth: () => {
+      return {
+        getUid: () => {
+          return ''
+        }
+      }
+    }
+  }
 }
 const mockImage = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAsICAoIBwsKCQoNDAsNERwSEQ8PESIZGhQcKSQrKigkJyctMkA3LTA9MCcnOEw5PUNFSElIKzZPVU5GVEBHSEX/2wBDAQwNDREPESESEiFFLicuRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUX/wAARCAV4BXgDAREAAhEBAxEB/8QAHAAAAwEBAQEBAQAAAAAAAAAAAAECAwQFBgcI/8QAVRAAAQMDAwIEBAMGAwQECA0FAQACEQMhMQQSQVFhBRMicQYygZFCobEHFCNSwdFi4fAVM3LxFiRDshc0NlN0gpLSJTVEVFVjZHODk6KjwsMmRYSU/8QAGQEBAAMBAQAAAAAAAAAAAAAAAAECAwQF/8QAKhEBAQACAgICAQQCAwADAAAAAAECEQMhEjEiQVEEEzJhF...';
 const mockClosedSidebar = {
@@ -358,9 +378,8 @@ describe('User Story #26', () => {
 
     wrapper.find('.add-current-song-button').simulate('click');
     expect(document.getElementById('ADD_CURRENT_SONG_POPOVER').getElementsByClassName('popover-playlist')).toBeDefined();
-    // wrapper.find('.popover-playlist').simulate('click');
-    console.log(document.getElementById('ADD_CURRENT_SONG_POPOVER').getElementsByClassName('popover-playlist')['0']);
-    // console.log(document.getElementById('ADD_CURRENT_SONG_POPOVER').getElementsByClassName('popover-playlist'));
+    shallow(document.getElementsByClassName('popover-playlist')['0'][Object.keys(document.getElementsByClassName('popover-playlist')['0'])]._currentElement).simulate('click');
+    expect(typicalUser.playlists['Favorites'].hasOwnProperty(typicalUser.currentlyPlayingMusicId)).toBeDefined();
   })
 })
 
