@@ -36,6 +36,7 @@ export class PlayerPage extends Component {
     }
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.getMusicMetadata = this.getMusicMetadata.bind(this);
+    this.xhr = null;
     this.errorTimeout = null;
   }
 
@@ -65,35 +66,37 @@ export class PlayerPage extends Component {
 
   getMusicMetadata() {
     if (this.props.packages.gapi && this.props.user.currentlyPlayingMusicId) {
-      let xhr = new XMLHttpRequest();
-      xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${this.props.user.currentlyPlayingMusicId}?alt=media`, true);
-      xhr.setRequestHeader('Authorization', `Bearer ${this.props.packages.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token}`)
-      xhr.withCredentials = true;
-      xhr.responseType = 'blob';
-      xhr.onload = () => {
-        jsmediatags.read(xhr.response, {
-          onSuccess: tag => {
-            xhr.abort();
-            this.setState({
-              title: tag.tags.title,
-              singer: tag.tags.artist,
-              album: tag.tags.album,
-              cover: tag.tags.picture ? `data:${tag.tags.picture.format};base64,${this.arrayBufferToBase64(tag.tags.picture.data)}`: null
-            });
-          },
-          onError: error => {
-            if (this.props.user.currentlyPlayingMusicId) {
-              clearTimeout(this.errorTimeout);
+      this.xhr = new XMLHttpRequest();
+      this.xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${this.props.user.currentlyPlayingMusicId}?alt=media`, true);
+      this.xhr.setRequestHeader('Authorization', `Bearer ${this.props.packages.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token}`)
+      this.xhr.withCredentials = true;
+      this.xhr.responseType = 'blob';
+      this.xhr.onload = () => {
+        if (this.xhr.response) {
+          jsmediatags.read(this.xhr.response, {
+            onSuccess: tag => {
+              this.xhr.abort();
+              this.setState({
+                title: tag.tags.title,
+                singer: tag.tags.artist,
+                album: tag.tags.album,
+                cover: tag.tags.picture ? `data:${tag.tags.picture.format};base64,${this.arrayBufferToBase64(tag.tags.picture.data)}`: null
+              });
+            },
+            onError: error => {
+              if (this.props.user.currentlyPlayingMusicId) {
+                clearTimeout(this.errorTimeout);
 
-              this.errorTimeout = setTimeout(() => {
-                let filename = this.props.user.playlists[this.props.user.currentlyPlayingPlaylistName][this.props.user.currentlyPlayingMusicId];
-                toast.error(`Unable to decode ${filename}`, {closeButton: false});
-              }, 1000)
+                this.errorTimeout = setTimeout(() => {
+                  let filename = this.props.user.playlists[this.props.user.currentlyPlayingPlaylistName][this.props.user.currentlyPlayingMusicId];
+                  toast.error(`Unable to decode ${filename}`, {closeButton: false});
+                }, 1000)
+              }
             }
-          }
-        })
+          })
+        }
       }
-      xhr.send();
+      this.xhr.send();
     }
   }
 
