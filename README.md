@@ -1,4 +1,7 @@
 # Cloud Music Player
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/thousight/cloud-music-player.svg)](https://greenkeeper.io/)
+
 Purdue CS 307 semester project, aims to provide a music player client for users that store their music in Google Drive
 
 ### Getting Started
